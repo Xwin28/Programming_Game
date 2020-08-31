@@ -35,15 +35,15 @@ void GSCredits::Init()
 	m_Image->SetSize(screenWidth, screenHeight);
 
 
-	////play button
-	//texture = ResourceManagers::GetInstance()->GetTexture("UIMenu//UIbtn_Play");
-	//std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	//button->Set2DPosition(316, 417);
-	//button->SetSize(264, 89);
-	//button->SetOnClick([]() {
-	//	GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
-	//	});
-	//m_listButton.push_back(button);
+	//play button
+	texture = ResourceManagers::GetInstance()->GetTexture("UIOption//btn_OK");
+	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(631, 618);
+	button->SetSize(136, 86);
+	button->SetOnClick([]() {
+		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
+		});
+	m_listButton.push_back(button);
 
 
 	////OptionButton
@@ -114,7 +114,7 @@ void GSCredits::HandleKeyEvents(int key, bool bIsPressed)
 #pragma region EditorChangeUI
 
 	// Use to define position in Screen (editor-> optimization is not necessary)
-	int m_Index = 2;
+	int m_Index = 0;
 	if (bIsPressed)
 	{
 		int m_temp = 0;
