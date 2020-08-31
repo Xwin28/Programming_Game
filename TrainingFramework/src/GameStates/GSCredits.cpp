@@ -35,13 +35,13 @@ void GSCredits::Init()
 	m_Image->SetSize(screenWidth, screenHeight);
 
 
-	//play button
+	//OK button
 	texture = ResourceManagers::GetInstance()->GetTexture("UIOption//btn_OK");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(631, 618);
 	button->SetSize(136, 86);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
+		GameStateMachine::GetInstance()->PopState();
 		});
 	m_listButton.push_back(button);
 

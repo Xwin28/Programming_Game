@@ -78,6 +78,9 @@
     <ClCompile Include="src\GameStates\GSCredits.cpp">
       <Filter>TrainingFramework\src\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="src\SavingSys.cpp">
+      <Filter>TrainingFramework\src\SavingSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">

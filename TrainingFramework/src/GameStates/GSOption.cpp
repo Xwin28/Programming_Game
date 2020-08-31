@@ -82,7 +82,7 @@ void GSOption::Init()
 	button->Set2DPosition(613, 655);
 	button->SetSize(136, 86);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
+		GameStateMachine::GetInstance()->PopState();
 		});
 	m_listButton.push_back(button);
 

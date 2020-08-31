@@ -97,7 +97,7 @@ void GSMenu::Pause()
 
 void GSMenu::Resume()
 {
-
+	int i = 0;///huong dan
 }
 
 
