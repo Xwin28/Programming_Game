@@ -1,0 +1,5 @@
+﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  GSOption.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsoption.cpp(27): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsoption.cpp(33): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  TrainingFramework.vcxproj -> E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\TrainingFramework.exe

@@ -1,0 +1,12 @@
+﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  TGA.cpp
+  MemoryOperators.cpp
+  MemoryManager.cpp
+  U_Math.cpp
+  esUtil_win.cpp
+  esUtil.cpp
+  esShader.cpp
+  Generating Code...
+D:\UNITY\Visual Studio\MSBuild\Microsoft\VC\v150\Microsoft.CppBuild.targets(1397,5): warning MSB8012: TargetPath(E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\Utilities.lib) does not match the Library's OutputFile property value (E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\BIN-Nvidia\UtilitiesD.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+D:\UNITY\Visual Studio\MSBuild\Microsoft\VC\v150\Microsoft.CppBuild.targets(1399,5): warning MSB8012: TargetName(Utilities) does not match the Library's OutputFile property value (UtilitiesD). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+  Utilities.vcxproj -> E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\Utilities.lib
