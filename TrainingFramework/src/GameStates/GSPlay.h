@@ -27,11 +27,12 @@ public:
 
 	
 	void SetNewPostionForBullet();
-
+	void Falling();
 private:
 
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Text>  m_score;
-	std::vector<std::shared_ptr<Sprite2D>> m_ListAnimation;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListEnemy;
+	std::shared_ptr<Sprite2D>  m_Character;
 };
 

@@ -216,8 +216,8 @@ void GSMenu::HandleTouchEvents(int x, int y, bool bIsPressed)
 void GSMenu::Update(float deltaTime)
 {
 	
-	m_BackGround->Update(deltaTime);
-	m_Image->Draw();
+	//m_BackGround->Update(deltaTime);
+	//m_Image->Draw();
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);

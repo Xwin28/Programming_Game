@@ -40,7 +40,7 @@ void GSOption::Init()
 	button->Set2DPosition(901, 285);
 	button->SetSize(35, 67);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
+		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
 		});
 	m_listButton.push_back(button);
 
@@ -50,7 +50,7 @@ void GSOption::Init()
 	button->Set2DPosition(807, 285);
 	button->SetSize(45, 67);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
+		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
 		});
 	m_listButton.push_back(button);
 
@@ -60,7 +60,7 @@ void GSOption::Init()
 	button->Set2DPosition(901, 385);
 	button->SetSize(35, 67);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
+		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
 		});
 	m_listButton.push_back(button);
 
@@ -70,7 +70,7 @@ void GSOption::Init()
 	button->Set2DPosition(807, 385);
 	button->SetSize(45, 67);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
+		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
 		});
 	m_listButton.push_back(button);
 

@@ -9,7 +9,7 @@
 #include "Sprite3D.h"
 #include "Text.h"
 #include "AnimationSprite2D.h"
-
+#include "Character.h"
 
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
@@ -25,6 +25,11 @@ GSPlay::~GSPlay()
 }
 
 
+void GSPlay::Falling()
+{
+	
+}
+
 void GSPlay::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
@@ -38,13 +43,23 @@ void GSPlay::Init()
 
 
 
+
 	//Character Anim
 	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
-	std::shared_ptr<AnimationSprite2D> CoinObj = std::make_shared<AnimationSprite2D>(model, shader, texture,8,0.1f);
-	CoinObj->Set2DPosition(screenWidth / 2, screenHeight / 2);
-	CoinObj->SetSize(200, 200);
-	m_ListAnimation.push_back(CoinObj);
+	m_Character = std::make_shared<AnimationSprite2D>(model, shader, texture, 8, 0.1f);
+	m_Character->Set2DPosition(screenWidth / 2, screenHeight / 2);
+	m_Character->SetSize(200, 200);
+
+
+
+	//Enemy Anim
+	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
+	std::shared_ptr<AnimationSprite2D> Enemy = std::make_shared<AnimationSprite2D>(model, shader, texture,8,0.1f);
+	Enemy->Set2DPosition(screenWidth / 2, screenHeight / 4);
+	Enemy->SetSize(200, 200);
+	m_ListEnemy.push_back(Enemy);
 
 
 	////text game title
@@ -82,7 +97,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 #pragma region EditorChangeUI
 
 	// Use to define position in Screen (editor-> optimization is not necessary)
-	int m_Index = 4;
+	int m_Index = 0;
 	if (bIsPressed)
 	{
 		int m_temp = 0;
@@ -90,7 +105,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		{
 		case 'A':
 
-			for (auto it : m_ListAnimation)
+			for (auto it : m_ListEnemy)
 			{
 
 				if (m_temp == m_Index)
@@ -106,7 +121,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			}
 			break;
 		case 'D':
-			for (auto it : m_ListAnimation)
+			for (auto it : m_ListEnemy)
 			{
 				if (m_temp == m_Index)
 				{
@@ -121,7 +136,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			}
 			break;
 		case 'W':
-			for (auto it : m_ListAnimation)
+			for (auto it : m_ListEnemy)
 			{
 				if (m_temp == m_Index)
 				{
@@ -136,7 +151,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			}
 			break;
 		case 'S':
-			for (auto it : m_ListAnimation)
+			for (auto it : m_ListEnemy)
 			{
 				if (m_temp == m_Index)
 				{
@@ -155,7 +170,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		}
 		m_temp = 0;
 		//IN ra vi tri
-		for (auto it : m_ListAnimation)
+		for (auto it : m_ListEnemy)
 		{
 			if (m_temp == m_Index)
 			{
@@ -178,18 +193,20 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 
 void GSPlay::Update(float deltaTime)
 {
-	for (auto obj : m_ListAnimation)
+	m_Character->Update(deltaTime);
+	for (auto obj : m_ListEnemy)
 	{
-		
 		obj->Update(deltaTime);
+		//obj->Draw();
 	}
 }
 
 void GSPlay::Draw()
 {
 	m_BackGround->Draw();
+	m_Character->Draw();
 	//m_score->Draw();
-	for (auto obj : m_ListAnimation)
+	for (auto obj : m_ListEnemy)
 	{
 		obj->Draw();
 	}
