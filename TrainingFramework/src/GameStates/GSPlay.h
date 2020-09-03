@@ -32,6 +32,6 @@ private:
 
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Text>  m_score;
-
+	std::vector<std::shared_ptr<Sprite2D>> m_ListAnimation;
 };
 

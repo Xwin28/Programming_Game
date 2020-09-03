@@ -17,7 +17,7 @@
       <UniqueIdentifier>{2a875364-1a2b-4ea6-a6fe-716988208916}</UniqueIdentifier>
     </Filter>
     <Filter Include="TrainingFramework\src\SavingSystem">
-      <UniqueIdentifier>{c7651542-0e83-410f-942d-2838fea745cc}</UniqueIdentifier>
+      <UniqueIdentifier>{c0852157-9ef7-42b9-8212-df418838a07c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,8 +78,11 @@
     <ClCompile Include="src\GameStates\GSCredits.cpp">
       <Filter>TrainingFramework\src\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="src\SavingSys.cpp">
+    <ClCompile Include="src\SavingSystem\SavingSys.cpp">
       <Filter>TrainingFramework\src\SavingSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\AnimationSprite2D.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="src\GameStates\GSCredits.h">
       <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\AnimationSprite2D.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
