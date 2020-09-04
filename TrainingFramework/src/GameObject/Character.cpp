@@ -18,6 +18,8 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 {
 	m_isJump = true;
 	m_onGround = false;
+
+	m_horizotal=1;
 }
 Character::~Character(){}
 
@@ -39,13 +41,13 @@ void Character::Falling(float _deltaTime)
 
 		Set2DPosition(_posTemp.x, _posTemp.y + 400* _deltaTime);
 		m_onGround = false;
-		std::cout << "\n Falling on Ground = " << m_onGround;
+		//std::cout << "\n Falling on Ground = " << m_onGround;
 	}
 	else
 	{
 		
 		m_onGround = true;
-		std::cout << "\n Falling on Ground = " << m_onGround;
+		//std::cout << "\n Falling on Ground = " << m_onGround;
 	}
 }
 
@@ -63,10 +65,17 @@ void Character::Jump()
 }
 void Character::Moving(float _horizontal,GLfloat deltatime)
 {
+
 	if (_horizontal != 0)
 	{
+		
+		m_horizotal = _horizontal;
+		std::cout<< " ,,, horizontal = " << m_horizotal;
 		Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
+		
 	}
+
+
 
 }
 void Character::ATk()
@@ -74,6 +83,12 @@ void Character::ATk()
 }
 void Character::Dodge()
 {
+
+		m_dodge = true;
+		Set2DPosition(Get2DPosition().x + m_horizotal * 50, Get2DPosition().y);
+		std::cout << "\n Position = " << Get2DPosition().x<<" , horizontal = " <<m_horizotal;
+
+
 }
 void Character::Update(GLfloat deltaTime)
 {
@@ -83,7 +98,7 @@ void Character::Update(GLfloat deltaTime)
 	//Jump
 	if (!m_isJump && m_onGround)
 	{
-		std::cout << "\n on Ground in Updates = " << m_onGround;
+		//std::cout << "\n on Ground in Updates = " << m_onGround;
 		Set2DPosition(Get2DPosition().x, Get2DPosition().y - 500 * deltaTime);
 		if (abs(Get2DPosition().y - _yPos) >= m_jumpHeight )
 		{

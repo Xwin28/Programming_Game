@@ -110,7 +110,9 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		case 'B':
 			m_Character->Jump();
 			break;
-
+		case 'F':
+			m_Character->Dodge();
+			break;
 		default:
 			break;
 		}

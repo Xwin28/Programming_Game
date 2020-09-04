@@ -8,12 +8,15 @@ private:
 	float m_Speed;
 	float m_heal;
 	float m_jumpHeight;
+	float m_coin;
 	int m_numberDodge;
 	int m_numBlock;
 
-	bool m_isJump;
-	bool m_onGround;
+	bool m_isJump;//Check Jump
+	bool m_onGround;//Check Falling
 	float _yPos;
+	float _xPos;
+	float m_horizotal;
 public:
 	Character();
 
