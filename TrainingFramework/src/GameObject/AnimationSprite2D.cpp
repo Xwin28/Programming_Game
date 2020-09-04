@@ -91,9 +91,7 @@ void AnimationSprite2D::Draw()
 
 void AnimationSprite2D::Update(GLfloat deltatime)
 {
-	//std::cout << "\nDElattime == " << deltatime<< "  ,frameTime ==  " <<m_frameTime;
 	m_currentTime += deltatime;
-	//std::cout << "\nCuurrentAfterPluss == " << m_currentTime;
 	if (m_currentTime > m_frameTime)
 	{
 		m_currentFrame ++;

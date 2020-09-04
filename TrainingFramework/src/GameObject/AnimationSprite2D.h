@@ -8,9 +8,9 @@ public:
 
 	AnimationSprite2D
 	(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int _numFrame, float _frameTime);
-	void Init();
-	void Draw();
-	void Update(GLfloat deltatime);
+	void Init() override;
+	void Draw() override;
+	void Update(GLfloat deltatime) override;
 protected:
 	int m_numFrame;
 	float m_frameTime;

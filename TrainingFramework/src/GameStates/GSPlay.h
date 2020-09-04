@@ -34,5 +34,6 @@ private:
 	std::shared_ptr<Text>  m_score;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListEnemy;
 	std::shared_ptr<Sprite2D>  m_Character;
+	//std::shared_ptr<Character> m_playerCharacter;
 };
 

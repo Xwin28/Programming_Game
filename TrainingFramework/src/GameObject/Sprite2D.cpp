@@ -57,6 +57,7 @@ Sprite2D::~Sprite2D()
 void Sprite2D::Init()
 {
 	CaculateWorldMatrix();
+	
 }
 
 void Sprite2D::Draw()

@@ -8,31 +8,56 @@
 #include "Sprite3D.h"
 #include "Text.h"
 #include "AnimationSprite2D.h"
+#include <iostream>
 
 
 
+Character::Character(){}
+Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,
+					std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int _numFrame, float _frameTime)
+	:m_Speed(_speed), m_heal(_heal), m_numberDodge(_numDodge), m_numBlock(_numBlock), AnimationSprite2D(model, shader, texture, _numFrame, _frameTime)
+{
 
-Character::Character():m_Speed(10){}
-Character::Character(float _speed):m_Speed(_speed){}
+}
 Character::~Character(){}
 
 
-void Character::Falling()
-{}
+
+void  Character::Init( )
+{
+	AnimationSprite2D::Init();
+;
+}
+
+
+void Character::Falling(float _deltaTime)
+{
+	Vector2 _posTemp = Get2DPosition();
+	if (_posTemp.y <= 700)
+	{
+
+		Set2DPosition(_posTemp.x, _posTemp.y + 400* _deltaTime);
+	}
+}
+
+
 void Character::Moving()
-{}
+{
+
+}
 void Character::ATk()
-{}
+{
+}
 void Character::Dodge()
-{}
-void Character::Update()
-{}
+{
+}
+void Character::Update(GLfloat deltatime)
+{
+	AnimationSprite2D::Update(deltatime);
+	Falling(deltatime);
+	
+}
 void Character::Draw()
 {
-	//shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-	//texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
-	//std::shared_ptr<AnimationSprite2D> Character = std::make_shared<AnimationSprite2D>(model, shader, texture, 8, 0.1f);
-	//Character->Set2DPosition(screenWidth / 2, screenHeight / 2);
-	//Character->SetSize(200, 200);
-	//m_ListAnimation.push_back(Character);
+	AnimationSprite2D::Draw();
 }

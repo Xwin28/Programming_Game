@@ -40,27 +40,28 @@ void GSPlay::Init()
 	m_BackGround = std::make_shared<Sprite2D>(model, shader, texture);
 	m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_BackGround->SetSize(screenWidth, screenHeight);
-
+	
 
 
 
 	//Character Anim
 	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
-	m_Character = std::make_shared<AnimationSprite2D>(model, shader, texture, 8, 0.1f);
-	m_Character->Set2DPosition(screenWidth / 2, screenHeight / 2);
+	//m_Character = std::make_shared<AnimationSprite2D>(model, shader, texture, 8, 0.1f);
+	m_Character = std::make_shared<Character>(10.0f, 10.0f, 5, 5, model, shader, texture, 8, 0.1f);
+	m_Character->Set2DPosition(1280/2, 100);
 	m_Character->SetSize(200, 200);
-
-
+	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
+	
 
 	//Enemy Anim
-	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	//shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	std::shared_ptr<AnimationSprite2D> Enemy = std::make_shared<AnimationSprite2D>(model, shader, texture,8,0.1f);
 	Enemy->Set2DPosition(screenWidth / 2, screenHeight / 4);
 	Enemy->SetSize(200, 200);
 	m_ListEnemy.push_back(Enemy);
-
+	
 
 	////text game title
 	//shader = ResourceManagers::GetInstance()->GetShader("TextShader");
@@ -94,96 +95,99 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
+
+	
+
 #pragma region EditorChangeUI
 
 	// Use to define position in Screen (editor-> optimization is not necessary)
-	int m_Index = 0;
-	if (bIsPressed)
-	{
-		int m_temp = 0;
-		switch (key)
-		{
-		case 'A':
+	//int m_Index = 0;
+	//if (bIsPressed)
+	//{
+	//	int m_temp = 0;
+	//	switch (key)
+	//	{
+	//	case 'A':
 
-			for (auto it : m_ListEnemy)
-			{
+	//		for (auto it : m_ListEnemy)
+	//		{
 
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x - 1, y);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'D':
-			for (auto it : m_ListEnemy)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x + 1, y);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'W':
-			for (auto it : m_ListEnemy)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x, y - 1);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'S':
-			for (auto it : m_ListEnemy)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x, y + 1);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		default:
-			break;
-		}
-		m_temp = 0;
-		//IN ra vi tri
-		for (auto it : m_ListEnemy)
-		{
-			if (m_temp == m_Index)
-			{
-				m_temp = 0;
-				Vector2 m_vec = it->Get2DPosition();
-				float x = m_vec.x;
-				float y = m_vec.y;
-				std::cout << "\n x = " << x << " , y = " << y;
-			}
-			m_temp++;
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x - 1, y);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	case 'D':
+	//		for (auto it : m_ListEnemy)
+	//		{
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x + 1, y);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	case 'W':
+	//		for (auto it : m_ListEnemy)
+	//		{
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x, y - 1);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	case 'S':
+	//		for (auto it : m_ListEnemy)
+	//		{
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x, y + 1);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	m_temp = 0;
+	//	//IN ra vi tri
+	//	for (auto it : m_ListEnemy)
+	//	{
+	//		if (m_temp == m_Index)
+	//		{
+	//			m_temp = 0;
+	//			Vector2 m_vec = it->Get2DPosition();
+	//			float x = m_vec.x;
+	//			float y = m_vec.y;
+	//			std::cout << "\n x = " << x << " , y = " << y;
+	//		}
+	//		m_temp++;
 
-		}
-	}
+	//	}
+	//}
 #pragma endregion
 }
 
@@ -194,6 +198,7 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 void GSPlay::Update(float deltaTime)
 {
 	m_Character->Update(deltaTime);
+	//m_playerCharacter->
 	for (auto obj : m_ListEnemy)
 	{
 		obj->Update(deltaTime);
