@@ -4,7 +4,7 @@
 class Sprite2D;
 class Sprite3D;
 class Text;
-
+class Character;
 class GSPlay :
 	public GameStateBase
 {
@@ -33,7 +33,8 @@ private:
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Text>  m_score;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListEnemy;
-	std::shared_ptr<Sprite2D>  m_Character;
+	std::shared_ptr<Character>  m_Character;
+	float m_horizontal;
 	//std::shared_ptr<Character> m_playerCharacter;
 };
 

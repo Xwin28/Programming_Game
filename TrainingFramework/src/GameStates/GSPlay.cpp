@@ -32,6 +32,7 @@ void GSPlay::Falling()
 
 void GSPlay::Init()
 {
+	m_horizontal = 0;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play");
 
@@ -48,7 +49,7 @@ void GSPlay::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	//m_Character = std::make_shared<AnimationSprite2D>(model, shader, texture, 8, 0.1f);
-	m_Character = std::make_shared<Character>(10.0f, 10.0f, 5, 5, model, shader, texture, 8, 0.1f);
+	m_Character = std::make_shared<Character>(300.0f, 10.0f, 5, 5, 80.0f , model, shader, texture, 8, 0.1f);
 	m_Character->Set2DPosition(1280/2, 100);
 	m_Character->SetSize(200, 200);
 	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
@@ -95,7 +96,43 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
+	if (bIsPressed)
+	{
 
+		switch (key)
+		{
+		case 'A':
+			m_horizontal = -1;
+			break;
+		case 'D':
+			m_horizontal = 1;
+			break;
+		case 'B':
+			m_Character->Jump();
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	if (!bIsPressed)
+	{
+		switch (key)
+		{
+		case 'A':
+			m_horizontal = 0;
+			break;
+
+		case 'D':
+			m_horizontal = 0;
+			break;
+
+		default:
+			break;
+		}
+	}
 	
 
 #pragma region EditorChangeUI
@@ -198,6 +235,7 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 void GSPlay::Update(float deltaTime)
 {
 	m_Character->Update(deltaTime);
+	m_Character->Moving(m_horizontal, deltaTime);
 	//m_playerCharacter->
 	for (auto obj : m_ListEnemy)
 	{
