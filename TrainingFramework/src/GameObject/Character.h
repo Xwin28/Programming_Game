@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 #include "Sprite2D.h"
 #include "AnimationSprite2D.h"
 class Character: public AnimationSprite2D
@@ -17,6 +17,10 @@ private:
 	float _yPos;
 	float _xPos;
 	float m_horizotal;
+	std::string m_animNow;
+
+	//Animation
+	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump;
 public:
 	Character();
 
@@ -24,6 +28,9 @@ public:
 		std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int _numFrame, float _frameTime
 	);
 	~Character();
+	void SetTexture(std::string _mode);
+
+
 
 	void Init();
 	void Update(GLfloat deltatime);

@@ -10,6 +10,9 @@
 #include "AnimationSprite2D.h"
 #include <iostream>
 #include <math.h>
+#include <string>
+#include "GameManager/ResourceManagers.h"
+
 
 Character::Character(){}
 Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,float _jumpHeight,
@@ -20,6 +23,13 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 	m_onGround = false;
 
 	m_horizotal=1;
+	m_animNow = "Idle";
+
+	// use menory instead processing
+	m_animIdle = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
+	m_animIRun = ResourceManagers::GetInstance()->GetTexture("Character//Player//Run");
+	m_animIFall = ResourceManagers::GetInstance()->GetTexture("Character//Player//Fall");
+	m_animIJump = ResourceManagers::GetInstance()->GetTexture("Character//Player//Jump");
 }
 Character::~Character(){}
 
@@ -32,35 +42,94 @@ void  Character::Init( )
 }
 
 
-void Character::Falling(float _deltaTime)
+void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL...
 {
-	
-	Vector2 _posTemp = Get2DPosition();
-	if (_posTemp.y <= 700 && m_isJump)
-	{
 
-		Set2DPosition(_posTemp.x, _posTemp.y + 400* _deltaTime);
-		m_onGround = false;
-		//std::cout << "\n Falling on Ground = " << m_onGround;
+	if (m_animNow != _mode)// limit update
+	{
+		m_animNow = _mode;
+
+	if (_mode == "Idle" && m_horizotal == 0)
+	{
+		//std::cout << "\n IDLE Animation"<<" , Location x = "<<Get2DPosition().x;
+		//m_currentFrame = 0;
+		m_numFrame = 8;
+		m_pTexture = m_animIdle;
+	}
+	else if (_mode == "Run")
+	{
+		//std::cout << "\n Run Animation";
+		//m_currentFrame = 0;
+		m_numFrame = 8;
+		m_pTexture = m_animIRun;
+	}
+	else if (_mode == "Atk")
+	{
+		std::cout << "\n Atk Animation";
+		//m_pTexture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Attack1");
+	}
+	else if (_mode == "Dodge")
+	{
+		std::cout << "\n Dodge Animation";
+		//m_pTexture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
+	}
+	else if (_mode == "Falling")
+	{
+		//std::cout << "\n Falling Animation" << " , Location y = " << Get2DPosition().y;
+		m_currentFrame = 0;
+		m_numFrame = 2;
+		m_pTexture = m_animIFall;
+		
+	}
+	else if (_mode == "Jump")
+	{
+		//std::cout << "\n Jump Animation" << " , Location y = " << Get2DPosition().y;
+		m_currentFrame = 0;
+		m_numFrame = 2;
+		m_pTexture = m_animIJump;
+		
 	}
 	else
 	{
-		
+		//m_currentFrame = 0;
+		m_numFrame = 8;
+		m_pTexture = m_animIdle;
+	}
+
+	}
+	//Init();
+}
+
+
+
+void Character::Falling(float _deltaTime)
+{
+	
+	if (Get2DPosition().y <= 700 && m_isJump)
+	{
+
+		Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400* _deltaTime);
+		m_onGround = false;
+		SetTexture("Falling");
+		//std::cout << "\n Falling on Ground = " << m_onGround;
+	}
+	else if(Get2DPosition().y > 700 && m_isJump)
+	{
 		m_onGround = true;
+		//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
+		SetTexture("Idle");
 		//std::cout << "\n Falling on Ground = " << m_onGround;
 	}
 }
-
 void Character::Jump()
 {
 	if (m_onGround)
 	{
+		//std::cout << "\n Start JUMPING";
 		m_isJump = false;
 		_yPos = Get2DPosition().y;
-
+		SetTexture("Jump");
 	}
-
-
 
 }
 void Character::Moving(float _horizontal,GLfloat deltatime)
@@ -70,9 +139,13 @@ void Character::Moving(float _horizontal,GLfloat deltatime)
 	{
 		
 		m_horizotal = _horizontal;
-		std::cout<< " ,,, horizontal = " << m_horizotal;
+		//std::cout<< " ,,, horizontal = " << m_horizotal;
 		Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
-		
+		if (m_onGround)
+		{
+			SetTexture("Run");
+		}
+
 	}
 
 
@@ -84,10 +157,8 @@ void Character::ATk()
 void Character::Dodge()
 {
 
-		m_dodge = true;
 		Set2DPosition(Get2DPosition().x + m_horizotal * 50, Get2DPosition().y);
 		std::cout << "\n Position = " << Get2DPosition().x<<" , horizontal = " <<m_horizotal;
-
 
 }
 void Character::Update(GLfloat deltaTime)
@@ -100,10 +171,11 @@ void Character::Update(GLfloat deltaTime)
 	{
 		//std::cout << "\n on Ground in Updates = " << m_onGround;
 		Set2DPosition(Get2DPosition().x, Get2DPosition().y - 500 * deltaTime);
+		
 		if (abs(Get2DPosition().y - _yPos) >= m_jumpHeight )
 		{
 			m_isJump = true;
-			//m_onGround = false;
+			
 		}
 	}
 }
