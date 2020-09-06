@@ -137,7 +137,17 @@ void Character::Moving(float _horizontal,GLfloat deltatime)
 
 	if (_horizontal != 0)
 	{
-		
+		std::cout << " \n ROTATION Y = :" << m_Vec3Rotation.y;
+		std::cout <<"Location  ,x = " << Get2DPosition().x;
+		if (_horizontal == -1 && _horizontal != m_horizotal)// do not run if already turn
+		{
+			
+			FlipY(-1.0f);
+		}
+		else if (_horizontal == 1 && _horizontal != m_horizotal)// do not run if already turn
+		{
+			FlipY(1.0f);
+		}
 		m_horizotal = _horizontal;
 		//std::cout<< " ,,, horizontal = " << m_horizotal;
 		Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);

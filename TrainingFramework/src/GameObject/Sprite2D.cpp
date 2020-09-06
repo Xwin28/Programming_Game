@@ -3,7 +3,7 @@
 #include "Models.h"
 #include "Camera.h"
 #include "Texture.h"
-
+#include <math.h>
 extern GLint screenWidth;
 extern GLint screenHeight;
 
@@ -11,10 +11,13 @@ extern GLint screenHeight;
 
 void Sprite2D::CaculateWorldMatrix()
 {
-	Matrix m_Sc, m_T;
+	Matrix m_Sc, m_T, m_R;
 	m_Sc.SetScale(m_Vec3Scale);
+	m_R.SetRotationZ(m_Vec3Rotation.z);
+	m_R.SetRotationX(m_Vec3Rotation.x);
+	//m_R.SetRotationZ(m_Vec3Rotation.z);
 	m_T.SetTranslation(m_Vec3Position);
-	m_WorldMat = m_Sc * m_T;
+	m_WorldMat = m_Sc * m_R* m_T ;
 }
 
 Sprite2D::Sprite2D()
@@ -174,5 +177,17 @@ void Sprite2D::SetSize(GLint width, GLint height)
 	m_iWidth = width;
 	m_iHeight = height;
 	m_Vec3Scale = Vector3((float)m_iWidth / screenWidth, (float)m_iHeight / screenHeight, 1);
+	CaculateWorldMatrix();
+}
+
+
+
+void Sprite2D::FlipY(float value)
+{
+	
+	m_Vec3Scale = Vector3(value *(float)m_iWidth / screenWidth, (float)m_iHeight / screenHeight, 1);
+	//m_Vec3Rotation.z = m_Vec3Rotation.z+ (angle / 180  *PI);
+	//m_Vec3Rotation.y = (angle * PI / 180);
+
 	CaculateWorldMatrix();
 }
