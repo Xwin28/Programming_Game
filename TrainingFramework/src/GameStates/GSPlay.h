@@ -33,6 +33,7 @@ private:
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Text>  m_score;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListEnemy;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListBlock;
 	std::shared_ptr<Character>  m_Character;
 	float m_horizontal;
 	//std::shared_ptr<Character> m_playerCharacter;

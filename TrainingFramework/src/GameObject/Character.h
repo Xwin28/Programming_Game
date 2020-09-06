@@ -33,10 +33,10 @@ public:
 
 
 	void Init();
-	void Update(GLfloat deltatime);
+	void Update(GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
 	void Draw();
 
-	void Falling(float _deltaTime);
+	void Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
 	void Moving(float _horizontal, GLfloat deltatime);
 	void ATk();
 	void Dodge();

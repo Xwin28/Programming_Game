@@ -28,6 +28,7 @@ public:
 	void		Set2DPosition(Vector2 pos);
 
 	Vector2		Get2DPosition();
+	Vector2		GetSize();
 	void		SetSize(GLint width, GLint height);
 	void		FlipY(float angle);
 

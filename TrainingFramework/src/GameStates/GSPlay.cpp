@@ -34,7 +34,7 @@ void GSPlay::Init()
 {
 	m_horizontal = 0;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround");
 
 	//BackGround
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -42,6 +42,17 @@ void GSPlay::Init()
 	m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_BackGround->SetSize(screenWidth, screenHeight);
 	
+
+
+
+	//Block Ground
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_1");
+	std::shared_ptr<Sprite2D> Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+	Blocker->Set2DPosition(screenWidth / 2, 744);
+	Blocker->SetSize(1280, 62);
+	m_ListBlock.push_back(Blocker);
+
 
 
 
@@ -55,14 +66,16 @@ void GSPlay::Init()
 	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
 	
 
-	//Enemy Anim
-	//shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
-	std::shared_ptr<AnimationSprite2D> Enemy = std::make_shared<AnimationSprite2D>(model, shader, texture,8,0.1f);
-	Enemy->Set2DPosition(screenWidth / 2, screenHeight / 4);
-	Enemy->SetSize(200, 200);
-	m_ListEnemy.push_back(Enemy);
-	
+	////Enemy Anim
+	////shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	//texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
+	//std::shared_ptr<AnimationSprite2D> Enemy = std::make_shared<AnimationSprite2D>(model, shader, texture,8,0.1f);
+	//Enemy->Set2DPosition(screenWidth / 2, screenHeight / 4);
+	//Enemy->SetSize(200, 200);
+	//m_ListEnemy.push_back(Enemy);
+
+
+
 
 	////text game title
 	//shader = ResourceManagers::GetInstance()->GetShader("TextShader");
@@ -96,6 +109,7 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
+#pragma region Control Character
 	if (bIsPressed)
 	{
 
@@ -135,11 +149,14 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			break;
 		}
 	}
+#pragma endregion
+
+	
 	
 
 #pragma region EditorChangeUI
 
-	// Use to define position in Screen (editor-> optimization is not necessary)
+	 //Use to define position in Screen (editor-> optimization is not necessary)
 	//int m_Index = 0;
 	//if (bIsPressed)
 	//{
@@ -148,7 +165,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	//	{
 	//	case 'A':
 
-	//		for (auto it : m_ListEnemy)
+	//		for (auto it : m_ListBlock)
 	//		{
 
 	//			if (m_temp == m_Index)
@@ -164,7 +181,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	//		}
 	//		break;
 	//	case 'D':
-	//		for (auto it : m_ListEnemy)
+	//		for (auto it : m_ListBlock)
 	//		{
 	//			if (m_temp == m_Index)
 	//			{
@@ -179,7 +196,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	//		}
 	//		break;
 	//	case 'W':
-	//		for (auto it : m_ListEnemy)
+	//		for (auto it : m_ListBlock)
 	//		{
 	//			if (m_temp == m_Index)
 	//			{
@@ -194,7 +211,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	//		}
 	//		break;
 	//	case 'S':
-	//		for (auto it : m_ListEnemy)
+	//		for (auto it : m_ListBlock)
 	//		{
 	//			if (m_temp == m_Index)
 	//			{
@@ -213,7 +230,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	//	}
 	//	m_temp = 0;
 	//	//IN ra vi tri
-	//	for (auto it : m_ListEnemy)
+	//	for (auto it : m_ListBlock)
 	//	{
 	//		if (m_temp == m_Index)
 	//		{
@@ -236,7 +253,7 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 
 void GSPlay::Update(float deltaTime)
 {
-	m_Character->Update(deltaTime);
+	m_Character->Update(deltaTime, m_ListBlock);
 	m_Character->Moving(m_horizontal, deltaTime);
 	//m_playerCharacter->
 	for (auto obj : m_ListEnemy)
@@ -248,9 +265,17 @@ void GSPlay::Update(float deltaTime)
 
 void GSPlay::Draw()
 {
+
 	m_BackGround->Draw();
+	for (auto obj : m_ListBlock)
+	{
+		obj->Draw();
+	}
 	m_Character->Draw();
 	//m_score->Draw();
+
+
+
 	for (auto obj : m_ListEnemy)
 	{
 		obj->Draw();

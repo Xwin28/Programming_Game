@@ -1,29 +1,5 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Sprite2D.cpp
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\sprite2d.cpp(151): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\sprite2d.cpp(152): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\sprite2d.cpp(162): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\sprite2d.cpp(163): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Character.cpp
-  Generating Code...
-  Compiling...
-  GameStatebase.cpp
-  GSOption.cpp
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsoption.cpp(27): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsoption.cpp(33): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-  GSMenu.cpp
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsmenu.cpp(27): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsmenu.cpp(33): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-  GSCredits.cpp
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gscredits.cpp(28): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gscredits.cpp(34): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-  GameButton.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  GameStateMachine.cpp
   GSPlay.cpp
-  GSIntro.cpp
-  AnimationSprite2D.cpp
-  ResourceManagers.cpp
-  Application.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(42): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(52): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
   TrainingFramework.vcxproj -> E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\TrainingFramework.exe

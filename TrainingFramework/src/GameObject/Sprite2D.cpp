@@ -180,14 +180,16 @@ void Sprite2D::SetSize(GLint width, GLint height)
 	CaculateWorldMatrix();
 }
 
-
+Vector2 Sprite2D::GetSize()
+{
+	auto _temp = std::make_shared<Vector2>(m_iWidth, m_iHeight);
+	return *_temp;
+}
 
 void Sprite2D::FlipY(float value)
 {
 	
 	m_Vec3Scale = Vector3(value *(float)m_iWidth / screenWidth, (float)m_iHeight / screenHeight, 1);
-	//m_Vec3Rotation.z = m_Vec3Rotation.z+ (angle / 180  *PI);
-	//m_Vec3Rotation.y = (angle * PI / 180);
 
 	CaculateWorldMatrix();
 }

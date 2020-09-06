@@ -102,9 +102,33 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 
 
 
-void Character::Falling(float _deltaTime)
+void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)
 {
-	
+	//(x > m_Vec2DPos.x  - m_iWidth/2) && (x < m_Vec2DPos.x + m_iWidth / 2) && 
+	//(y > m_Vec2DPos.y - m_iHeight / 2) && (y < m_Vec2DPos.y + m_iHeight / 2))
+	for (auto obj : m_ListBlock)
+	{
+		if ( (Get2DPosition().x <obj->Get2DPosition().x - obj->GetSize().x / 2) && (Get2DPosition().x > obj->Get2DPosition().x + obj->GetSize().x /2)
+			&& (Get2DPosition().y < obj->Get2DPosition().y - obj->GetSize().x /2) && (Get2DPosition().y > obj->Get2DPosition().y + obj->GetSize().x / 2)
+			&& m_isJump)
+		{
+			
+			Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
+			m_onGround = false;
+			SetTexture("Falling");
+			//std::cout << "\n Falling on Ground = " << m_onGround;
+		}
+		else if ((Get2DPosition().x > obj->Get2DPosition().x - obj->GetSize().x / 2) && (Get2DPosition().x < obj->Get2DPosition().x + obj->GetSize().x / 2)
+			&& (Get2DPosition().y > obj->Get2DPosition().y - obj->GetSize().x / 2) && (Get2DPosition().y < obj->Get2DPosition().y + obj->GetSize().x / 2)
+			&& m_isJump)
+		{
+			m_onGround = true;
+			//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
+			SetTexture("Idle");
+			//std::cout << "\n Falling on Ground = " << m_onGround;
+		}
+	}
+
 	if (Get2DPosition().y <= 700 && m_isJump)
 	{
 
@@ -171,10 +195,10 @@ void Character::Dodge()
 		std::cout << "\n Position = " << Get2DPosition().x<<" , horizontal = " <<m_horizotal;
 
 }
-void Character::Update(GLfloat deltaTime)
+void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)
 {
 	AnimationSprite2D::Update(deltaTime);
-	Falling(deltaTime);
+	Falling(deltaTime, m_ListBlock);
 
 	//Jump
 	if (!m_isJump && m_onGround)
