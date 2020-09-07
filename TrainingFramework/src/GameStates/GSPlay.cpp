@@ -54,6 +54,16 @@ void GSPlay::Init()
 	m_ListBlock.push_back(Blocker);
 
 
+	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+	Blocker->Set2DPosition(0, screenHeight/2);
+	Blocker->SetSize(1280, 62);
+	m_ListBlock.push_back(Blocker);
+
+
+	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+	Blocker->Set2DPosition(100, screenHeight / 2+100);
+	Blocker->SetSize(1280, 62);
+	m_ListBlock.push_back(Blocker);
 
 
 	//Character Anim
@@ -61,7 +71,7 @@ void GSPlay::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	//m_Character = std::make_shared<AnimationSprite2D>(model, shader, texture, 8, 0.1f);
 	m_Character = std::make_shared<Character>(300.0f, 10.0f, 5, 5, 80.0f , model, shader, texture, 8, 0.1f);
-	m_Character->Set2DPosition(1280/2, 100);
+	m_Character->Set2DPosition(1280/2-200, 100);
 	m_Character->SetSize(200, 200);
 	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
 	

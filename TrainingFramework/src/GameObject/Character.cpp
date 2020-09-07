@@ -106,44 +106,80 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 {
 	//(x > m_Vec2DPos.x  - m_iWidth/2) && (x < m_Vec2DPos.x + m_iWidth / 2) && 
 	//(y > m_Vec2DPos.y - m_iHeight / 2) && (y < m_Vec2DPos.y + m_iHeight / 2))
+
+	Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
+	Vector2 _BlockSize = m_ListBlock.front()->GetSize();
+	std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
+	_Temp_ListBlock.clear();
 	for (auto obj : m_ListBlock)
 	{
-		if ( (Get2DPosition().x <obj->Get2DPosition().x - obj->GetSize().x / 2) && (Get2DPosition().x > obj->Get2DPosition().x + obj->GetSize().x /2)
-			&& (Get2DPosition().y < obj->Get2DPosition().y - obj->GetSize().x /2) && (Get2DPosition().y > obj->Get2DPosition().y + obj->GetSize().x / 2)
-			&& m_isJump)
+		if (Get2DPosition().y < obj->Get2DPosition().y)
+		{
+			_Temp_ListBlock.push_back(obj);
+		}
+	}
+
+
+	for (auto obj : _Temp_ListBlock)
+	{
+
+		if (obj->Get2DPosition().y < _BlockPos.y)
 		{
 			
-			Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
-			m_onGround = false;
-			SetTexture("Falling");
-			//std::cout << "\n Falling on Ground = " << m_onGround;
+			_BlockPos = obj->Get2DPosition();
+			_BlockSize = obj->GetSize();
+			std::cout << "\n BlockPos == " << _BlockPos.y;
 		}
-		else if ((Get2DPosition().x > obj->Get2DPosition().x - obj->GetSize().x / 2) && (Get2DPosition().x < obj->Get2DPosition().x + obj->GetSize().x / 2)
-			&& (Get2DPosition().y > obj->Get2DPosition().y - obj->GetSize().x / 2) && (Get2DPosition().y < obj->Get2DPosition().y + obj->GetSize().x / 2)
+		else
+		{
+			std::cout << "\n BlockPos Not Change == " << _BlockPos.y;
+		}
+	}
+
+
+
+		if ((Get2DPosition().x > _BlockPos.x - _BlockSize.x / 2) && (Get2DPosition().x < _BlockPos.x + _BlockSize.x / 2)
+			&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 1.2) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 1.2)
 			&& m_isJump)
 		{
+			std::cout << "\nOnGround" << " Pos_y = " << Get2DPosition().y << " Block_y = " << _BlockPos.y - _BlockSize.x / 1;
 			m_onGround = true;
 			//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
 			SetTexture("Idle");
 			//std::cout << "\n Falling on Ground = " << m_onGround;
 		}
-	}
+		else if (/*(Get2DPosition().x > obj->Get2DPosition().x - obj->GetSize().x / 2) && (Get2DPosition().x < obj->Get2DPosition().x + obj->GetSize().x / 2)
+			&& (Get2DPosition().y > obj->Get2DPosition().y - obj->GetSize().x / 2) && (Get2DPosition().y < obj->Get2DPosition().y + obj->GetSize().x / 2)*/
+			 m_isJump)
+		{
+			std::cout << "\nFalling" << " Pos_y = " << Get2DPosition().y << " Block_y = " << _BlockPos.y - _BlockSize.x / 2;
+			Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
+			m_onGround = false;
+			SetTexture("Falling");
+			//std::cout << "\n Falling on Ground = " << m_onGround;
+		}
+		else
+		{
+			std::cout<<"\nFAIL " << " Pos_y = " << Get2DPosition().y << " Block_y = " << _BlockPos.y - _BlockSize.x / 2;
+		}
 
-	if (Get2DPosition().y <= 700 && m_isJump)
-	{
 
-		Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400* _deltaTime);
-		m_onGround = false;
-		SetTexture("Falling");
-		//std::cout << "\n Falling on Ground = " << m_onGround;
-	}
-	else if(Get2DPosition().y > 700 && m_isJump)
-	{
-		m_onGround = true;
-		//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
-		SetTexture("Idle");
-		//std::cout << "\n Falling on Ground = " << m_onGround;
-	}
+
+	//if (Get2DPosition().y <= 700 && m_isJump)
+	//{
+
+	//	Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400* _deltaTime);
+	//	m_onGround = false;
+	//	SetTexture("Falling");
+	//	//std::cout << "\n Falling on Ground = " << m_onGround;
+	//}
+	//else if(Get2DPosition().y > 700 && m_isJump)
+	//{
+	//	m_onGround = true;
+	//	//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
+	//	SetTexture("Idle");
+	//	//std::cout << "\n Falling on Ground = " << m_onGround;
+	//}
 }
 void Character::Jump()
 {
