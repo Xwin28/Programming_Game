@@ -34,7 +34,7 @@ void GSPlay::Init()
 {
 	m_horizontal = 0;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_1");
 
 	//BackGround
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
