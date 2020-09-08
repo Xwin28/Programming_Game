@@ -1,3 +1,23 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Skipping... (no relevant changes detected)
   GSPlay.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(47): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(57): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(62): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(68): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1801): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+          with
+          [
+              _Ty=AnimationSprite2D
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+          with
+          [
+              _Ty=AnimationSprite2D
+          ]
+  e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(81): note: see reference to function template instantiation 'std::shared_ptr<AnimationSprite2D> std::make_shared<AnimationSprite2D,std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+  TrainingFramework.vcxproj -> E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\TrainingFramework.exe

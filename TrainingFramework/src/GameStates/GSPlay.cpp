@@ -59,13 +59,13 @@ void GSPlay::Init()
 	m_ListBlock.push_back(Blocker);
 
 	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
-	Blocker->Set2DPosition(100, screenHeight / 2 + 100);
+	Blocker->Set2DPosition(100, screenHeight / 2 -200);
 	Blocker->SetSize(1280, 62);
 	m_ListBlock.push_back(Blocker);
 
 
 	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
-	Blocker->Set2DPosition(0, screenHeight / 2);
+	Blocker->Set2DPosition(0, screenHeight / 2+100);
 	Blocker->SetSize(1280, 62);
 	m_ListBlock.push_back(Blocker);
 
@@ -74,6 +74,7 @@ void GSPlay::Init()
 
 
 	//------------------------------------Item------------------------------------//
+#pragma region Coin
 	//Coin
 	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Item//Bananas_Coin");
@@ -92,7 +93,7 @@ void GSPlay::Init()
 		// Do Not Spawn Out of the screen
 		if (_PosXSpawn < 0)
 		{
-			_PosXSpawn = 20;
+			_PosXSpawn = 40;
 		}
 		else if (_PosXSpawn > 1280)
 		{
@@ -115,9 +116,11 @@ void GSPlay::Init()
 
 
 		}
-		
+
 	}
 
+#pragma endregion
+#pragma region Blocked Bullet
 	//Blocked Bullet
 	texture = ResourceManagers::GetInstance()->GetTexture("Item//Melon_BlockBullet");
 	//Item = std::make_shared<AnimationSprite2D>(model, shader, texture, 17, 0.03);
@@ -135,7 +138,7 @@ void GSPlay::Init()
 		// Do Not Spawn Out of the screen
 		if (_PosXSpawn < 0)
 		{
-			_PosXSpawn = 20;
+			_PosXSpawn = 40;
 		}
 		else if (_PosXSpawn > 1280)
 		{
@@ -148,7 +151,7 @@ void GSPlay::Init()
 			// Do not Spawn Out of Ground
 			if (_PosXSpawn > (_Pos.x - _Size.x / 2) && _PosXSpawn < (_Pos.x + _Size.x / 2))
 			{
-				Item = std::make_shared<AnimationSprite2D>(model, shader, texture, 17, 0.03);
+				Item = std::make_shared<AnimationSprite2D>(model, shader, texture, 17, 0.05);
 				Item->Set2DPosition(_PosXSpawn, _Pos.y - _Size.y / 2 - 40);
 				Item->SetSize(32, 32);
 				m_ListBlockedBullet.push_back(Item);
@@ -160,9 +163,51 @@ void GSPlay::Init()
 		}
 
 	}
-
-
+#pragma endregion
+#pragma region //Flash
 	//Flash
+	texture = ResourceManagers::GetInstance()->GetTexture("Item//Cherries_Flash");
+	//Item = std::make_shared<AnimationSprite2D>(model, shader, texture, 17, 0.03);
+	for (auto obj : m_ListBlock)
+	{
+		//(x > m_Vec2DPos.x - m_iWidth / 2) && (x < m_Vec2DPos.x + m_iWidth / 2)
+		//Caculation Blocker Location to Spawn Item on it
+		Vector2 _Pos = obj->Get2DPosition();
+		Vector2 _Size = obj->GetSize();
+		float _PosXSpawn = RandomFloat(_Pos.x - _Size.x / 2, _Pos.x + _Size.x / 2);
+
+		//std::cout << "\n _PosX = " << _PosXSpawn;
+		int _LoopSize = Randomint(1, 4);
+		std::cout << "\n _LoopSize = " << _LoopSize;
+		// Do Not Spawn Out of the screen
+		if (_PosXSpawn < 0)
+		{
+			_PosXSpawn = 40;
+		}
+		else if (_PosXSpawn > 1280)
+		{
+			_PosXSpawn = 800;
+		}
+
+		std::cout << "\n _PosXSpawn = " << _PosXSpawn;
+		for (int i = 0; i < _LoopSize; i++)
+		{
+			// Do not Spawn Out of Ground
+			if (_PosXSpawn > (_Pos.x - _Size.x / 2) && _PosXSpawn < (_Pos.x + _Size.x / 2))
+			{
+				Item = std::make_shared<AnimationSprite2D>(model, shader, texture, 17, 0.02);
+				Item->Set2DPosition(_PosXSpawn, _Pos.y - _Size.y / 2 - 65);
+				Item->SetSize(32, 32);
+				m_ListFlash.push_back(Item);
+				_PosXSpawn += 40;
+				std::cout << "\n Spawn Itemt" << Item->Get2DPosition().x;
+			}
+
+
+		}
+
+	}
+#pragma endregion
 
 
 	//------------------------------Character Anim--------------------------------------//
@@ -221,45 +266,45 @@ void GSPlay::HandleEvents()
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
 #pragma region Control Character
-	//if (bIsPressed)
-	//{
+	if (bIsPressed)
+	{
 
-	//	switch (key)
-	//	{
-	//	case 'A':
-	//		m_horizontal = -1;
-	//		break;
-	//	case 'D':
-	//		m_horizontal = 1;
-	//		break;
-	//	case 'B':
-	//		m_Character->Jump();
-	//		break;
-	//	case 'F':
-	//		m_Character->Dodge();
-	//		break;
-	//	default:
-	//		break;
-	//	}
+		switch (key)
+		{
+		case 'A':
+			m_horizontal = -1;
+			break;
+		case 'D':
+			m_horizontal = 1;
+			break;
+		case 'B':
+			m_Character->Jump();
+			break;
+		case 'F':
+			m_Character->Dodge();
+			break;
+		default:
+			break;
+		}
 
-	//}
+	}
 
-	//if (!bIsPressed)
-	//{
-	//	switch (key)
-	//	{
-	//	case 'A':
-	//		m_horizontal = 0;
-	//		break;
+	if (!bIsPressed)
+	{
+		switch (key)
+		{
+		case 'A':
+			m_horizontal = 0;
+			break;
 
-	//	case 'D':
-	//		m_horizontal = 0;
-	//		break;
+		case 'D':
+			m_horizontal = 0;
+			break;
 
-	//	default:
-	//		break;
-	//	}
-	//}
+		default:
+			break;
+		}
+	}
 #pragma endregion
 
 	
@@ -268,93 +313,93 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 #pragma region EditorChangeUI
 
 	 //Use to define position in Screen (editor-> optimization is not necessary)
-	int m_Index = 1;
-	if (bIsPressed)
-	{
-		int m_temp = 0;
-		switch (key)
-		{
-		case 'A':
+	//int m_Index = 1;
+	//if (bIsPressed)
+	//{
+	//	int m_temp = 0;
+	//	switch (key)
+	//	{
+	//	case 'A':
 
-			for (auto it : m_ListBlock)
-			{
+	//		for (auto it : m_ListBlock)
+	//		{
 
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x - 1, y);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'D':
-			for (auto it : m_ListBlock)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x + 1, y);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'W':
-			for (auto it : m_ListBlock)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x, y - 1);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'S':
-			for (auto it : m_ListBlock)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x, y + 1);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		default:
-			break;
-		}
-		m_temp = 0;
-		//IN ra vi tri
-		for (auto it : m_ListBlock)
-		{
-			if (m_temp == m_Index)
-			{
-				m_temp = 0;
-				Vector2 m_vec = it->Get2DPosition();
-				float x = m_vec.x;
-				float y = m_vec.y;
-				std::cout << "\n x = " << x << " , y = " << y <<"   , editor";
-			}
-			m_temp++;
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x - 1, y);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	case 'D':
+	//		for (auto it : m_ListBlock)
+	//		{
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x + 1, y);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	case 'W':
+	//		for (auto it : m_ListBlock)
+	//		{
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x, y - 1);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	case 'S':
+	//		for (auto it : m_ListBlock)
+	//		{
+	//			if (m_temp == m_Index)
+	//			{
+	//				m_temp = 0;
+	//				Vector2 m_vec = it->Get2DPosition();
+	//				float x = m_vec.x;
+	//				float y = m_vec.y;
+	//				it->Set2DPosition(x, y + 1);
+	//				break;
+	//			}
+	//			m_temp++;
+	//		}
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	m_temp = 0;
+	//	//IN ra vi tri
+	//	for (auto it : m_ListBlock)
+	//	{
+	//		if (m_temp == m_Index)
+	//		{
+	//			m_temp = 0;
+	//			Vector2 m_vec = it->Get2DPosition();
+	//			float x = m_vec.x;
+	//			float y = m_vec.y;
+	//			std::cout << "\n x = " << x << " , y = " << y <<"   , editor";
+	//		}
+	//		m_temp++;
 
-		}
-	}
+	//	}
+	//}
 #pragma endregion
 }
 
@@ -379,6 +424,11 @@ void GSPlay::Update(float deltaTime)
 	{
 		obj->Update(deltaTime);
 	}
+	for (auto obj : m_ListFlash)
+	{
+		obj->Update(deltaTime);
+	}
+
 
 	for (auto obj : m_ListBlockedBullet)
 	{
@@ -397,18 +447,18 @@ void GSPlay::Draw()
 	{
 		obj->Draw();
 	}
-	
 	for (auto obj : m_ListCoin)
 	{
 		obj->Draw();
 	}
-
-
 	for (auto obj : m_ListBlockedBullet)
 	{
 		obj->Draw();
 	}
-
+	for (auto obj : m_ListFlash)
+	{
+		obj->Draw();
+	}
 	for (auto obj : m_ListEnemy)
 	{
 		obj->Draw();
