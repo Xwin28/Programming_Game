@@ -65,12 +65,12 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 	}
 	else if (_mode == "Atk")
 	{
-		std::cout << "\n Atk Animation";
+		//std::cout << "\n Atk Animation";
 		//m_pTexture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Attack1");
 	}
 	else if (_mode == "Dodge")
 	{
-		std::cout << "\n Dodge Animation";
+		//std::cout << "\n Dodge Animation";
 		//m_pTexture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	}
 	else if (_mode == "Falling")
@@ -128,12 +128,9 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 			
 			_BlockPos = obj->Get2DPosition();
 			_BlockSize = obj->GetSize();
-			std::cout << "\n BlockPos == " << _BlockPos.y;
+			
 		}
-		else
-		{
-			std::cout << "\n BlockPos Not Change == " << _BlockPos.y;
-		}
+
 	}
 
 
@@ -142,7 +139,7 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 			&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 1.2) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 1.2)
 			&& m_isJump)
 		{
-			std::cout << "\nOnGround" << " Pos_y = " << Get2DPosition().y << " Block_y = " << _BlockPos.y - _BlockSize.x / 1;
+			
 			m_onGround = true;
 			//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
 			SetTexture("Idle");
@@ -152,34 +149,15 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 			&& (Get2DPosition().y > obj->Get2DPosition().y - obj->GetSize().x / 2) && (Get2DPosition().y < obj->Get2DPosition().y + obj->GetSize().x / 2)*/
 			 m_isJump)
 		{
-			std::cout << "\nFalling" << " Pos_y = " << Get2DPosition().y << " Block_y = " << _BlockPos.y - _BlockSize.x / 2;
+			
 			Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
 			m_onGround = false;
 			SetTexture("Falling");
 			//std::cout << "\n Falling on Ground = " << m_onGround;
 		}
-		else
-		{
-			std::cout<<"\nFAIL " << " Pos_y = " << Get2DPosition().y << " Block_y = " << _BlockPos.y - _BlockSize.x / 2;
-		}
 
 
 
-	//if (Get2DPosition().y <= 700 && m_isJump)
-	//{
-
-	//	Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400* _deltaTime);
-	//	m_onGround = false;
-	//	SetTexture("Falling");
-	//	//std::cout << "\n Falling on Ground = " << m_onGround;
-	//}
-	//else if(Get2DPosition().y > 700 && m_isJump)
-	//{
-	//	m_onGround = true;
-	//	//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
-	//	SetTexture("Idle");
-	//	//std::cout << "\n Falling on Ground = " << m_onGround;
-	//}
 }
 void Character::Jump()
 {
@@ -197,8 +175,7 @@ void Character::Moving(float _horizontal,GLfloat deltatime)
 
 	if (_horizontal != 0)
 	{
-		std::cout << " \n ROTATION Y = :" << m_Vec3Rotation.y;
-		std::cout <<"Location  ,x = " << Get2DPosition().x;
+
 		if (_horizontal == -1 && _horizontal != m_horizotal)// do not run if already turn
 		{
 			
@@ -228,7 +205,7 @@ void Character::Dodge()
 {
 
 		Set2DPosition(Get2DPosition().x + m_horizotal * 50, Get2DPosition().y);
-		std::cout << "\n Position = " << Get2DPosition().x<<" , horizontal = " <<m_horizotal;
+		//std::cout << "\n Position = " << Get2DPosition().x<<" , horizontal = " <<m_horizotal;
 
 }
 void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)

@@ -28,13 +28,20 @@ public:
 	
 	void SetNewPostionForBullet();
 	void Falling();
+
+	float RandomFloat(float min, float max);
+	int Randomint(int min, int max);
 private:
 
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Text>  m_score;
-	std::vector<std::shared_ptr<Sprite2D>> m_ListEnemy;
+	
 	std::vector<std::shared_ptr<Sprite2D>> m_ListBlock;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListCoin;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListBlockedBullet;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListFlash;
 	std::shared_ptr<Character>  m_Character;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListEnemy;
 	float m_horizontal;
 	//std::shared_ptr<Character> m_playerCharacter;
 };
