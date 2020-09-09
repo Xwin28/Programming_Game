@@ -12,6 +12,9 @@
 #include "AnimationSprite2D.h"
 #include "Character.h"
 #include <time.h>
+#include <Enemy.h>
+
+
 
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
@@ -51,6 +54,7 @@ void GSPlay::Init()
 
 
 	//----------------------------Block Ground----------------------------//
+#pragma region Gground
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_1");
 	std::shared_ptr<Sprite2D> Blocker = std::make_shared<Sprite2D>(model, shader, texture);
@@ -59,17 +63,16 @@ void GSPlay::Init()
 	m_ListBlock.push_back(Blocker);
 
 	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
-	Blocker->Set2DPosition(100, screenHeight / 2 -200);
+	Blocker->Set2DPosition(100.0f, screenHeight / 2 - 200);
 	Blocker->SetSize(1280, 62);
 	m_ListBlock.push_back(Blocker);
 
 
 	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
-	Blocker->Set2DPosition(0, screenHeight / 2+100);
+	Blocker->Set2DPosition(0, screenHeight / 2 + 100);
 	Blocker->SetSize(1280, 62);
 	m_ListBlock.push_back(Blocker);
-
-
+#pragma endregion
 
 
 
@@ -88,7 +91,7 @@ void GSPlay::Init()
 		float _PosXSpawn = RandomFloat(_Pos.x - _Size.x / 2, _Pos.x + _Size.x / 2);
 
 		//std::cout << "\n _PosX = " << _PosXSpawn;
-		int _LoopSize = Randomint(4, 8);
+		int _LoopSize = Randomint(2, 6);
 		std::cout << "\n _LoopSize = " << _LoopSize;
 		// Do Not Spawn Out of the screen
 		if (_PosXSpawn < 0)
@@ -198,8 +201,75 @@ void GSPlay::Init()
 				Item = std::make_shared<AnimationSprite2D>(model, shader, texture, 17, 0.02);
 				Item->Set2DPosition(_PosXSpawn, _Pos.y - _Size.y / 2 - 65);
 				Item->SetSize(32, 32);
-				m_ListFlash.push_back(Item);
+				m_ListDodge.push_back(Item);
 				_PosXSpawn += 40;
+				std::cout << "\n Spawn Itemt" << Item->Get2DPosition().x;
+			}
+
+
+		}
+
+	}
+#pragma endregion
+	//------------------------------------Character------------------------------//
+#pragma region Character
+
+	//------------------------------Character Anim--------------------------------------//
+	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
+	m_Character = std::make_shared<Character>(300.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 8, 0.1f);
+	m_Character->Set2DPosition(1280 / 2 - 200, 100);
+	m_Character->SetSize(200, 200);
+	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
+#pragma endregion
+#pragma region Enemy
+	//Enemy Anim
+	texture = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Idle");
+	std::shared_ptr<Texture> _Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Idle");
+	std::shared_ptr<Texture> _Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
+	std::shared_ptr<Texture> _Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Fall");
+	std::shared_ptr<Texture> _Death = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDute_Death");
+	std::shared_ptr<Texture> _Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
+	std::shared_ptr<Enemy> _Enemy = std::make_shared<Enemy>(300.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 11, 0.1f,
+		_Idle, _Run, _Fall, _Death, _Atk, 11, 12, 1, 7, 11);
+	for (auto obj : m_ListBlock)
+	{
+		//(x > m_Vec2DPos.x - m_iWidth / 2) && (x < m_Vec2DPos.x + m_iWidth / 2)
+		//Caculation Blocker Location to Spawn Item on it
+		Vector2 _Pos = obj->Get2DPosition();
+		Vector2 _Size = obj->GetSize();
+		float _PosXSpawn = RandomFloat(_Pos.x - _Size.x / 2, _Pos.x + _Size.x / 2);
+
+		//std::cout << "\n _PosX = " << _PosXSpawn;
+		int _LoopSize = Randomint(0, 1);
+		std::cout << "\n _LoopSize = " << _LoopSize;
+		// Do Not Spawn Out of the screen
+		if (_PosXSpawn < 0)
+		{
+			_PosXSpawn = 40;
+		}
+		else if (_PosXSpawn > 1280)
+		{
+			_PosXSpawn = 800;
+		}
+
+		std::cout << "\n _PosXSpawn = " << _PosXSpawn;
+		for (int i = 0; i < _LoopSize; i++)
+		{
+			// Do not Spawn Out of Ground
+			if (_PosXSpawn > (_Pos.x - _Size.x / 2) && _PosXSpawn < (_Pos.x + _Size.x / 2))
+			{
+				std::shared_ptr<Texture> _Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Idle");
+				std::shared_ptr<Texture> _Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
+				std::shared_ptr<Texture> _Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Fall");
+				std::shared_ptr<Texture> _Death = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDute_Death");
+				std::shared_ptr<Texture> _Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
+				_Enemy = std::make_shared<Enemy>(300.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 11, 0.1f,
+												_Idle, _Run, _Fall, _Death, _Atk,11, 12, 1, 7, 11 );
+				_Enemy->Set2DPosition(_PosXSpawn, _Pos.y - _Size.y / 2 - 65);
+				_Enemy->SetSize(32, 32);
+				m_ListEnemy.push_back(_Enemy);
+				_PosXSpawn += Randomint(40, 150);
 				std::cout << "\n Spawn Itemt" << Item->Get2DPosition().x;
 			}
 
@@ -210,25 +280,6 @@ void GSPlay::Init()
 #pragma endregion
 
 
-	//------------------------------Character Anim--------------------------------------//
-	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
-	m_Character = std::make_shared<Character>(300.0f, 10.0f, 5, 5, 80.0f , model, shader, texture, 8, 0.1f);
-	m_Character->Set2DPosition(1280/2-200, 100);
-	m_Character->SetSize(200, 200);
-	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
-	
-
-
-
-
-	////Enemy Anim
-	////shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-	//texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
-	//std::shared_ptr<AnimationSprite2D> Enemy = std::make_shared<AnimationSprite2D>(model, shader, texture,8,0.1f);
-	//Enemy->Set2DPosition(screenWidth / 2, screenHeight / 4);
-	//Enemy->SetSize(200, 200);
-	//m_ListEnemy.push_back(Enemy);
 
 
 
@@ -282,6 +333,9 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			break;
 		case 'F':
 			m_Character->Dodge();
+			break;
+		case 'K':
+			m_Character->ATK(m_ListEnemy);
 			break;
 		default:
 			break;
@@ -409,30 +463,34 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 
 void GSPlay::Update(float deltaTime)
 {
-	m_Character->Update(deltaTime, m_ListBlock);
-	m_Character->Moving(m_horizontal, deltaTime);
-	//m_playerCharacter->
-
-
-	for (auto obj : m_ListEnemy)
+	if (deltaTime != 0)
 	{
-		obj->Update(deltaTime);
-		//obj->Draw();
-	}
-
-	for (auto obj : m_ListCoin)
-	{
-		obj->Update(deltaTime);
-	}
-	for (auto obj : m_ListFlash)
-	{
-		obj->Update(deltaTime);
-	}
 
 
-	for (auto obj : m_ListBlockedBullet)
-	{
-		obj->Update(deltaTime);
+		m_Character->Update(deltaTime, m_ListBlock);
+		m_Character->Moving(m_horizontal, deltaTime, m_ListCoin, m_ListBlockedBullet, m_ListDodge);
+		//m_playerCharacter->
+
+
+		for (auto obj : m_ListCoin)
+		{
+			obj->Update(deltaTime);
+		}
+		for (auto obj : m_ListDodge)
+		{
+			obj->Update(deltaTime);
+		}
+		for (auto obj : m_ListEnemy)
+		{
+
+			obj->Update(deltaTime, m_ListBlock);
+			//obj->Draw();
+		}
+
+		for (auto obj : m_ListBlockedBullet)
+		{
+			obj->Update(deltaTime);
+		}
 	}
 }
 
@@ -455,7 +513,7 @@ void GSPlay::Draw()
 	{
 		obj->Draw();
 	}
-	for (auto obj : m_ListFlash)
+	for (auto obj : m_ListDodge)
 	{
 		obj->Draw();
 	}

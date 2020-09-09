@@ -12,6 +12,7 @@
 #include <math.h>
 #include <string>
 #include "GameManager/ResourceManagers.h"
+#include <vector>
 
 
 Character::Character(){}
@@ -21,15 +22,23 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 {
 	m_isJump = true;
 	m_onGround = false;
+	m_Atk = false;
+
+	m_coin=0;
+	m_numberDodge=0;
+	m_numBlock=0;
 
 	m_horizotal=1;
 	m_animNow = "Idle";
-
+	m_time = 0;
 	// use menory instead processing
 	m_animIdle = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	m_animIRun = ResourceManagers::GetInstance()->GetTexture("Character//Player//Run");
 	m_animIFall = ResourceManagers::GetInstance()->GetTexture("Character//Player//Fall");
 	m_animIJump = ResourceManagers::GetInstance()->GetTexture("Character//Player//Jump");
+	m_animIDeath = ResourceManagers::GetInstance()->GetTexture("Character//Player//Death");
+	m_animIDodge = ResourceManagers::GetInstance()->GetTexture("Character//Player//Take Hit");
+	m_animIATK = ResourceManagers::GetInstance()->GetTexture("Character//Player//Attack");
 }
 Character::~Character(){}
 
@@ -65,13 +74,15 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 	}
 	else if (_mode == "Atk")
 	{
-		//std::cout << "\n Atk Animation";
-		//m_pTexture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Attack1");
+		std::cout << "\n Atk Animation";
+		m_currentFrame = 0;
+		m_numFrame = 3;
+		m_pTexture = m_animIATK;
 	}
 	else if (_mode == "Dodge")
 	{
-		//std::cout << "\n Dodge Animation";
-		//m_pTexture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
+		std::cout << "\n Dodge Animation";
+		m_pTexture = m_animIDodge;
 	}
 	else if (_mode == "Falling")
 	{
@@ -89,8 +100,16 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 		m_pTexture = m_animIJump;
 		
 	}
+	else if (_mode == "Death")
+	{
+		m_currentFrame = 0;
+		m_numFrame = 1;
+		m_pTexture = m_animIDeath;
+
+	}
 	else
 	{
+		std::cout << "\n IDLE ELSE";
 		//m_currentFrame = 0;
 		m_numFrame = 8;
 		m_pTexture = m_animIdle;
@@ -106,32 +125,35 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 {
 	//(x > m_Vec2DPos.x  - m_iWidth/2) && (x < m_Vec2DPos.x + m_iWidth / 2) && 
 	//(y > m_Vec2DPos.y - m_iHeight / 2) && (y < m_Vec2DPos.y + m_iHeight / 2))
-
-	Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
-	Vector2 _BlockSize = m_ListBlock.front()->GetSize();
-	std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
-	_Temp_ListBlock.clear();
-	for (auto obj : m_ListBlock)
-	{
-		if (Get2DPosition().y < obj->Get2DPosition().y)
-		{
-			_Temp_ListBlock.push_back(obj);
-		}
-	}
-
-
-	for (auto obj : _Temp_ListBlock)
+	if (!m_Atk)
 	{
 
-		if (obj->Get2DPosition().y < _BlockPos.y)
+
+		Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
+		Vector2 _BlockSize = m_ListBlock.front()->GetSize();
+		std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
+		_Temp_ListBlock.clear();
+		for (auto obj : m_ListBlock)
 		{
-			
-			_BlockPos = obj->Get2DPosition();
-			_BlockSize = obj->GetSize();
-			
+			if (Get2DPosition().y < obj->Get2DPosition().y)
+			{
+				_Temp_ListBlock.push_back(obj);
+			}
 		}
 
-	}
+
+		for (auto obj : _Temp_ListBlock)
+		{
+
+			if (obj->Get2DPosition().y < _BlockPos.y)
+			{
+
+				_BlockPos = obj->Get2DPosition();
+				_BlockSize = obj->GetSize();
+
+			}
+
+		}
 
 
 
@@ -139,7 +161,7 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 			&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 1.2) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 1.2)
 			&& m_isJump)
 		{
-			
+			Set2DPosition(Get2DPosition().x, _BlockPos.y - _BlockSize.y / 1.3);
 			m_onGround = true;
 			//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
 			SetTexture("Idle");
@@ -147,9 +169,9 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 		}
 		else if (/*(Get2DPosition().x > obj->Get2DPosition().x - obj->GetSize().x / 2) && (Get2DPosition().x < obj->Get2DPosition().x + obj->GetSize().x / 2)
 			&& (Get2DPosition().y > obj->Get2DPosition().y - obj->GetSize().x / 2) && (Get2DPosition().y < obj->Get2DPosition().y + obj->GetSize().x / 2)*/
-			 m_isJump)
+			m_isJump)
 		{
-			
+
 			Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
 			m_onGround = false;
 			SetTexture("Falling");
@@ -157,7 +179,7 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 		}
 
 
-
+	}
 }
 void Character::Jump()
 {
@@ -170,10 +192,13 @@ void Character::Jump()
 	}
 
 }
-void Character::Moving(float _horizontal,GLfloat deltatime)
+void Character::Moving(float _horizontal,GLfloat deltatime, 
+						std::vector<std::shared_ptr<Sprite2D>> &m_ListCoin, 
+						std::vector<std::shared_ptr<Sprite2D>> &m_ListBlockBullet,
+						std::vector<std::shared_ptr<Sprite2D>> &m_ListDodge)
 {
 
-	if (_horizontal != 0)
+	if (_horizontal != 0 && !m_Atk)
 	{
 
 		if (_horizontal == -1 && _horizontal != m_horizotal)// do not run if already turn
@@ -185,6 +210,115 @@ void Character::Moving(float _horizontal,GLfloat deltatime)
 		{
 			FlipY(1.0f);
 		}
+
+#pragma region TakeCoin
+		std::vector<int> _ListIndex;
+		_ListIndex.clear();
+		int _IndexInListE = 0;
+		for (auto obj : m_ListCoin)
+		{
+			Vector2 _EPos = obj->Get2DPosition();
+			Vector2 _ESize = obj->GetSize();
+			if ((Get2DPosition().x > _EPos.x - _ESize.x / 2) && (Get2DPosition().x < _EPos.x + _ESize.x / 2)
+				&& (Get2DPosition().y >= _EPos.y - _ESize.y / 2) && (Get2DPosition().y <= _EPos.y + _ESize.y / 2))
+			{
+
+				//m_ListEnemy.erase(m_ListEnemy.begin());
+				_ListIndex.push_back(_IndexInListE);
+				
+			}
+			_IndexInListE++;
+		}
+
+		for (auto obj_index : _ListIndex)
+		{
+			_IndexInListE = 0;
+			for (auto obj_E : m_ListCoin)
+			{
+				if (_IndexInListE == obj_index)
+				{
+					m_ListCoin.erase(m_ListCoin.begin() + _IndexInListE);
+					m_coin++;
+					std::cout << "\n Take COIN = " << m_coin;
+				}
+				_IndexInListE++;
+			}
+
+		}
+	
+#pragma endregion
+#pragma region TakeBlockBulet
+	_ListIndex.clear();
+	_IndexInListE = 0;
+	for (auto obj : m_ListBlockBullet)
+	{
+		Vector2 _EPos = obj->Get2DPosition();
+		Vector2 _ESize = obj->GetSize();
+		if ((Get2DPosition().x > _EPos.x - _ESize.x / 2) && (Get2DPosition().x < _EPos.x + _ESize.x / 2)
+			&& (Get2DPosition().y >= _EPos.y - _ESize.y / 2) && (Get2DPosition().y <= _EPos.y + _ESize.y / 2))
+		{
+
+			//m_ListEnemy.erase(m_ListEnemy.begin());
+			_ListIndex.push_back(_IndexInListE);
+
+		}
+		_IndexInListE++;
+	}
+
+	for (auto obj_index : _ListIndex)
+	{
+		_IndexInListE = 0;
+		for (auto obj_E : m_ListBlockBullet)
+		{
+			if (_IndexInListE == obj_index)
+			{
+				m_ListBlockBullet.erase(m_ListBlockBullet.begin() + _IndexInListE);
+				m_numBlock++;
+				std::cout << "\n Take Block = " << m_numBlock++;
+			}
+			_IndexInListE++;
+		}
+
+	}
+
+#pragma endregion
+#pragma region TakeDodge
+	_ListIndex.clear();
+	_IndexInListE = 0;
+	for (auto obj : m_ListDodge)
+	{
+		Vector2 _EPos = obj->Get2DPosition();
+		Vector2 _ESize = obj->GetSize();
+		if ((Get2DPosition().x > _EPos.x - _ESize.x / 2) && (Get2DPosition().x < _EPos.x + _ESize.x / 2)
+			&& (Get2DPosition().y >= _EPos.y - _ESize.y / 2) && (Get2DPosition().y <= _EPos.y + _ESize.y / 2))
+		{
+
+			//m_ListEnemy.erase(m_ListEnemy.begin());
+			_ListIndex.push_back(_IndexInListE);
+
+		}
+		_IndexInListE++;
+	}
+
+	for (auto obj_index : _ListIndex)
+	{
+		_IndexInListE = 0;
+		for (auto obj_E : m_ListDodge)
+		{
+			if (_IndexInListE == obj_index)
+			{
+				m_ListDodge.erase(m_ListDodge.begin() + _IndexInListE);
+				m_numberDodge++;
+				std::cout << "\n Take Dodge = " << m_numberDodge++;
+			}
+			_IndexInListE++;
+		}
+
+	}
+#pragma endregion
+
+		
+
 		m_horizotal = _horizontal;
 		//std::cout<< " ,,, horizontal = " << m_horizotal;
 		Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
@@ -198,8 +332,56 @@ void Character::Moving(float _horizontal,GLfloat deltatime)
 
 
 }
-void Character::ATk()
+
+
+
+
+void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy)
 {
+
+	
+	std::vector<int> _ListIndex;
+	_ListIndex.clear();
+	int _IndexInListE = 0;
+	if (!m_Atk)
+	{	
+		m_Atk = true;
+		SetTexture("Atk");
+
+		for (auto obj : m_ListEnemy)
+		{
+			Vector2 _EPos = obj->Get2DPosition();
+			Vector2 _ESize = obj->GetSize();
+			if ((Get2DPosition().x > _EPos.x - _ESize.x / 2) && (Get2DPosition().x < _EPos.x + _ESize.x / 2)
+				&& (Get2DPosition().y >= _EPos.y - _ESize.y / 2) && (Get2DPosition().y <= _EPos.y + _ESize.y / 2))
+			{
+
+				//m_ListEnemy.erase(m_ListEnemy.begin());
+				_ListIndex.push_back(_IndexInListE);
+				
+			}
+			_IndexInListE++;
+		}
+		
+		for (auto obj_index : _ListIndex)
+		{
+			_IndexInListE = 0;
+			for (auto obj_E : m_ListEnemy)
+			{
+				if (_IndexInListE == obj_index)
+				{
+					m_ListEnemy.erase(m_ListEnemy.begin() + _IndexInListE);
+				}
+				_IndexInListE++;
+			}
+			
+		}
+
+
+
+
+
+	}
 }
 void Character::Dodge()
 {
@@ -213,6 +395,18 @@ void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 	AnimationSprite2D::Update(deltaTime);
 	Falling(deltaTime, m_ListBlock);
 
+	//ATK
+	if(m_Atk)
+	{
+		//std::cout << "\n DeltaTime = " << m_time;
+		m_time ++;
+		std::cout << "\n COUNTDONE ATK = "<<m_time;
+		if (m_time > 15)
+		{
+			m_Atk = false;
+			m_time = 0;
+		}
+	}
 	//Jump
 	if (!m_isJump && m_onGround)
 	{
@@ -225,6 +419,7 @@ void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 			
 		}
 	}
+
 }
 void Character::Draw()
 {

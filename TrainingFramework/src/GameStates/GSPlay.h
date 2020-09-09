@@ -1,6 +1,7 @@
 #pragma once
 #include "gamestatebase.h"
 
+class Enemy;
 class Sprite2D;
 class Sprite3D;
 class Text;
@@ -39,9 +40,9 @@ private:
 	std::vector<std::shared_ptr<Sprite2D>> m_ListBlock;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListCoin;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListBlockedBullet;
-	std::vector<std::shared_ptr<Sprite2D>> m_ListFlash;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListDodge;
+	std::vector<std::shared_ptr<Enemy>> m_ListEnemy;
 	std::shared_ptr<Character>  m_Character;
-	std::vector<std::shared_ptr<Sprite2D>> m_ListEnemy;
 	float m_horizontal;
 	//std::shared_ptr<Character> m_playerCharacter;
 };

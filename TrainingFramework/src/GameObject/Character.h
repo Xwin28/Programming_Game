@@ -2,9 +2,10 @@
 #include <string>
 #include "Sprite2D.h"
 #include "AnimationSprite2D.h"
+#include "Enemy.h"
 class Character: public AnimationSprite2D
 {
-private:
+protected:
 	float m_Speed;
 	float m_heal;
 	float m_jumpHeight;
@@ -14,13 +15,14 @@ private:
 
 	bool m_isJump;//Check Jump
 	bool m_onGround;//Check Falling
+	bool m_Atk;//Check ATk
 	float _yPos;
 	float _xPos;
 	float m_horizotal;
 	std::string m_animNow;
-
+	float m_time;//CouDown Time
 	//Animation
-	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump;
+	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump, m_animIATK, m_animIDeath, m_animIDodge;
 public:
 	Character();
 
@@ -32,14 +34,16 @@ public:
 
 
 
-	void Init();
-	void Update(GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
-	void Draw();
+	void Init() override;
+	virtual void Update(GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
+	void Draw() override;
 
-	void Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
-	void Moving(float _horizontal, GLfloat deltatime);
-	void ATk();
-	void Dodge();
-	void Jump();
+	virtual void Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
+	virtual void Moving(float _horizontal, GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> &m_ListCoin,
+						std::vector<std::shared_ptr<Sprite2D>> &m_ListBlockBullet,
+						std::vector<std::shared_ptr<Sprite2D>> &m_ListDodge);
+	virtual void ATK(std::vector<std::shared_ptr<Enemy>>& m_ListEnemy);
+	virtual void Dodge();
+	virtual void Jump();
 
 };
