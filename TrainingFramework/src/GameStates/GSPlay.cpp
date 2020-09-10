@@ -282,7 +282,7 @@ void GSPlay::Init()
 
 
 
-
+	
 
 	////text game title
 	//shader = ResourceManagers::GetInstance()->GetShader("TextShader");
