@@ -16,13 +16,17 @@ protected:
 	bool m_isJump;//Check Jump
 	bool m_onGround;//Check Falling
 	bool m_Atk;//Check ATk
+	bool m_Hurt;//Check ATk
+	bool m_Death;//Check ATk
 	float _yPos;
 	float _xPos;
 	float m_horizotal;
 	std::string m_animNow;
 	float m_time;//CouDown Time
+	float m_timeHurt;//CouDown Time
+
 	//Animation
-	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump, m_animIATK, m_animIDeath, m_animIDodge;
+	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump, m_animIATK, m_animIDeath, m_animIDodge, m_animIHurt;
 public:
 	Character();
 
@@ -45,5 +49,7 @@ public:
 	virtual void ATK(std::vector<std::shared_ptr<Enemy>>& m_ListEnemy);
 	virtual void Dodge();
 	virtual void Jump();
+	void Hurt(int damage);
+	void Death();
 
 };

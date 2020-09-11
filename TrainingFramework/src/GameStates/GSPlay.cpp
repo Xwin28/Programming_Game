@@ -13,7 +13,7 @@
 #include "Character.h"
 #include <time.h>
 #include <Enemy.h>
-
+#include <string>
 
 
 extern int screenWidth; //need get on Graphic engine
@@ -222,16 +222,18 @@ void GSPlay::Init()
 	m_Character->SetSize(200, 200);
 	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
 #pragma endregion
-#pragma region Enemy
+#pragma region NormalEnemy
 	//Enemy Anim
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Idle");
 	std::shared_ptr<Texture> _Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Idle");
 	std::shared_ptr<Texture> _Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
 	std::shared_ptr<Texture> _Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Fall");
-	std::shared_ptr<Texture> _Death = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDute_Death");
-	std::shared_ptr<Texture> _Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
-	std::shared_ptr<Enemy> _Enemy = std::make_shared<Enemy>(300.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 11, 0.1f,
-		_Idle, _Run, _Fall, _Death, _Atk, 11, 12, 1, 7, 11);
+	std::shared_ptr<Texture> _Death = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDute_Death");//not Use in Normal enemy
+	std::shared_ptr<Texture> _Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");//not Use in Normal enemy
+	std::shared_ptr<Texture> _Shield = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");//not Use in Normal enemy
+	std::shared_ptr<Texture> _StayDeath = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");//not Use in Normal enemy
+	std::shared_ptr<Enemy> _Enemy = std::make_shared<Enemy>(50.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 12, 0.1f,
+		_Idle, _Run, _Fall, _Death, _Atk, _Shield, _StayDeath, 12, 12, 1, 7, 11, 1,1, 1);
 	for (auto obj : m_ListBlock)
 	{
 		//(x > m_Vec2DPos.x - m_iWidth / 2) && (x < m_Vec2DPos.x + m_iWidth / 2)
@@ -259,15 +261,114 @@ void GSPlay::Init()
 			// Do not Spawn Out of Ground
 			if (_PosXSpawn > (_Pos.x - _Size.x / 2) && _PosXSpawn < (_Pos.x + _Size.x / 2))
 			{
-				std::shared_ptr<Texture> _Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Idle");
-				std::shared_ptr<Texture> _Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
-				std::shared_ptr<Texture> _Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Fall");
-				std::shared_ptr<Texture> _Death = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDute_Death");
-				std::shared_ptr<Texture> _Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
-				_Enemy = std::make_shared<Enemy>(300.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 11, 0.1f,
-												_Idle, _Run, _Fall, _Death, _Atk,11, 12, 1, 7, 11 );
+				//MaskDude
+				_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Idle");
+				_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Run");
+				_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//MaskDude_Fall");
+				int _ChooseSprite = Randomint(0, 3);
+				switch (_ChooseSprite)
+				{
+				case 1:// NinJa Fog
+					_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Idle");
+					_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Run");
+					_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Fall");
+					break;
+				case 2:// PinkMan
+					_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Idle");
+					_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Run");
+					_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Fall");
+					break;
+				case 3:// Virtual Guy
+					_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Idle");
+					_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Run");
+					_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Fall");
+					break;
+				}
+
+				_Enemy = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 12, 0.1f,
+												_Idle, _Run, _Fall, _Death, _Atk, _Shield, _StayDeath, 12, 12, 1, 7, 11 , 1, 1, 1/*1 = Normal Enemy*/);
 				_Enemy->Set2DPosition(_PosXSpawn, _Pos.y - _Size.y / 2 - 65);
-				_Enemy->SetSize(32, 32);
+				_Enemy->SetSize(50, 50);
+				m_ListEnemy.push_back(_Enemy);
+				_PosXSpawn += Randomint(40, 150);
+				std::cout << "\n Spawn Itemt" << Item->Get2DPosition().x;
+			}
+
+
+		}
+
+	}
+#pragma endregion
+#pragma region EnemyMelle
+	//Enemy Anim
+	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Idle");
+	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Run");
+	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Fall");
+	_Death = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Death");//not Use in Normal enemy
+	_Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_ATK");//not Use in Normal enemy
+	_Shield = ResourceManagers::GetInstance()->GetTexture("Character//Enemy/EnemyKnight//Knight_Shield");//not Use in Normal enemy
+	_StayDeath = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_StayDeath");//not Use in Normal enemy
+	_Enemy = std::make_shared<Enemy>(50.0f, 10.0f, 5, 5, 80.0f, model, shader, _Idle, 8, 0.1f,
+		_Idle, _Run, _Fall, _Death, _Atk, _Shield, _StayDeath, 8, 8, 1, 8, 3, 3, 5, 2/*2 = Melle Enemy*/);
+	for (auto obj : m_ListBlock)
+	{
+		//(x > m_Vec2DPos.x - m_iWidth / 2) && (x < m_Vec2DPos.x + m_iWidth / 2)
+		//Caculation Blocker Location to Spawn Item on it
+		Vector2 _Pos = obj->Get2DPosition();
+		Vector2 _Size = obj->GetSize();
+		float _PosXSpawn = RandomFloat(_Pos.x - _Size.x / 2, _Pos.x + _Size.x / 2);
+
+		//std::cout << "\n _PosX = " << _PosXSpawn;
+		int _LoopSize = Randomint(0, 2);
+		std::cout << "\n _LoopSize = " << _LoopSize;
+		// Do Not Spawn Out of the screen
+		if (_PosXSpawn < 0)
+		{
+			_PosXSpawn = 40;
+		}
+		else if (_PosXSpawn > 1280)
+		{
+			_PosXSpawn = 800;
+		}
+
+		std::cout << "\n _PosXSpawn = " << _PosXSpawn;
+		for (int i = 0; i < _LoopSize; i++)
+		{
+			// Do not Spawn Out of Ground
+			if (_PosXSpawn > (_Pos.x - _Size.x / 2) && _PosXSpawn < (_Pos.x + _Size.x / 2))
+			{
+				//MaskDude
+				_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Idle");
+				_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Run");
+				_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Fall");
+				_Death = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Death");//not Use in Normal enemy
+				_Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_ATK");//not Use in Normal enemy
+				_Shield = ResourceManagers::GetInstance()->GetTexture("Character//Enemy/EnemyKnight//Knight_Shield");//not Use in Normal enemy
+				_StayDeath = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_StayDeath");//not Use in Normal enemy
+				//int _ChooseSprite = Randomint(0, 3);
+				//switch (_ChooseSprite)
+				//{
+				//case 1:// NinJa Fog
+				//	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Idle");
+				//	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Run");
+				//	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Fall");
+				//	break;
+				//case 2:// PinkMan
+				//	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Idle");
+				//	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Run");
+				//	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Fall");
+				//	break;
+				//case 3:// Virtual Guy
+				//	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Idle");
+				//	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Run");
+				//	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Fall");
+				//	break;
+				//}
+
+				_Enemy = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 8, 0.1f,
+					_Idle, _Run, _Fall, _Death, _Atk, _Shield, _StayDeath, 8, 8, 1, 8, 3, 3, 5,    2/*2 = Mellse Enemy*/);
+				_Enemy->Set2DPosition(_PosXSpawn, _Pos.y - _Size.y / 2 - 65);
+				_Enemy->SetSize(50, 50);
 				m_ListEnemy.push_back(_Enemy);
 				_PosXSpawn += Randomint(40, 150);
 				std::cout << "\n Spawn Itemt" << Item->Get2DPosition().x;
@@ -484,7 +585,31 @@ void GSPlay::Update(float deltaTime)
 		{
 
 			obj->Update(deltaTime, m_ListBlock);
-			//obj->Draw();
+			Vector2 _PosChacter = m_Character->Get2DPosition();
+			Vector2 _SizeCharacter = m_Character->GetSize();
+			bool _HitPlayer = false;
+			int _Type = obj->GetTypeEnemy();
+			switch (_Type)
+			{
+			case 1://Normal
+				obj->AiNormal(deltaTime, m_ListBlock);
+				break;
+			case 2://Melle
+				obj->AiNormal_Melle(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer);
+				if (_HitPlayer)
+				{
+					m_Character->Hurt(5000);
+				}
+					
+				
+				break;
+			case 3://Range
+				obj->AiNormal_Range(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer);
+				break;
+			case 4://Boss
+				obj->AiBoss(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer);
+				break;
+			}
 		}
 
 		for (auto obj : m_ListBlockedBullet)

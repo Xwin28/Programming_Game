@@ -23,7 +23,8 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 	m_isJump = true;
 	m_onGround = false;
 	m_Atk = false;
-
+	m_Hurt = false;
+	m_Death = false;
 	m_coin=0;
 	m_numberDodge=0;
 	m_numBlock=0;
@@ -31,6 +32,7 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 	m_horizotal=1;
 	m_animNow = "Idle";
 	m_time = 0;
+	m_timeHurt = 0;
 	// use menory instead processing
 	m_animIdle = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	m_animIRun = ResourceManagers::GetInstance()->GetTexture("Character//Player//Run");
@@ -39,6 +41,7 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 	m_animIDeath = ResourceManagers::GetInstance()->GetTexture("Character//Player//Death");
 	m_animIDodge = ResourceManagers::GetInstance()->GetTexture("Character//Player//Take Hit");
 	m_animIATK = ResourceManagers::GetInstance()->GetTexture("Character//Player//Attack");
+	m_animIHurt = ResourceManagers::GetInstance()->GetTexture("Character//Player//Take Hit");
 }
 Character::~Character(){}
 
@@ -107,6 +110,13 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 		m_pTexture = m_animIDeath;
 
 	}
+	else if (_mode == "Hurt")
+	{
+
+		m_currentFrame = 0;
+		m_numFrame = 4;
+		m_pTexture = m_animIHurt;
+	}
 	else
 	{
 		std::cout << "\n IDLE ELSE";
@@ -125,9 +135,8 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 {
 	//(x > m_Vec2DPos.x  - m_iWidth/2) && (x < m_Vec2DPos.x + m_iWidth / 2) && 
 	//(y > m_Vec2DPos.y - m_iHeight / 2) && (y < m_Vec2DPos.y + m_iHeight / 2))
-	if (!m_Atk)
+	if (!m_Atk && !m_Hurt)
 	{
-
 
 		Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
 		Vector2 _BlockSize = m_ListBlock.front()->GetSize();
@@ -198,7 +207,7 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 						std::vector<std::shared_ptr<Sprite2D>> &m_ListDodge)
 {
 
-	if (_horizontal != 0 && !m_Atk)
+	if (_horizontal != 0 && !m_Atk && !m_Hurt)
 	{
 
 		if (_horizontal == -1 && _horizontal != m_horizotal)// do not run if already turn
@@ -321,7 +330,21 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 
 		m_horizotal = _horizontal;
 		//std::cout<< " ,,, horizontal = " << m_horizotal;
-		Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
+
+		
+		if (Get2DPosition().x < 10 && _horizontal >0)
+		{
+			Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
+		}
+		else if (Get2DPosition().x >1270 && _horizontal <0)
+		{
+			Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
+		}
+		else if (Get2DPosition().x > 10 && Get2DPosition().x <1270)
+		{
+			std::cout << "\n\nCHARACTER RUNING x= "<< Get2DPosition().x;
+			Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
+		}
 		if (m_onGround)
 		{
 			SetTexture("Run");
@@ -335,7 +358,27 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 
 
 
+void Character::Hurt(int damage)
+{
+	if (m_onGround)
+	{
+		m_Hurt = true;
+		SetTexture("Hurt");
+	}
+	std::cout << "\nHurt";
+	m_heal -= damage;
+	if (m_heal < 0)
+	{
+		Death();
+	}
 
+	
+}
+void Character::Death()
+{
+	std::cout << "\nDeath";
+}
+ 
 void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy)
 {
 
@@ -399,14 +442,29 @@ void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 	if(m_Atk)
 	{
 		//std::cout << "\n DeltaTime = " << m_time;
-		m_time ++;
-		std::cout << "\n COUNTDONE ATK = "<<m_time;
-		if (m_time > 15)
+		m_time += deltaTime;
+		
+		if (m_time > 0.2f)
 		{
 			m_Atk = false;
 			m_time = 0;
 		}
 	}
+
+
+	if (m_Hurt)
+	{
+		//std::cout << "\n DeltaTime = " << m_time;
+		m_timeHurt += deltaTime;
+		std::cout << "\n m_timeHurt  = " << m_timeHurt;
+		if (m_timeHurt > 0.15f)
+		{
+			m_Hurt = false;
+			m_timeHurt = 0;
+		}
+	}
+
+
 	//Jump
 	if (!m_isJump && m_onGround)
 	{

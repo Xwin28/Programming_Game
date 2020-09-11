@@ -1,30 +1,5 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Character.cpp
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(164): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-  Generating Code...
-  Compiling...
-  GSPlay.cpp
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(50): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(61): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(66): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(72): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1801): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-          with
-          [
-              _Ty=double
-          ]
-  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
-          with
-          [
-              _Ty=AnimationSprite2D
-          ]
-  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
-          with
-          [
-              _Ty=AnimationSprite2D
-          ]
-  e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(84): note: see reference to function template instantiation 'std::shared_ptr<AnimationSprite2D> std::make_shared<AnimationSprite2D,std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
-  Generating Code...
-  Skipping... (no relevant changes detected)
   Enemy.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(167): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(245): warning C4715: 'Enemy::ATk': not all control paths return a value
   TrainingFramework.vcxproj -> E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\TrainingFramework.exe
