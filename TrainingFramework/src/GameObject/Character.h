@@ -27,6 +27,7 @@ protected:
 
 	//Animation
 	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump, m_animIATK, m_animIDeath, m_animIDodge, m_animIHurt;
+
 public:
 	Character();
 
@@ -46,7 +47,7 @@ public:
 	virtual void Moving(float _horizontal, GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> &m_ListCoin,
 						std::vector<std::shared_ptr<Sprite2D>> &m_ListBlockBullet,
 						std::vector<std::shared_ptr<Sprite2D>> &m_ListDodge);
-	virtual void ATK(std::vector<std::shared_ptr<Enemy>>& m_ListEnemy);
+	virtual void ATK(std::vector<std::shared_ptr<Enemy>>& m_ListEnemy, std::vector<std::shared_ptr<Sprite2D>>& m_ListVFX);
 	virtual void Dodge();
 	virtual void Jump();
 	void Hurt(int damage);

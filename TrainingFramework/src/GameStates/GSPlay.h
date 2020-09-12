@@ -46,6 +46,7 @@ private:
 	std::vector<std::shared_ptr<Sprite2D>> m_ListDodge;
 	std::vector<std::shared_ptr<Enemy>> m_ListEnemy;
 	std::vector<std::shared_ptr<Bullet>> m_ListBullet;
+	std::vector<std::shared_ptr<Sprite2D>> m_ListVFX;
 	std::shared_ptr<Character>  m_Character;
 	float m_horizontal;
 	

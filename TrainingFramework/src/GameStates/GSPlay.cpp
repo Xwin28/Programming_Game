@@ -587,7 +587,10 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			m_Character->Dodge();
 			break;
 		case 'K':
-			m_Character->ATK(m_ListEnemy);
+			m_Character->ATK(m_ListEnemy, m_ListVFX);
+
+
+
 			break;
 		default:
 			break;
@@ -830,6 +833,11 @@ void GSPlay::Update(float deltaTime)
 		{
 			obj->Update(deltaTime);
 		}
+		for (auto obj : m_ListVFX)
+		{
+			obj->Update(deltaTime);
+		}
+
 	}
 }
 
@@ -839,11 +847,17 @@ void GSPlay::Draw()
 	m_BackGround->Draw();
 	//m_score->Draw();
 
-
+	for (auto obj : m_ListVFX)
+	{
+		obj->Draw();
+	}
 	for (auto obj : m_ListBlock)
 	{
 		obj->Draw();
 	}
+
+
+
 	for (auto obj : m_ListCoin)
 	{
 		obj->Draw();
@@ -867,6 +881,8 @@ void GSPlay::Draw()
 			obj->Draw();
 		}
 	}
+
+
 	m_Character->Draw();
 }
 

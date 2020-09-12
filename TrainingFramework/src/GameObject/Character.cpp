@@ -13,7 +13,7 @@
 #include <string>
 #include "GameManager/ResourceManagers.h"
 #include <vector>
-
+#include "VFX.h"
 
 Character::Character(){}
 Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,float _jumpHeight,
@@ -379,7 +379,7 @@ void Character::Death()
 
 }
  
-void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy)
+void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vector<std::shared_ptr<Sprite2D>> &m_ListVFX)
 {
 
 	
@@ -434,8 +434,18 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy)
 				if (_IndexInListE == obj_index)
 				{
 					m_ListEnemy.erase(m_ListEnemy.begin() + _IndexInListE);
-					std::cout << "\n INDEX DELETE == " << _IndexInListE;
-					std::cout << "\n AAFter delete enemy number ENEMY == " << m_ListEnemy.size();
+					
+
+					//+++++++++++++++++++++++++
+					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+					auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+					auto texture = ResourceManagers::GetInstance()->GetTexture("VFX//HITDone");
+					std::shared_ptr<VFX> _VFX = std::make_shared<VFX>(model, shader, texture, 8, 0.1);
+					_VFX->Set2DPosition(obj_E->Get2DPosition().x, obj_E->Get2DPosition().y);
+					_VFX->SetSize(156, 156);
+					m_ListVFX.push_back(_VFX);
+					//========================
+					
 					
 				}
 				_IndexInListE++;
