@@ -1,7 +1,5 @@
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\vc141.pdb
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\vc141.idb
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\gscredits.obj
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\gsoption.obj
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\application.obj
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\resourcemanagers.obj
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\font.obj
@@ -19,6 +17,14 @@ e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframew
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\gsmenu.obj
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\gsplay.obj
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\trainingframework.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\gscredits.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\gsoption.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\savingsys.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\animationsprite2d.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\character.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\enemy.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\bullet.obj
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\debug-nvidia\vfx.obj
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\bin-nvidia\trainingframework.exe
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\bin-nvidia\trainingframework.ilk
 e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\bin-nvidia\trainingframework.pdb

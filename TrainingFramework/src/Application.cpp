@@ -1,6 +1,11 @@
 #include "Application.h"
 #include "GameStates/GameStateMachine.h"
 #include "GameStates/GameStatebase.h"
+
+#include "soloud.h"
+#include "soloud_wav.h"
+#include "soloud_thread.h"
+
 extern GLint screenWidth;
 extern GLint screenHeight;
 
@@ -19,6 +24,12 @@ void Application::Init()
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Intro);
+	//SoLoud::Soloud gSoloud; // SoLoud engine
+	gSoloud.init();
+	gWave.load("..\\Data\\SFX\\jojo.wav");
+	gSoloud.play(gWave);
+	int x = gSoloud.play(gWave); // Grab the handle
+	gSoloud.setPan(x, -0.2f);    // Use handle to adjust panning
 }
 
 void Application::Update(GLfloat deltaTime)

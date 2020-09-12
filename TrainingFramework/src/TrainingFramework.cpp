@@ -3,6 +3,9 @@
 #include "Application.h"
 #include "utilities.h" 
 
+
+
+
 //Chang Screen size
 GLint screenWidth = 1280;
 GLint screenHeight = 768;
@@ -60,7 +63,7 @@ GLint _tmain(GLint argc, _TCHAR* argv[])
 	CleanUp();
 
 	//identifying memory leaks
-	MemoryDump();
+	//MemoryDump();
 	//printf("Press any key...\n");
 	//_getch();
 
