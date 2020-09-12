@@ -45,7 +45,7 @@ public:
 	);
 	~Enemy();
 	int GetTypeEnemy();
-
+	float GetHorizontal();
 	void SetTexture(std::string _mode);
 
 	void Dead();
@@ -57,6 +57,7 @@ public:
 	void Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
 	void Moving(float _horizontal, GLfloat deltatime);
 	bool ATk(Vector2 _PosCharacter, Vector2 _SizeCharacter);
+	bool Shoot();
 	void Dodge();
 	void Jump();
 	
@@ -67,5 +68,5 @@ public:
 	void AiNormal(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);
 	void AiNormal_Melle(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock, Vector2 _PosCharacter, Vector2 _SizeCharacter, bool & _HitPlayer);
 	void AiNormal_Range(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock, Vector2 _PosCharacter, Vector2 _SizeCharacter, bool& _HitPlayer);
-	void AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock, Vector2 _PosCharacter, Vector2 _SizeCharacter, bool& _HitPlayer);
+	void AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock, Vector2 _PosCharacter, Vector2 _SizeCharacter, bool& _HitPlayer, bool& _SpawnEnemy);
 };

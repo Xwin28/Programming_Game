@@ -53,7 +53,10 @@ int Enemy::GetTypeEnemy()
 {
 	return m_TypeEnemy;
 }
-
+float Enemy::GetHorizontal() 
+{
+	return m_horizotal;
+}
 void  Enemy::Init()
 {
 	AnimationSprite2D::Init();
@@ -159,22 +162,43 @@ void Enemy::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 		}
 
 
-
-		if ((Get2DPosition().x > _BlockPos.x - _BlockSize.x / 2) && (Get2DPosition().x < _BlockPos.x + _BlockSize.x / 2)
-			&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 1.2) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 1.2)
-			&& m_isJump)
+		if (m_TypeEnemy != 4)
 		{
-			Set2DPosition(Get2DPosition().x, _BlockPos.y - _BlockSize.y / 1.22);
-			m_onGround = true;
-			SetTexture("Idle");
-		}
-		else if (m_isJump)
-		{
-			Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
-			m_onGround = false;
-			SetTexture("Falling");
+			if ((Get2DPosition().x > _BlockPos.x - _BlockSize.x / 2) && (Get2DPosition().x < _BlockPos.x + _BlockSize.x / 2)
+				&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 1.2) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 1.2)
+				&& m_isJump)
+			{
+				Set2DPosition(Get2DPosition().x, _BlockPos.y - _BlockSize.y / 1.22);
+				m_onGround = true;
+				SetTexture("Idle");
+			}
+			else if (m_isJump)
+			{
+				Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
+				m_onGround = false;
+				SetTexture("Falling");
 
+			}
 		}
+		else// boss has other sprite Size
+		{
+			if ((Get2DPosition().x > _BlockPos.x - _BlockSize.x / 2) && (Get2DPosition().x < _BlockPos.x + _BlockSize.x / 2)
+				&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 0.8) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 0.8)
+				&& m_isJump)
+			{
+				Set2DPosition(Get2DPosition().x, _BlockPos.y - _BlockSize.y / 0.82);
+				m_onGround = true;
+				SetTexture("Idle");
+			}
+			else if (m_isJump)
+			{
+				Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
+				m_onGround = false;
+				SetTexture("Falling");
+
+			}
+		}
+
 
 
 
@@ -244,6 +268,21 @@ bool Enemy::ATk(Vector2 _PosCharacter, Vector2 _SizeCharacter)
 
 }
 
+bool Enemy::Shoot()
+{
+	if (!m_Atk)
+	{
+
+		m_CanATK = false;
+		m_Atk = true;
+		SetTexture("Atk");
+		return true;
+
+	}
+}
+
+
+
 void Enemy::Dodge()
 {
 	Set2DPosition(Get2DPosition().x + m_horizotal * 50, Get2DPosition().y);
@@ -284,11 +323,38 @@ void Enemy::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 	{
 		//std::cout << "\n DeltaTime = " << m_time;
 		m_timeATK += deltaTime;
-		if (m_timeATK > 0.3f)
+		switch (m_TypeEnemy)
 		{
-			m_Atk = false;
-			m_timeATK = 0;
+		case 1:
+			if (m_timeATK > 0.3f)
+			{
+				m_Atk = false;
+				m_timeATK = 0;
+			}
+			break;
+		case 2:
+			if (m_timeATK > 0.3f)
+			{
+				m_Atk = false;
+				m_timeATK = 0;
+			}
+			break;
+		case 3:
+			if (m_timeATK > 0.3f)
+			{
+				m_Atk = false;
+				m_timeATK = 0;
+			}
+			break;
+		case 4:
+			if (m_timeATK > 0.7f)
+			{
+				m_Atk = false;
+				m_timeATK = 0;
+			}
+			break;
 		}
+
 	}
 }
 void Enemy::Draw()
@@ -636,7 +702,7 @@ void Enemy::AiNormal_Range(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite
 	if (m_time > 1.3)
 	{
 #pragma region Movement
-		if (abs(Get2DPosition().x - _PosCharacter.x) < 400 &&
+		if (abs(Get2DPosition().x - _PosCharacter.x) < 1280 &&
 			abs(Get2DPosition().y - _PosCharacter.y) < 50)
 		{
 #pragma region MoveAnd ATK Player
@@ -646,8 +712,40 @@ void Enemy::AiNormal_Range(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite
 				//DoOne
 				if (m_time > 1.3 && m_time < 1.4)
 				{
-					_newPos = _PosCharacter.x;
-					m_Speed = 300;
+					//----------GET Ground Stading
+					Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
+					Vector2 _BlockSize = m_ListBlock.front()->GetSize();
+					std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
+					_Temp_ListBlock.clear();
+					for (auto obj : m_ListBlock)
+					{
+						if (Get2DPosition().y < obj->Get2DPosition().y)
+						{
+							_Temp_ListBlock.push_back(obj);
+						}
+					}
+					for (auto obj : _Temp_ListBlock)
+					{
+
+						if (obj->Get2DPosition().y < _BlockPos.y)
+						{
+
+							_BlockPos = obj->Get2DPosition();
+							_BlockSize = obj->GetSize();
+
+						}
+
+					}
+					//---------
+					if (Get2DPosition().x < _PosCharacter.x)
+					{
+						_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _PosCharacter.x);
+					}
+					else if (Get2DPosition().x > _PosCharacter.x)
+					{
+						_newPos = RandomFloat(_PosCharacter.x, _BlockPos.x + _BlockSize.x / 2);
+					}
+					m_Speed = 350;
 					// take a new Pos in the Ground
 					if (_newPos < 0)
 					{
@@ -672,25 +770,28 @@ void Enemy::AiNormal_Range(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite
 
 
 				}
-				//To near Playert
-				if (abs(Get2DPosition().x - _PosCharacter.x) < 30 &&
-					abs(Get2DPosition().y - _PosCharacter.y) < 50)
-				{
-					_HitPlayer = ATk(_PosCharacter, _SizeCharacter);
-				}
-				else
-				{
 					if (m_time > 1.5)
 					{
 						Moving(m_horizotal, deltaTime);
 					}
-				}
 				//Update
 
 				//Moving
-				if (abs(Get2DPosition().x - _newPos) <= 10)
+				if (abs(Get2DPosition().x - _newPos) <= 20)
 				{
 
+					if (Get2DPosition().x < _PosCharacter.x)
+					{
+						FlipY(+1);
+						m_horizotal = +1;
+					}
+					else if (Get2DPosition().x > _PosCharacter.x)
+					{
+						FlipY(-1);
+						m_horizotal = -1;
+					}
+					Shoot();
+					_HitPlayer = true;// Take Shoot -> add A bullet in Arrat in CSP Play
 					m_time = 0;
 				}
 			}
@@ -761,7 +862,7 @@ void Enemy::AiNormal_Range(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite
 
 				else
 				{
-					if (m_time > 2)
+					if (m_time > 1.5)
 					{
 						Moving(m_horizotal, deltaTime);
 					}
@@ -871,86 +972,308 @@ void Enemy::AiNormal_Range(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite
 
 
 }
-void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock, Vector2 _PosCharacter, Vector2 _SizeCharacter, bool& _HitPlayer)
+void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock, Vector2 _PosCharacter, Vector2 _SizeCharacter, bool& _HitPlayer, bool &_SpawnEnemy)
 {
 
 	m_time += deltaTime;
 
-	if (m_time > 1.3)
+	if (m_time > 1)
 	{
 #pragma region Movement
-
-		//std::cout << "\n mTime = " << m_time;
-		//DoOne
-		if (m_time > 1.3 && m_time < 1.4)
+		if (abs(Get2DPosition().x - _PosCharacter.x) < 1280 &&
+			abs(Get2DPosition().y - _PosCharacter.y) < 50)
 		{
-			Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
-			Vector2 _BlockSize = m_ListBlock.front()->GetSize();
-			std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
-			_Temp_ListBlock.clear();
-			for (auto obj : m_ListBlock)
+#pragma region MoveAnd ATK Player
+			if (m_CanATK)
 			{
-				if (Get2DPosition().y < obj->Get2DPosition().y)
+				//_________________________CanATK=>ATK_____________________________________
+				//DoOne
+				if (m_time > 1.1 && m_time < 1.2)
 				{
-					_Temp_ListBlock.push_back(obj);
+					//----------GET Ground Stading
+					Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
+					Vector2 _BlockSize = m_ListBlock.front()->GetSize();
+					std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
+					_Temp_ListBlock.clear();
+					for (auto obj : m_ListBlock)
+					{
+						if (Get2DPosition().y < obj->Get2DPosition().y)
+						{
+							_Temp_ListBlock.push_back(obj);
+						}
+					}
+					for (auto obj : _Temp_ListBlock)
+					{
+
+						if (obj->Get2DPosition().y < _BlockPos.y)
+						{
+
+							_BlockPos = obj->Get2DPosition();
+							_BlockSize = obj->GetSize();
+
+						}
+
+					}
+					//---------
+
+					if (abs(_PosCharacter.x - Get2DPosition().x) <= 200)
+					{
+						if (Get2DPosition().x < _PosCharacter.x)
+						{
+							_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _PosCharacter.x-100);
+							if (_BlockPos.x - _BlockSize.x / 2 > _PosCharacter.x - 100)
+							{
+								_newPos = 640;
+							}
+						}
+						else if (Get2DPosition().x > _PosCharacter.x)
+						{
+							_newPos = RandomFloat(_PosCharacter.x+100, _BlockPos.x + _BlockSize.x / 2);
+							if (_PosCharacter.x + 100, _BlockPos.x > _BlockSize.x / 2)
+							{
+								_newPos = 640;
+							}
+						}
+						Set2DPosition(_newPos, Get2DPosition().y-50 );
+
+					}
+
+					if (Get2DPosition().x < _PosCharacter.x)
+					{
+						_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _PosCharacter.x);
+					}
+					else if (Get2DPosition().x > _PosCharacter.x)
+					{
+						_newPos = RandomFloat(_PosCharacter.x, _BlockPos.x + _BlockSize.x / 2);
+					}
+					m_Speed = 350;
+
+					// take a new Pos in the Ground
+					if (_newPos < 0)
+					{
+						_newPos = 20;
+					}
+					else if (_newPos > 1280)
+					{
+						_newPos = 1200;
+					}
+
+					//Take Face direction
+					if (_newPos < Get2DPosition().x)
+					{
+						//FlipY(-1);
+						m_horizotal = -1;
+					}
+					else if (_newPos > Get2DPosition().x)
+					{
+						//FlipY(1);
+						m_horizotal = +1;
+					}
+
+
+				}
+				//Moving
+				if (m_time > 1.3)
+				{
+					Moving(m_horizotal, deltaTime);
+				}
+
+
+				//Update Facing to Player
+				if (abs(Get2DPosition().x - _newPos) <= 20)
+				{
+
+					if (Get2DPosition().x < _PosCharacter.x)
+					{
+						FlipY(+1);
+						m_horizotal = +1;
+					}
+					else if (Get2DPosition().x > _PosCharacter.x)
+					{
+						FlipY(-1);
+						m_horizotal = -1;
+					}
+					Shoot();
+					//SPAWN ENEMY
+					if (Randomint(0, 3) == 1)
+					{
+						_SpawnEnemy = true;
+					}
+					else
+					{
+						_SpawnEnemy = false;
+					}
+					_HitPlayer = true;// Take Shoot -> add A bullet in Arrat in CSP Play
+					m_time = 0;
 				}
 			}
-			for (auto obj : _Temp_ListBlock)
+			else
 			{
+				//-------------------------CanNotATK=> Move far the Player------------------------------
 
-				if (obj->Get2DPosition().y < _BlockPos.y)
+				if (m_time > 1.1 && m_time < 1.2)
 				{
+					//----------GET Ground Stading
+					Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
+					Vector2 _BlockSize = m_ListBlock.front()->GetSize();
+					std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
+					_Temp_ListBlock.clear();
+					for (auto obj : m_ListBlock)
+					{
+						if (Get2DPosition().y < obj->Get2DPosition().y)
+						{
+							_Temp_ListBlock.push_back(obj);
+						}
+					}
+					for (auto obj : _Temp_ListBlock)
+					{
 
-					_BlockPos = obj->Get2DPosition();
-					_BlockSize = obj->GetSize();
+						if (obj->Get2DPosition().y < _BlockPos.y)
+						{
+
+							_BlockPos = obj->Get2DPosition();
+							_BlockSize = obj->GetSize();
+
+						}
+
+					}
+					//---------
+					if (Get2DPosition().x < _PosCharacter.x)
+					{
+						_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _PosCharacter.x);
+					}
+					else if (Get2DPosition().x > _PosCharacter.x)
+					{
+						_newPos = RandomFloat(_PosCharacter.x, _BlockPos.x - _BlockSize.x / 2);
+					}
+					m_Speed = 200;
+					// take a new Pos in the Ground
+					if (_newPos < 0)
+					{
+						_newPos = 20;
+					}
+					else if (_newPos > 1280)
+					{
+						_newPos = 1200;
+					}
+
+					//Take Face direction
+					if (_newPos < Get2DPosition().x)
+					{
+						//FlipY(-1);
+						m_horizotal = -1;
+					}
+					else if (_newPos > Get2DPosition().x)
+					{
+						//FlipY(1);
+						m_horizotal = +1;
+					}
+
 
 				}
 
-			}
+				else
+				{
+					if (m_time > 1.3)
+					{
+						Moving(m_horizotal, deltaTime);
+					}
+				}
+				//Update
 
-			_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _BlockPos.x + _BlockSize.x / 2);
-			// if In the Block
+				//Moving
+				if (abs(Get2DPosition().x - _newPos) <= 10)
+				{
 
-
-				// take a new Pos in the Ground
-			if (_newPos < 0)
-			{
-				_newPos = 20;
+					m_time = 0;
+				}
+				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			}
-			else if (_newPos > 1280)
-			{
-				_newPos = 1200;
-			}
-
-			//Take Face direction
-			if (_newPos < Get2DPosition().x)
-			{
-				//FlipY(-1);
-				m_horizotal = -1;
-			}
-			else if (_newPos > Get2DPosition().x)
-			{
-				//FlipY(1);
-				m_horizotal = +1;
-			}
-
+#pragma endregion
 
 		}
-
-		//Update
-		if (m_time > 2)
+		else
 		{
-			Moving(m_horizotal, deltaTime);
-			std::cout << "\n HORICONTAL = " << m_horizotal;
-			std::cout << "\n new pos === " << _newPos << ", Curren Pos == " << Get2DPosition().x;
-		}
+#pragma region MoveFree
+			//std::cout << "\n mTime = " << m_time;
+			//DoOne
+
+			if (m_time > 1.3 && m_time < 1.4)
+			{
+				Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
+				Vector2 _BlockSize = m_ListBlock.front()->GetSize();
+				std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
+				_Temp_ListBlock.clear();
+				for (auto obj : m_ListBlock)
+				{
+					if (Get2DPosition().y < obj->Get2DPosition().y)
+					{
+						_Temp_ListBlock.push_back(obj);
+					}
+				}
+				for (auto obj : _Temp_ListBlock)
+				{
+
+					if (obj->Get2DPosition().y < _BlockPos.y)
+					{
+
+						_BlockPos = obj->Get2DPosition();
+						_BlockSize = obj->GetSize();
+
+					}
+
+				}
+
+				_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _BlockPos.x + _BlockSize.x / 2);
+				// if In the Block
 
 
-		//Moving
-		if (abs(Get2DPosition().x - _newPos) <= 20)
-		{
+					// take a new Pos in the Ground
+				if (_newPos < 0)
+				{
+					_newPos = 20;
+				}
+				else if (_newPos > 1280)
+				{
+					_newPos = 1200;
+				}
 
-			m_time = 0;
+				//Take Face direction
+				if (_newPos < Get2DPosition().x)
+				{
+					//FlipY(-1);
+					m_horizotal = -1;
+				}
+				else if (_newPos > Get2DPosition().x)
+				{
+					//FlipY(1);
+					m_horizotal = +1;
+				}
+				m_Speed = 100;
+
+			}
+
+			//Update
+			if (m_time > 2)
+			{
+				Moving(m_horizotal, deltaTime);
+			}
+
+
+			//Moving
+			if (abs(Get2DPosition().x - _newPos) <= 20)
+			{
+
+				m_time = 0;
+			}
+
+			//ro detect player
+			if (abs(Get2DPosition().x - _PosCharacter.x) < 400 &&
+				abs(Get2DPosition().y - _PosCharacter.y) < 50)
+			{
+				m_time = 0;
+			}
+#pragma endregion
 		}
 #pragma endregion
 

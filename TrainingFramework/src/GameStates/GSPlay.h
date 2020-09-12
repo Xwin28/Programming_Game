@@ -1,6 +1,7 @@
 #pragma once
 #include "gamestatebase.h"
 
+class Bullet;
 class Enemy;
 class Sprite2D;
 class Sprite3D;
@@ -32,6 +33,8 @@ public:
 
 	float RandomFloat(float min, float max);
 	int Randomint(int min, int max);
+
+	void SpawnEnemy();
 private:
 
 	std::shared_ptr<Sprite2D> m_BackGround;
@@ -42,8 +45,10 @@ private:
 	std::vector<std::shared_ptr<Sprite2D>> m_ListBlockedBullet;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListDodge;
 	std::vector<std::shared_ptr<Enemy>> m_ListEnemy;
+	std::vector<std::shared_ptr<Bullet>> m_ListBullet;
 	std::shared_ptr<Character>  m_Character;
 	float m_horizontal;
+	
 	//std::shared_ptr<Character> m_playerCharacter;
 };
 

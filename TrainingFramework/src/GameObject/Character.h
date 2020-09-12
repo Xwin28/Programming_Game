@@ -35,8 +35,8 @@ public:
 	);
 	~Character();
 	void SetTexture(std::string _mode);
-
-
+	int GetnBlock();
+	bool GetATK();
 
 	void Init() override;
 	virtual void Update(GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);

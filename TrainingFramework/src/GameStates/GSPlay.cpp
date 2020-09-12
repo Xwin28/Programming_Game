@@ -13,6 +13,7 @@
 #include "Character.h"
 #include <time.h>
 #include <Enemy.h>
+#include <Bullet.h>
 #include <string>
 
 
@@ -32,6 +33,68 @@ GSPlay::~GSPlay()
 
 void GSPlay::Falling()
 {
+
+}
+
+
+void GSPlay::SpawnEnemy()
+{
+	m_horizontal = 0;
+	auto model1 = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+	auto shader1 = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+
+#pragma region EnemyMelle
+	//Enemy Anim
+	std::shared_ptr<Texture> _Idle1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Idle");
+	std::shared_ptr<Texture>_Run1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Run");
+	std::shared_ptr<Texture>_Fall1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Fall");
+	std::shared_ptr<Texture>_Death1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Death");//not Use in Normal enemy
+	std::shared_ptr<Texture>_Atk1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Atk");//not Use in Normal enemy
+	std::shared_ptr<Texture>_Shield1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy/EnemyKnight//Knight_Shield");//not Use in Normal enemy
+	std::shared_ptr<Texture>_StayDeath1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_StayDeath");//not Use in Normal enemy
+	std::shared_ptr<Enemy> _Enemy = std::make_shared<Enemy>(50.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
+		_Idle1, _Run1, _Fall1, _Death1, _Atk1, _Shield1, _StayDeath1, 8, 8, 1, 8, 3, 3, 5, 2/*2 = Melle Enemy*/);
+	///////////////////////////////KHAI BAO
+
+
+
+				_Idle1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Idle");
+				_Run1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Run");
+				_Fall1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Fall");
+				_Death1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Death");//not Use in Normal enemy
+				_Atk1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Atk");//not Use in Normal enemy
+				_Shield1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy/EnemyKnight//Knight_Shield");//not Use in Normal enemy
+				_StayDeath1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_StayDeath");//not Use in Normal enemy
+
+				_Enemy = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
+					_Idle1, _Run1, _Fall1, _Death1, _Atk1, _Shield1, _StayDeath1, 8, 8, 1, 8, 3, 3, 5, 2/*2 = Mellse Enemy*/);
+				_Enemy->Set2DPosition(RandomFloat(20,1200), 300);
+				_Enemy->SetSize(50, 50);
+				m_ListEnemy.push_back(_Enemy);
+
+			
+
+
+		
+
+	
+#pragma endregion
+#pragma region Archer
+
+				//Archer
+				_Idle1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Idle");
+				_Run1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Run");
+				_Fall1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Fall");
+				_Atk1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Atk");//not Use in Normal enemy
+				
+
+				_Enemy = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
+					_Idle1, _Run1, _Fall1, _Death1, _Atk1, _Shield1, _StayDeath1, 8, 8, 1, 8, 5, 3, 5, 3/*3 = Range Enemy*/);
+				_Enemy->Set2DPosition(RandomFloat(20, 1200), 300);
+				_Enemy->SetSize(50, 50);
+				m_ListEnemy.push_back(_Enemy);
+#pragma endregion
+
 
 }
 
@@ -219,7 +282,7 @@ void GSPlay::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	m_Character = std::make_shared<Character>(300.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 8, 0.1f);
 	m_Character->Set2DPosition(1280 / 2 - 200, 100);
-	m_Character->SetSize(200, 200);
+	m_Character->SetSize(200, 70);
 	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
 #pragma endregion
 #pragma region NormalEnemy
@@ -244,7 +307,7 @@ void GSPlay::Init()
 
 		//std::cout << "\n _PosX = " << _PosXSpawn;
 		int _LoopSize = Randomint(0, 1);
-		std::cout << "\n _LoopSize = " << _LoopSize;
+		
 		// Do Not Spawn Out of the screen
 		if (_PosXSpawn < 0)
 		{
@@ -255,7 +318,7 @@ void GSPlay::Init()
 			_PosXSpawn = 800;
 		}
 
-		std::cout << "\n _PosXSpawn = " << _PosXSpawn;
+		
 		for (int i = 0; i < _LoopSize; i++)
 		{
 			// Do not Spawn Out of Ground
@@ -291,7 +354,7 @@ void GSPlay::Init()
 				_Enemy->SetSize(50, 50);
 				m_ListEnemy.push_back(_Enemy);
 				_PosXSpawn += Randomint(40, 150);
-				std::cout << "\n Spawn Itemt" << Item->Get2DPosition().x;
+				
 			}
 
 
@@ -320,7 +383,7 @@ void GSPlay::Init()
 
 		//std::cout << "\n _PosX = " << _PosXSpawn;
 		int _LoopSize = Randomint(0, 2);
-		std::cout << "\n _LoopSize = " << _LoopSize;
+		
 		// Do Not Spawn Out of the screen
 		if (_PosXSpawn < 0)
 		{
@@ -331,7 +394,7 @@ void GSPlay::Init()
 			_PosXSpawn = 800;
 		}
 
-		std::cout << "\n _PosXSpawn = " << _PosXSpawn;
+		
 		for (int i = 0; i < _LoopSize; i++)
 		{
 			// Do not Spawn Out of Ground
@@ -371,13 +434,101 @@ void GSPlay::Init()
 				_Enemy->SetSize(50, 50);
 				m_ListEnemy.push_back(_Enemy);
 				_PosXSpawn += Randomint(40, 150);
-				std::cout << "\n Spawn Itemt" << Item->Get2DPosition().x;
+				
 			}
 
 
 		}
 
 	}
+#pragma endregion
+#pragma region Archer
+	//Enemy Anim
+	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_IDLE");
+	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Run");
+	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Fall");
+	_Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_ATK");//not Use in Normal enemy
+	_Enemy = std::make_shared<Enemy>(50.0f, 10.0f, 5, 5, 80.0f, model, shader, _Idle, 8, 0.1f,
+		_Idle, _Run, _Fall, _Death, _Atk, _Shield, _StayDeath, 8, 8, 1, 8, 3, 3, 5, 3/*3 = range Enemy*/);
+	for (auto obj : m_ListBlock)
+	{
+		//(x > m_Vec2DPos.x - m_iWidth / 2) && (x < m_Vec2DPos.x + m_iWidth / 2)
+		//Caculation Blocker Location to Spawn Item on it
+		Vector2 _Pos = obj->Get2DPosition();
+		Vector2 _Size = obj->GetSize();
+		float _PosXSpawn = RandomFloat(_Pos.x - _Size.x / 2, _Pos.x + _Size.x / 2);
+
+		//std::cout << "\n _PosX = " << _PosXSpawn;
+		int _LoopSize = Randomint(0, 2);
+		std::cout << "\n _LoopSize = " << _LoopSize;
+		// Do Not Spawn Out of the screen
+		if (_PosXSpawn < 0)
+		{
+			_PosXSpawn = 40;
+		}
+		else if (_PosXSpawn > 1280)
+		{
+			_PosXSpawn = 800;
+		}
+
+		std::cout << "\n _PosXSpawn = " << _PosXSpawn;
+		for (int i = 0; i < _LoopSize; i++)
+		{
+			// Do not Spawn Out of Ground
+			if (_PosXSpawn > (_Pos.x - _Size.x / 2) && _PosXSpawn < (_Pos.x + _Size.x / 2))
+			{
+				//MaskDude
+				_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_IDLE");
+				_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Run");
+				_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Fall");
+				_Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_ATK");//not Use in Normal enemy
+				//int _ChooseSprite = Randomint(0, 3);
+				//switch (_ChooseSprite)
+				//{
+				//case 1:// NinJa Fog
+				//	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Idle");
+				//	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Run");
+				//	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//Ninja_Fall");
+				//	break;
+				//case 2:// PinkMan
+				//	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Idle");
+				//	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Run");
+				//	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//PinkMan_Fall");
+				//	break;
+				//case 3:// Virtual Guy
+				//	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Idle");
+				//	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Run");
+				//	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//BoomEnemy//VirtualGuy_Fall");
+				//	break;
+				//}
+
+				_Enemy = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model, shader, texture, 8, 0.1f,
+				_Idle, _Run, _Fall, _Death, _Atk, _Shield, _StayDeath, 8, 8, 1, 8, 5, 3, 5, 3/*3 = Range Enemy*/);
+				_Enemy->Set2DPosition(_PosXSpawn, _Pos.y - _Size.y / 2 - 65);
+				_Enemy->SetSize(50, 50);
+				m_ListEnemy.push_back(_Enemy);
+				_PosXSpawn += Randomint(40, 150);
+				
+			}
+
+
+		}
+
+	}
+#pragma endregion
+#pragma region Boss
+	//Enemy Anim
+	_Idle = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//Boss//Boss_IDLE");
+	_Run = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//Boss//Boss_Run");
+	_Fall = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//Boss//Boss_Fall");
+	_Atk = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//Boss//Boss_ATK_2");//not Use in Normal enemy
+	_Enemy = std::make_shared<Enemy>(50.0f, 10.0f, 5, 5, 80.0f, model, shader, _Idle, 8, 0.1f,
+		_Idle, _Run, _Fall, _Death, _Atk, _Shield, _StayDeath, 8, 8, 2, 7, 8, 3, 1, 4/*4 = Boss Enemy*/);
+	_Enemy->Set2DPosition(screenWidth/2, screenHeight /2);
+	_Enemy->SetSize(100, 100);
+	std::cout << "\nList before push BOSS == " << m_ListEnemy.size();
+	m_ListEnemy.push_back(_Enemy);
+	std::cout << "\nList AFTER push  BOSS == " << m_ListEnemy.size();
 #pragma endregion
 
 
@@ -564,6 +715,7 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 
 void GSPlay::Update(float deltaTime)
 {
+	
 	if (deltaTime != 0)
 	{
 
@@ -572,6 +724,7 @@ void GSPlay::Update(float deltaTime)
 		m_Character->Moving(m_horizontal, deltaTime, m_ListCoin, m_ListBlockedBullet, m_ListDodge);
 		//m_playerCharacter->
 
+		
 
 		for (auto obj : m_ListCoin)
 		{
@@ -588,6 +741,7 @@ void GSPlay::Update(float deltaTime)
 			Vector2 _PosChacter = m_Character->Get2DPosition();
 			Vector2 _SizeCharacter = m_Character->GetSize();
 			bool _HitPlayer = false;
+			bool _SpawnEnemy = false;
 			int _Type = obj->GetTypeEnemy();
 			switch (_Type)
 			{
@@ -600,16 +754,76 @@ void GSPlay::Update(float deltaTime)
 				{
 					m_Character->Hurt(5000);
 				}
-					
-				
 				break;
 			case 3://Range
 				obj->AiNormal_Range(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer);
+				if (_HitPlayer)//Shoot
+				{
+					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+					auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+					auto texture = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Arrow");
+					std::shared_ptr<Bullet> _Bullet = std::make_shared<Bullet>(model, shader, texture,500, obj->GetHorizontal());
+					_Bullet->Set2DPosition(obj->Get2DPosition().x, obj->Get2DPosition().y);
+					_Bullet->SetSize(28, 13);
+					m_ListBullet.push_back(_Bullet);
+				}
 				break;
 			case 4://Boss
-				obj->AiBoss(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer);
+				obj->AiBoss(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer, _SpawnEnemy);
+				if (_HitPlayer)//Shoot
+				{
+					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+					auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+					auto texture = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//Boss//Boss_bullet_1");
+					std::shared_ptr<Bullet> _Bullet = std::make_shared<Bullet>(model, shader, texture, 500, obj->GetHorizontal());
+					_Bullet->Set2DPosition(obj->Get2DPosition().x, obj->Get2DPosition().y+5);
+					_Bullet->SetSize(32, 32);
+					m_ListBullet.push_back(_Bullet);
+				}
+				if (_SpawnEnemy)
+				{
+					std::cout << "\nList before Spawn Enemy == " << m_ListEnemy.size();
+					SpawnEnemy();
+					std::cout << "\nList After Spawn Enemy == " << m_ListEnemy.size();
+				}
 				break;
 			}
+		}
+
+		if (m_ListBullet.size() != 0)
+		{
+			std::vector<int> _ListIndex;
+			_ListIndex.clear();
+			int _Index = 0;
+			for (auto obj : m_ListBullet)
+			{
+				//upfate
+				obj->Update(deltaTime, m_Character, m_ListEnemy);
+				if (obj->getDES() == true)
+				{
+					
+					_ListIndex.push_back(_Index);
+				}
+				_Index++;
+			}
+
+			//Delete Arrow Out of the Map
+			for (auto obj_index : _ListIndex)
+			{
+				_Index = 0;
+				for (auto obj_E : m_ListBullet)
+				{
+					if (_Index == obj_index)
+					{
+						m_ListBullet.erase(m_ListBullet.begin() + _Index);
+						
+
+					}
+					_Index++;
+				}
+
+			}
+			
 		}
 
 		for (auto obj : m_ListBlockedBullet)
@@ -646,8 +860,13 @@ void GSPlay::Draw()
 	{
 		obj->Draw();
 	}
-
-
+	if (m_ListBullet.size() != 0)
+	{
+		for (auto obj : m_ListBullet)
+		{
+			obj->Draw();
+		}
+	}
 	m_Character->Draw();
 }
 

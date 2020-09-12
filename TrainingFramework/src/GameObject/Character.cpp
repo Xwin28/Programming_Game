@@ -77,14 +77,14 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 	}
 	else if (_mode == "Atk")
 	{
-		std::cout << "\n Atk Animation";
+
 		m_currentFrame = 0;
 		m_numFrame = 3;
 		m_pTexture = m_animIATK;
 	}
 	else if (_mode == "Dodge")
 	{
-		std::cout << "\n Dodge Animation";
+
 		m_pTexture = m_animIDodge;
 	}
 	else if (_mode == "Falling")
@@ -119,7 +119,7 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 	}
 	else
 	{
-		std::cout << "\n IDLE ELSE";
+
 		//m_currentFrame = 0;
 		m_numFrame = 8;
 		m_pTexture = m_animIdle;
@@ -128,8 +128,14 @@ void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL.
 	}
 	//Init();
 }
-
-
+int Character::GetnBlock()
+{
+	return m_numBlock;
+}
+bool Character::GetATK()
+{
+	return m_Atk;
+}
 
 void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)
 {
@@ -167,24 +173,19 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 
 
 		if ((Get2DPosition().x > _BlockPos.x - _BlockSize.x / 2) && (Get2DPosition().x < _BlockPos.x + _BlockSize.x / 2)
-			&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 1.2) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 1.2)
+			&& (Get2DPosition().y >= _BlockPos.y - _BlockSize.y / 0.9) && (Get2DPosition().y <= _BlockPos.y + _BlockSize.y / 0.9)
 			&& m_isJump)
 		{
-			Set2DPosition(Get2DPosition().x, _BlockPos.y - _BlockSize.y / 1.3);
+			Set2DPosition(Get2DPosition().x, _BlockPos.y - _BlockSize.y / 1);
 			m_onGround = true;
-			//std::cout << "\n\n onGround = "<<m_onGround <<"  ; Pos y = "<<Get2DPosition().y;
 			SetTexture("Idle");
-			//std::cout << "\n Falling on Ground = " << m_onGround;
 		}
-		else if (/*(Get2DPosition().x > obj->Get2DPosition().x - obj->GetSize().x / 2) && (Get2DPosition().x < obj->Get2DPosition().x + obj->GetSize().x / 2)
-			&& (Get2DPosition().y > obj->Get2DPosition().y - obj->GetSize().x / 2) && (Get2DPosition().y < obj->Get2DPosition().y + obj->GetSize().x / 2)*/
-			m_isJump)
+		else if (m_isJump)
 		{
 
 			Set2DPosition(Get2DPosition().x, Get2DPosition().y + 400 * _deltaTime);
 			m_onGround = false;
 			SetTexture("Falling");
-			//std::cout << "\n Falling on Ground = " << m_onGround;
 		}
 
 
@@ -192,7 +193,7 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 }
 void Character::Jump()
 {
-	if (m_onGround)
+	if (m_onGround && m_isJump)
 	{
 		//std::cout << "\n Start JUMPING";
 		m_isJump = false;
@@ -342,7 +343,7 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 		}
 		else if (Get2DPosition().x > 10 && Get2DPosition().x <1270)
 		{
-			std::cout << "\n\nCHARACTER RUNING x= "<< Get2DPosition().x;
+			//std::cout << "\n\nCHARACTER RUNING x= "<< Get2DPosition().x;
 			Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
 		}
 		if (m_onGround)
@@ -365,7 +366,6 @@ void Character::Hurt(int damage)
 		m_Hurt = true;
 		SetTexture("Hurt");
 	}
-	std::cout << "\nHurt";
 	m_heal -= damage;
 	if (m_heal < 0)
 	{
@@ -376,7 +376,7 @@ void Character::Hurt(int damage)
 }
 void Character::Death()
 {
-	std::cout << "\nDeath";
+
 }
  
 void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy)
@@ -395,12 +395,32 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy)
 		{
 			Vector2 _EPos = obj->Get2DPosition();
 			Vector2 _ESize = obj->GetSize();
-			if ((Get2DPosition().x > _EPos.x - _ESize.x / 2) && (Get2DPosition().x < _EPos.x + _ESize.x / 2)
+			int _CollPosX = Get2DPosition().x;
+
+
+			//HardMode
+			// Only blade can kill enemy
+	/*		if (m_horizotal > 0)
+			{
+				_CollPosX += 50;
+			}
+			else if (m_horizotal < 0)
+			{
+				_CollPosX -= 50;
+			}*/
+
+			//(_CollPosX > _EPos.x - _ESize.x / 2) && (_CollPosX < _EPos.x + _ESize.x / 2)
+
+			//easy ModE
+			if (abs(_CollPosX - _EPos.x)< 90
 				&& (Get2DPosition().y >= _EPos.y - _ESize.y / 2) && (Get2DPosition().y <= _EPos.y + _ESize.y / 2))
 			{
-
+				if (obj->GetTypeEnemy() != 4)
+				{
+					_ListIndex.push_back(_IndexInListE);
+				}
 				//m_ListEnemy.erase(m_ListEnemy.begin());
-				_ListIndex.push_back(_IndexInListE);
+
 				
 			}
 			_IndexInListE++;
@@ -414,16 +434,14 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy)
 				if (_IndexInListE == obj_index)
 				{
 					m_ListEnemy.erase(m_ListEnemy.begin() + _IndexInListE);
+					std::cout << "\n INDEX DELETE == " << _IndexInListE;
+					std::cout << "\n AAFter delete enemy number ENEMY == " << m_ListEnemy.size();
+					
 				}
 				_IndexInListE++;
 			}
 			
 		}
-
-
-
-
-
 	}
 }
 void Character::Dodge()
@@ -456,7 +474,6 @@ void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 	{
 		//std::cout << "\n DeltaTime = " << m_time;
 		m_timeHurt += deltaTime;
-		std::cout << "\n m_timeHurt  = " << m_timeHurt;
 		if (m_timeHurt > 0.15f)
 		{
 			m_Hurt = false;
@@ -466,8 +483,9 @@ void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 
 
 	//Jump
-	if (!m_isJump && m_onGround)
+	if (!m_isJump /*&& m_onGround*/)
 	{
+		m_onGround = false;
 		//std::cout << "\n on Ground in Updates = " << m_onGround;
 		Set2DPosition(Get2DPosition().x, Get2DPosition().y - 500 * deltaTime);
 		

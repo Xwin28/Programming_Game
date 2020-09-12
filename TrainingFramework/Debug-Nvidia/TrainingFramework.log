@@ -1,5 +1,4 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Enemy.cpp
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(167): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(245): warning C4715: 'Enemy::ATk': not all control paths return a value
+  Character.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(398): warning C4244: 'initializing': conversion from 'GLfloat' to 'int', possible loss of data
   TrainingFramework.vcxproj -> E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\TrainingFramework.exe
