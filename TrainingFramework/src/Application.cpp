@@ -26,12 +26,18 @@ void Application::Init()
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Intro);
-	//SoLoud::Soloud gSoloud; // SoLoud engine
+	
 	gSoloud.init();
+	gSoloudMusic.init();
 	//gWave.load("..\\Data\\SFX\\jojo.wav");
 	//gSoloud.play(gWave);
 	//int x = gSoloud.play(gWave); // Grab the handle
 	//gSoloud.setPan(x, -0.2f);    // Use handle to adjust panning
+
+
+	Application::GetInstance()->gWaveMusic.load("..\\Data\\SFX\\jwick.wav");
+	int x = Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveMusic);
+	gSoloudMusic.setVolume(x, 0.2);
 #pragma region Saving
 
 	if (std::experimental::filesystem::exists("..\\Data\\SAVE_FILE\\Save.txt"))

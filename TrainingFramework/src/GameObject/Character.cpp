@@ -285,7 +285,9 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 					m_ListCoin.erase(m_ListCoin.begin() + _IndexInListE);
 					m_coin++;
 					Application::GetInstance()->SaveFile.setM_Coin(m_coin);
-					std::cout << "\n Take COIN = " << m_coin;
+
+					Application::GetInstance()->gWaveItem.load("..\\Data\\SFX\\Floor_step1.wav");
+					Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveItem);
 				}
 				_IndexInListE++;
 			}
@@ -321,6 +323,10 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 				m_ListBlockBullet.erase(m_ListBlockBullet.begin() + _IndexInListE);
 				m_numBlock++;
 				Application::GetInstance()->SaveFile.setM_BlockBullet(m_numBlock);
+
+
+				Application::GetInstance()->gWaveItem.load("..\\Data\\SFX\\Floor_step1.wav");
+				Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveItem);
 			}
 			_IndexInListE++;
 		}
@@ -356,6 +362,10 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 				m_ListDodge.erase(m_ListDodge.begin() + _IndexInListE);
 				m_numberDodge++;
 				Application::GetInstance()->SaveFile.setM_Dodge(m_numberDodge);
+
+
+				Application::GetInstance()->gWaveItem.load("..\\Data\\SFX\\Floor_step1.wav");
+				Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveItem);
 			}
 			_IndexInListE++;
 		}
@@ -431,6 +441,8 @@ void Character::Hurt(int damage)
 void Character::Death()
 {
 	SetTexture("Death");
+	Application::GetInstance()->gWave.load("..\\Data\\SFX\\DeathSting.wav");
+	Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 	//Application::GetInstance()->SaveFile.setM_CompletedScene(0);
 	//Application::GetInstance()->SaveFile.m_SceneManage = 1;// 1 = GSHome
 	//GameStateMachine::GetInstance()->PopState();
@@ -490,6 +502,8 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vecto
 					_VFX->SetSize(192, 192);
 					m_ListVFX.push_back(_VFX);
 					//========================
+					Application::GetInstance()->gWave.load("..\\Data\\SFX\\atkk.wav");
+					Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 
 				}
 				//m_ListEnemy.erase(m_ListEnemy.begin());
@@ -517,6 +531,8 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vecto
 						_VFX->SetSize(192, 192);
 						m_ListVFX.push_back(_VFX);
 						//========================
+						Application::GetInstance()->gWave.load("..\\Data\\SFX\\atkk.wav");
+						Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 					
 					
 					

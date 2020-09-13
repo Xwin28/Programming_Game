@@ -1,6 +1,6 @@
 #include "GameButton.h"
-
-
+#include "Application.h"
+#include<iostream>
 GameButton::GameButton(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture)
 	: Sprite2D(model, shader, texture)
 {
@@ -15,6 +15,7 @@ GameButton::~GameButton()
 void GameButton::SetOnClick(void(*pBtClickFun)())
 {
 	m_pBtClick = pBtClickFun;
+
 }
 
 void GameButton::HandleTouchEvents(GLint x, GLint y, bool bIsPressed)

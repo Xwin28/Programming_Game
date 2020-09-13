@@ -2,6 +2,7 @@
 #include "Application.h"
 #include <iostream>
 #include <GameButton.h>
+
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
@@ -37,6 +38,8 @@ void GSIntroStoryLine::Init()
 	button->SetOnClick([]() {
 		std::cout << "\n run";
 		// 0= load IntroStoryline, 1 = load Home, 2 = load GSPLay, 3 = Load GSMenu
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Click.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 		Application::GetInstance()->SaveFile.setM_IntroScene(true);
 		Application::GetInstance()->SaveFile.Save();
 		Application::GetInstance()->SaveFile.m_SceneManage = 1;

@@ -1,6 +1,6 @@
 #include "GSOption.h"
 #include <iostream>
-
+#include "Application.h"
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
@@ -41,6 +41,8 @@ void GSOption::Init()
 	button->SetSize(136, 86);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->PopState();
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Click.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 		});
 	m_listButton.push_back(button);
 
@@ -72,97 +74,97 @@ void GSOption::HandleKeyEvents(int key, bool bIsPressed)
 {
 
 
-#pragma region EditorChangeUI
-
-	// Use to define position in Screen (editor-> optimization is not necessary)
-	int m_Index = 4;
-	if (bIsPressed)
-	{
-		int m_temp = 0;
-		switch (key)
-		{
-		case 'A':
-
-			for (auto it : m_listButton)
-			{
-
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x - 1, y);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'D':
-			for (auto it : m_listButton)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x + 1, y);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'W':
-			for (auto it : m_listButton)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x, y - 1);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		case 'S':
-			for (auto it : m_listButton)
-			{
-				if (m_temp == m_Index)
-				{
-					m_temp = 0;
-					Vector2 m_vec = it->Get2DPosition();
-					float x = m_vec.x;
-					float y = m_vec.y;
-					it->Set2DPosition(x, y + 1);
-					break;
-				}
-				m_temp++;
-			}
-			break;
-		default:
-			break;
-		}
-		m_temp = 0;
-		//IN ra vi tri
-		for (auto it : m_listButton)
-		{
-			if (m_temp == m_Index)
-			{
-				m_temp = 0;
-				Vector2 m_vec = it->Get2DPosition();
-				float x = m_vec.x;
-				float y = m_vec.y;
-				std::cout << "\n x = " << x << " , y = " << y;
-			}
-			m_temp++;
-
-		}
-	}
-#pragma endregion
+//#pragma region EditorChangeUI
+//
+//	// Use to define position in Screen (editor-> optimization is not necessary)
+//	int m_Index = 4;
+//	if (bIsPressed)
+//	{
+//		int m_temp = 0;
+//		switch (key)
+//		{
+//		case 'A':
+//
+//			for (auto it : m_listButton)
+//			{
+//
+//				if (m_temp == m_Index)
+//				{
+//					m_temp = 0;
+//					Vector2 m_vec = it->Get2DPosition();
+//					float x = m_vec.x;
+//					float y = m_vec.y;
+//					it->Set2DPosition(x - 1, y);
+//					break;
+//				}
+//				m_temp++;
+//			}
+//			break;
+//		case 'D':
+//			for (auto it : m_listButton)
+//			{
+//				if (m_temp == m_Index)
+//				{
+//					m_temp = 0;
+//					Vector2 m_vec = it->Get2DPosition();
+//					float x = m_vec.x;
+//					float y = m_vec.y;
+//					it->Set2DPosition(x + 1, y);
+//					break;
+//				}
+//				m_temp++;
+//			}
+//			break;
+//		case 'W':
+//			for (auto it : m_listButton)
+//			{
+//				if (m_temp == m_Index)
+//				{
+//					m_temp = 0;
+//					Vector2 m_vec = it->Get2DPosition();
+//					float x = m_vec.x;
+//					float y = m_vec.y;
+//					it->Set2DPosition(x, y - 1);
+//					break;
+//				}
+//				m_temp++;
+//			}
+//			break;
+//		case 'S':
+//			for (auto it : m_listButton)
+//			{
+//				if (m_temp == m_Index)
+//				{
+//					m_temp = 0;
+//					Vector2 m_vec = it->Get2DPosition();
+//					float x = m_vec.x;
+//					float y = m_vec.y;
+//					it->Set2DPosition(x, y + 1);
+//					break;
+//				}
+//				m_temp++;
+//			}
+//			break;
+//		default:
+//			break;
+//		}
+//		m_temp = 0;
+//		//IN ra vi tri
+//		for (auto it : m_listButton)
+//		{
+//			if (m_temp == m_Index)
+//			{
+//				m_temp = 0;
+//				Vector2 m_vec = it->Get2DPosition();
+//				float x = m_vec.x;
+//				float y = m_vec.y;
+//				std::cout << "\n x = " << x << " , y = " << y;
+//			}
+//			m_temp++;
+//
+//		}
+//	}
+//#pragma endregion
 
 }
 

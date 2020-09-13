@@ -21,6 +21,11 @@ public:
 
 	SoLoud::Soloud gSoloud; // SoLoud engine
 	SoLoud::Wav gWave;      // One wave file
+	SoLoud::Wav gWaveEnemy;      // One wave file
+	SoLoud::Wav gWaveBullet;      // One wave file
+	SoLoud::Wav gWaveItem;      // One wave file
+	SoLoud::Soloud gSoloudMusic; // SoLoud engine
+	SoLoud::Wav gWaveMusic;      // One wave file
 	SavingSys SaveFile;
 private:
 	

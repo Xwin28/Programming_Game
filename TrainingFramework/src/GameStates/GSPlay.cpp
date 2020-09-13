@@ -1057,13 +1057,16 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			break;
 		case 'J':
 			m_Character->ATK(m_ListEnemy, m_ListVFX);
+			Application::GetInstance()->gWave.load("..\\Data\\SFX\\atkk.wav");
+			Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 			break;
 		case 'E':
 			Vector2 _PosCharacterr = m_Character->Get2DPosition();
 			if (abs(m_Interaction->Get2DPosition().x-_PosCharacterr.x) <= 50 &&
 				abs(m_Interaction->Get2DPosition().y - _PosCharacterr.y)< 100)
 			{
-
+				Application::GetInstance()->gWave.load("..\\Data\\SFX\\ThrowGate.wav");
+				Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 				m_Interaction->DoneMapGSPlay();
 			}
 			break;
@@ -1230,6 +1233,8 @@ void GSPlay::Update(float deltaTime)
 				{
 					m_Character->Hurt(5000);
 					//+++++++++++++++++++++++++
+					Application::GetInstance()->gWaveEnemy.load("..\\Data\\SFX\\ATK.wav");
+					Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveEnemy);
 					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 					auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 					auto texture = ResourceManagers::GetInstance()->GetTexture("VFX//HITDone");
@@ -1244,6 +1249,9 @@ void GSPlay::Update(float deltaTime)
 				obj->AiNormal_Range(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer);
 				if (_HitPlayer)//Shoot
 				{
+					std::cout << "\n\n rANGEW ATK";
+					Application::GetInstance()->gWaveEnemy.load("..\\Data\\SFX\\RangeATK.wav");
+					Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveEnemy);
 					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 					auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 					auto texture = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Arrow");
@@ -1257,6 +1265,8 @@ void GSPlay::Update(float deltaTime)
 				obj->AiBoss(deltaTime, m_ListBlock, _PosChacter, _SizeCharacter, _HitPlayer, _SpawnEnemy);
 				if (_HitPlayer)//Shoot
 				{
+					Application::GetInstance()->gWaveEnemy.load("..\\Data\\SFX\\Wind_Cast.wav");
+					Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveEnemy);
 					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 					auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 					auto texture = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//Boss//Boss_bullet_1");
@@ -1269,6 +1279,9 @@ void GSPlay::Update(float deltaTime)
 
 				if (_SpawnEnemy && m_ListEnemy.size()<=1)
 				{
+
+					Application::GetInstance()->gWave.load("..\\Data\\SFX\\Spawn.wav");
+					Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 					std::cout << "\nList before Spawn Enemy == " << m_ListEnemy.size();
 					SpawnEnemy();
 					std::cout << "\nList After Spawn Enemy == " << m_ListEnemy.size();

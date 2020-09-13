@@ -1,6 +1,6 @@
 #include "GSCredits.h"
 #include <iostream>
-
+#include "Application.h"
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
@@ -41,6 +41,8 @@ void GSCredits::Init()
 	button->Set2DPosition(631, 618);
 	button->SetSize(136, 86);
 	button->SetOnClick([]() {
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Click.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 		GameStateMachine::GetInstance()->PopState();
 		});
 	m_listButton.push_back(button);

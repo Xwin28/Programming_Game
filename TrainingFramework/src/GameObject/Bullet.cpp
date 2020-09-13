@@ -64,6 +64,8 @@ void Bullet::Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, s
 			_VFX->SetSize(192, 192);
 			_ListVFX.push_back(_VFX);
 			//========================
+			Application::GetInstance()->gWaveBullet.load("..\\Data\\SFX\\BulletHit.wav");
+			Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveBullet);
 			DestroyOBJ();
 
 		}
@@ -82,6 +84,10 @@ void Bullet::Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, s
 						Application::GetInstance()->SaveFile.setM_BlockBullet(_TempBlock -1);
 						m_Horizontal = m_Horizontal * -1;
 						m_Owner = true;
+
+						//blocvk SFX
+						Application::GetInstance()->gWaveBullet.load("..\\Data\\SFX\\Blcokbulet.wav");
+						Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveBullet);
 					}
 				}
 
@@ -138,6 +144,8 @@ void Bullet::Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, s
 							_VFX->SetSize(192, 192);
 							_ListVFX.push_back(_VFX);
 							//========================
+							Application::GetInstance()->gWaveBullet.load("..\\Data\\SFX\\BulletHit.wav");
+							Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveBullet);
 						}
 						//m_ListEnemy.erase(m_ListEnemy.begin());
 
@@ -163,6 +171,8 @@ void Bullet::Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, s
 							_VFX->SetSize(192, 192);
 							_ListVFX.push_back(_VFX);
 							//========================
+							Application::GetInstance()->gWaveBullet.load("..\\Data\\SFX\\BulletHit.wav");
+							Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveBullet);
 							DestroyOBJ();
 
 						}

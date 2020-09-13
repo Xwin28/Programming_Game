@@ -61,5 +61,106 @@ d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1801): warning C
           [
               _Ty=Bullet
           ]
-  e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(1250): note: see reference to function template instantiation 'std::shared_ptr<Bullet> std::make_shared<Bullet,std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,float>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,float &&)' being compiled
+  e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsplay.cpp(1258): note: see reference to function template instantiation 'std::shared_ptr<Bullet> std::make_shared<Bullet,std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,float>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,float &&)' being compiled
+  Character.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(53): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(54): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(287): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(469): warning C4244: 'initializing': conversion from 'GLfloat' to 'int', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(495): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1801): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+          with
+          [
+              _Ty=VFX
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+          with
+          [
+              _Ty=VFX
+          ]
+  e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\character.cpp(500): note: see reference to function template instantiation 'std::shared_ptr<VFX> std::make_shared<VFX,std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+  Application.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\application.cpp(40): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\application.cpp(51): warning C4102: 'SaveFile': unreferenced label
+  Generating Code...
+  Compiling...
+  TrainingFramework.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+  GSOption.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsoption.cpp(27): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsoption.cpp(33): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  GSMenu.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsmenu.cpp(27): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsmenu.cpp(33): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  GSLoadingScreen.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsloadingscreen.cpp(26): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  GSIntroStoryLine.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsintrostoryline.cpp(28): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gsintrostoryline.cpp(36): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  GSHome.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gshome.cpp(51): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gshome.cpp(62): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gshome.cpp(123): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1801): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double,int>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&,int &&)' being compiled
+          with
+          [
+              _Ty=InteractOBJ
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double,int>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&,int &&)' being compiled
+          with
+          [
+              _Ty=InteractOBJ
+          ]
+  e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gshome.cpp(77): note: see reference to function template instantiation 'std::shared_ptr<InteractOBJ> std::make_shared<InteractOBJ,std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double,int>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&,int &&)' being compiled
+  GSCredits.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gscredits.cpp(28): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gamestates\gscredits.cpp(34): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  InteractOBJ.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+  Enemy.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(197): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(215): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+  Bullet.cpp
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\savingsystem\savingsys.h(36): warning C4068: unknown pragma
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\bullet.cpp(137): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1801): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+          with
+          [
+              _Ty=VFX
+          ]
+  d:\unity\visual studio\vc\tools\msvc\14.16.27023\include\memory(1866): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+          with
+          [
+              _Ty=VFX
+          ]
+  e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\bullet.cpp(62): note: see reference to function template instantiation 'std::shared_ptr<VFX> std::make_shared<VFX,std::shared_ptr<Models>&,std::shared_ptr<Shaders>&,std::shared_ptr<Texture>&,int,double>(std::shared_ptr<Models> &,std::shared_ptr<Shaders> &,std::shared_ptr<Texture> &,int &&,double &&)' being compiled
+  Generating Code...
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(295): warning C4715: 'Enemy::ATk': not all control paths return a value
+e:\hoctap\documents\thuctap\gameloftthuctap\programming_lesson_06\trainingframework\src\gameobject\enemy.cpp(308): warning C4715: 'Enemy::Shoot': not all control paths return a value
+  Skipping... (no relevant changes detected)
+  GameButton.cpp
   TrainingFramework.vcxproj -> E:\HocTap\Documents\ThucTap\GameLoftTHUCTAP\Programming_lesson_06\\BIN-Nvidia\TrainingFramework.exe

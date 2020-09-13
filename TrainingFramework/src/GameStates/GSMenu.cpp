@@ -1,6 +1,6 @@
 #include "GSMenu.h"
 #include <iostream>
-
+#include "Application.h"
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
@@ -41,6 +41,8 @@ void GSMenu::Init()
 	button->SetSize(264, 89);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_LoadingScreen);
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Click.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 		});
 	m_listButton.push_back(button);
 	
@@ -52,6 +54,8 @@ void GSMenu::Init()
 	button->SetSize(450, 115);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Option);
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Click.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 		});
 	m_listButton.push_back(button);
 
@@ -63,6 +67,8 @@ void GSMenu::Init()
 	button->SetSize(379, 82);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Credit);
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Click.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 		});
 	m_listButton.push_back(button);
 

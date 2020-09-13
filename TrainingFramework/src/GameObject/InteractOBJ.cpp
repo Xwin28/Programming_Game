@@ -22,6 +22,8 @@ void InteractOBJ::PlusHeal()
 	int _coin = Application::GetInstance()->SaveFile.getM_Coin();
 	if (_coin >= 15)
 	{
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\HealthPickup.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 		Application::GetInstance()->SaveFile.m_heal = _heal + 1;
 		int _coin = Application::GetInstance()->SaveFile.getM_Coin();
 		Application::GetInstance()->SaveFile.setM_Coin(_coin - 15);
@@ -29,11 +31,14 @@ void InteractOBJ::PlusHeal()
 	}
 	else
 	{
-
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Error_1.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 	}
 }
 void InteractOBJ::PlusDamage()
 {
+	Application::GetInstance()->gWave.load("..\\Data\\SFX\\HealthPickup.wav");
+	Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 	int _damage = Application::GetInstance()->SaveFile.m_damage;
 	int _coin = Application::GetInstance()->SaveFile.getM_Coin();
 	if (_coin >= 15)
@@ -45,7 +50,8 @@ void InteractOBJ::PlusDamage()
 	}
 	else
 	{
-
+		Application::GetInstance()->gWave.load("..\\Data\\SFX\\Error_1.wav");
+		Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 	}
 }
 int InteractOBJ::getMode()
@@ -55,6 +61,8 @@ int InteractOBJ::getMode()
 
 void InteractOBJ::ToWar()
 {
+	Application::GetInstance()->gWave.load("..\\Data\\SFX\\ThrowGate.wav");
+	Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWave);
 	Application::GetInstance()->SaveFile.m_SceneManage = 2;
 	GameStateMachine::GetInstance()->PopState();
 }
