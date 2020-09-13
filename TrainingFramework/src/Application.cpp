@@ -5,6 +5,8 @@
 #include "soloud.h"
 #include "soloud_wav.h"
 #include "soloud_thread.h"
+#include "SavingSystem/SavingSys.h"
+#include <experimental/filesystem>
 
 extern GLint screenWidth;
 extern GLint screenHeight;
@@ -30,6 +32,21 @@ void Application::Init()
 	//gSoloud.play(gWave);
 	//int x = gSoloud.play(gWave); // Grab the handle
 	//gSoloud.setPan(x, -0.2f);    // Use handle to adjust panning
+#pragma region Saving
+
+	if (std::experimental::filesystem::exists("..\\Data\\SAVE_FILE\\Save.txt"))
+	{
+		std::cout << "\n HAS FILE\n";
+		SaveFile.Load();
+	}
+	else
+	{
+		std::cout << "\n DO NOT HAS FILE\n";
+		SaveFile:SavingSys();
+		SaveFile.Save();
+	}
+#pragma endregion
+
 }
 
 void Application::Update(GLfloat deltaTime)

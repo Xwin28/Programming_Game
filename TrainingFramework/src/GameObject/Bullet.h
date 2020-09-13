@@ -11,7 +11,9 @@ private:
 	float m_Horizontal;
 	bool m_Des;
 	bool m_Owner;//true = player, false = enemy
+	
 public:
+	bool m_IsBossOwner;
 	Bullet();
 	Bullet(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, float _Speed, float _Horizontal);
 	void setHorizontal(float _Horizontal)

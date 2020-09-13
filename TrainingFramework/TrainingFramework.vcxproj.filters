@@ -96,6 +96,18 @@
     <ClCompile Include="src\GameObject\VFX.cpp">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameStates\GSHome.cpp">
+      <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStates\GSIntroStoryLine.cpp">
+      <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStates\GSLoadingScreen.cpp">
+      <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\InteractOBJ.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -174,6 +186,21 @@
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\VFX.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SavingSystem\SavingSys.h">
+      <Filter>TrainingFramework\src\SavingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameStates\GSHome.h">
+      <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameStates\GSIntroStoryLine.h">
+      <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameStates\GSLoadingScreen.h">
+      <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\InteractOBJ.h">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>

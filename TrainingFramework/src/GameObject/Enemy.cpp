@@ -14,6 +14,9 @@
 #include "GameManager/ResourceManagers.h"
 #include "Enemy.h"
 #include <time.h>
+#include <Application.h>
+#include "GameStates/GameStateMachine.h"
+
 
 
 
@@ -47,7 +50,7 @@ Enemy::Enemy(float _speed, float _heal, int _numDodge, int _numBlock, float _jum
 	doOne = false;
 	m_Atk = false;
 	m_CanATK = true;
-
+	m_heal = 5;
 	//srand(static_cast<unsigned int>(clock()));
 }
 Enemy::~Enemy() {}
@@ -127,8 +130,9 @@ void Enemy::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL...
 }
 
 
-void Enemy::Dead(Vector2 _PosCharacter)
+void Enemy::Dead(Vector2 _PosCharacter,int damage)
 {
+	//toc bien
 	if (_PosCharacter.x > 640)
 	{
 		Set2DPosition(RandomFloat(0, 640), Get2DPosition().y -50);
@@ -138,6 +142,16 @@ void Enemy::Dead(Vector2 _PosCharacter)
 	{
 		Set2DPosition(RandomFloat(640, 1200), Get2DPosition().y - 50);
 		m_time = 0;
+	}
+
+
+	m_heal-= damage;
+	if (m_heal <= 0)
+	{	// 0= load IntroStoryline, 1 = load Home, 2 = load GSPLay, 3 = Load GSMenu
+		Application::GetInstance()->SaveFile.setM_EndGame(true);
+		Application::GetInstance()->SaveFile.Save();
+		Application::GetInstance()->SaveFile.m_SceneManage = 1;
+		GameStateMachine::GetInstance()->PopState();
 	}
 }
 void Enemy::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)

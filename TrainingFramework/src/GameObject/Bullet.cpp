@@ -3,12 +3,14 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "GameManager/ResourceManagers.h"
+#include "Application.h"
+
 
 Bullet::Bullet() :m_Speed(500), m_Horizontal(1) {}
 Bullet::Bullet(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, 
 	float _Speed, float _Horizontal): m_Speed(_Speed), m_Horizontal(_Horizontal), Sprite2D(model, shader, texture), m_Des(false)
 {
-
+	m_IsBossOwner = false;
 	m_Owner = false;
 	if (m_Horizontal == -1)// do not run if already turn
 	{
@@ -44,7 +46,15 @@ void Bullet::Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, s
 			&& abs(Get2DPosition().y - _Character->Get2DPosition().y) < 20)
 		{
 			//HIt Player
-			_Character->Hurt(500);
+			if (m_IsBossOwner)
+			{
+				_Character->Hurt(3);
+			}
+			else
+			{
+				_Character->Hurt(500);
+			}
+
 			//+++++++++++++++++++++++++
 			auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 			auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
@@ -67,6 +77,9 @@ void Bullet::Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, s
 					//Player Block Bullet
 					if (_Character->GetATK() && _Character->GetnBlock() > 0)
 					{
+						int _TempBlock = _Character->GetnBlock();
+						_Character->SetnBlock(_TempBlock - 1);
+						Application::GetInstance()->SaveFile.setM_BlockBullet(_TempBlock -1);
 						m_Horizontal = m_Horizontal * -1;
 						m_Owner = true;
 					}
@@ -111,6 +124,20 @@ void Bullet::Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, s
 						if (obj->GetTypeEnemy() != 4)
 						{
 							_ListIndex.push_back(_IndexInListE);
+						}
+						else
+						{
+							//Bullet Gain BOSS
+							obj->Dead(_Character->Get2DPosition(), _Character->GetDamage());
+							//+++++++++++++++++++++++++
+							auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+							auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+							auto texture = ResourceManagers::GetInstance()->GetTexture("VFX//HITDone");
+							std::shared_ptr<VFX> _VFX = std::make_shared<VFX>(model, shader, texture, 8, 0.05);
+							_VFX->Set2DPosition(obj->Get2DPosition().x, obj->Get2DPosition().y);
+							_VFX->SetSize(192, 192);
+							_ListVFX.push_back(_VFX);
+							//========================
 						}
 						//m_ListEnemy.erase(m_ListEnemy.begin());
 

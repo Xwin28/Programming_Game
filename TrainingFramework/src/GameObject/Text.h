@@ -28,8 +28,9 @@ public:
 
 	void		Set2DPosition(GLfloat x, GLfloat y);
 	void		Set2DPosition(Vector2 pos);
-private:
 	std::string				m_text;
+private:
+	
 	std::shared_ptr<Font>	m_font;
 
 	Vector2			m_Vec2DPos;

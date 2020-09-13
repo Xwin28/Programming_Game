@@ -2,6 +2,7 @@
 #include "Singleton.h"
 #include "GameConfig.h"
 
+#include "SavingSystem/SavingSys.h"
 #include "soloud.h"
 #include "soloud_wav.h"
 #include "soloud_thread.h"
@@ -20,6 +21,7 @@ public:
 
 	SoLoud::Soloud gSoloud; // SoLoud engine
 	SoLoud::Wav gWave;      // One wave file
+	SavingSys SaveFile;
 private:
 	
 

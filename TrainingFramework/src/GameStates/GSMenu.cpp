@@ -40,7 +40,7 @@ void GSMenu::Init()
 	button->Set2DPosition(316, 417);
 	button->SetSize(264, 89);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
+		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_LoadingScreen);
 		});
 	m_listButton.push_back(button);
 	

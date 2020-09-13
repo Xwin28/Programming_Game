@@ -1,6 +1,7 @@
 #pragma once
 #include "gamestatebase.h"
 
+class InteractOBJ;
 class Bullet;
 class Enemy;
 class Sprite2D;
@@ -38,7 +39,9 @@ public:
 private:
 
 	std::shared_ptr<Sprite2D> m_BackGround;
-	std::shared_ptr<Text>  m_score;
+	std::shared_ptr<Text>  m_Coin;
+	std::shared_ptr<Text>  m_BlockBullet;
+	std::shared_ptr<Text>  m_Dodge;
 	
 	std::vector<std::shared_ptr<Sprite2D>> m_ListBlock;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListCoin;
@@ -48,7 +51,10 @@ private:
 	std::vector<std::shared_ptr<Bullet>> m_ListBullet;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListVFX;
 	std::shared_ptr<Character>  m_Character;
+	std::shared_ptr<InteractOBJ>  m_Interaction;
+
 	float m_horizontal;
+	int m_interactMode;
 	
 	//std::shared_ptr<Character> m_playerCharacter;
 };

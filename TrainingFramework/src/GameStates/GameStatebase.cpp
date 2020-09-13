@@ -8,6 +8,10 @@
 #include "GSOption.h"
 #include "GSCredits.h"
 #include "GameStatebase.h"
+#include "GSIntroStoryLine.h"
+#include "GSLoadingScreen.h"
+#include "GSHome.h"
+
 
 std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 {
@@ -30,6 +34,15 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 		break;
 	case STATE_Credit:
 		gs = std::make_shared<GSCredits>();
+		break;
+	case STATE_LoadingScreen:
+		gs = std::make_shared<GSLoadingScreen>();
+		break;
+	case STATE_IntroStoryLine:
+		gs = std::make_shared<GSIntroStoryLine>();
+		break;
+	case STATE_Home:
+		gs = std::make_shared<GSHome>();
 		break;
 	default:
 		break;

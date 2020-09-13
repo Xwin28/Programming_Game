@@ -8,6 +8,7 @@ class Character: public AnimationSprite2D
 protected:
 	float m_Speed;
 	float m_heal;
+	float m_damage;
 	float m_jumpHeight;
 	float m_coin;
 	int m_numberDodge;
@@ -26,18 +27,21 @@ protected:
 	float m_time;//CouDown Time
 	float m_timeHurt;//CouDown Time
 	float m_timeCanATK;
+	float m_timeDeath;
 	//Animation
 	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump, m_animIATK, m_animIDeath, m_animIDodge, m_animIHurt;
 
 public:
 	Character();
-
-	Character(float _speed, float _heal, int _numDodge, int _numBlock, float m_jumpHeight,
+	
+	Character(float _speed, float m_jumpHeight,
 		std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int _numFrame, float _frameTime
 	);
 	~Character();
+	float GetDamage();
 	void SetTexture(std::string _mode);
 	int GetnBlock();
+	void SetnBlock(int value);
 	bool GetATK();
 	float GetHorizontal();
 

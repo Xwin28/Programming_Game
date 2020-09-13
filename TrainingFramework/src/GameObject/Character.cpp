@@ -14,11 +14,15 @@
 #include "GameManager/ResourceManagers.h"
 #include <vector>
 #include "VFX.h"
+#include "Application.h"
+#include "GameStates/GameStateMachine.h"
+
+
 
 Character::Character(){}
-Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,float _jumpHeight,
+Character::Character(float _speed,float _jumpHeight,
 					std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int _numFrame, float _frameTime)
-	:m_Speed(_speed), m_heal(_heal), m_numberDodge(_numDodge), m_numBlock(_numBlock), m_jumpHeight(_jumpHeight), AnimationSprite2D(model, shader, texture, _numFrame, _frameTime)
+	:m_Speed(_speed), m_jumpHeight(_jumpHeight), AnimationSprite2D(model, shader, texture, _numFrame, _frameTime)
 {
 	m_isJump = true;
 	m_onGround = false;
@@ -35,15 +39,21 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 	m_time = 0;
 	m_timeHurt = 0;
 	m_timeCanATK = 0;
+	m_timeDeath = 0;
 	// use menory instead processing
 	m_animIdle = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	m_animIRun = ResourceManagers::GetInstance()->GetTexture("Character//Player//Run");
 	m_animIFall = ResourceManagers::GetInstance()->GetTexture("Character//Player//Fall");
 	m_animIJump = ResourceManagers::GetInstance()->GetTexture("Character//Player//Jump");
-	m_animIDeath = ResourceManagers::GetInstance()->GetTexture("Character//Player//Death");
+	m_animIDeath = ResourceManagers::GetInstance()->GetTexture("Character//Player//Dead");
 	m_animIDodge = ResourceManagers::GetInstance()->GetTexture("Character//Player//Take Hit");
 	m_animIATK = ResourceManagers::GetInstance()->GetTexture("Character//Player//Attack");
 	m_animIHurt = ResourceManagers::GetInstance()->GetTexture("Character//Player//Take Hit");
+
+	m_heal = Application::GetInstance()->SaveFile.m_heal;
+	m_damage = Application::GetInstance()->SaveFile.m_damage;
+	m_numberDodge = Application::GetInstance()->SaveFile.getM_Dodge(); 
+	m_numBlock = Application::GetInstance()->SaveFile.getM_BlockBullet();
 }
 Character::~Character(){}
 
@@ -52,87 +62,107 @@ Character::~Character(){}
 void  Character::Init( )
 {
 	AnimationSprite2D::Init();
-;
+
 }
 
 
 void Character::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL...
 {
+	if (m_heal >= 0)
+	{
 
-	if (m_animNow != _mode)// limit update
+		if (m_animNow != _mode)// limit update
+		{
+			m_animNow = _mode;
+
+			if (_mode == "Idle" && m_horizotal == 0)
+			{
+				//std::cout << "\n IDLE Animation"<<" , Location x = "<<Get2DPosition().x;
+				//m_currentFrame = 0;
+				m_numFrame = 8;
+				m_pTexture = m_animIdle;
+			}
+			else if (_mode == "Run")
+			{
+				//std::cout << "\n Run Animation";
+				//m_currentFrame = 0;
+				m_numFrame = 8;
+				m_pTexture = m_animIRun;
+			}
+			else if (_mode == "Atk")
+			{
+
+				m_currentFrame = 0;
+				m_numFrame = 3;
+				m_pTexture = m_animIATK;
+			}
+			else if (_mode == "Dodge")
+			{
+
+				m_pTexture = m_animIDodge;
+			}
+			else if (_mode == "Falling")
+			{
+				//std::cout << "\n Falling Animation" << " , Location y = " << Get2DPosition().y;
+				m_currentFrame = 0;
+				m_numFrame = 2;
+				m_pTexture = m_animIFall;
+
+			}
+			else if (_mode == "Jump")
+			{
+				//std::cout << "\n Jump Animation" << " , Location y = " << Get2DPosition().y;
+				m_currentFrame = 0;
+				m_numFrame = 2;
+				m_pTexture = m_animIJump;
+
+			}
+			else if (_mode == "Death")
+			{
+				m_currentFrame = 0;
+				m_numFrame = 1;
+				m_pTexture = m_animIDeath;
+
+			}
+			else if (_mode == "Hurt")
+			{
+
+				m_currentFrame = 0;
+				m_numFrame = 4;
+				m_pTexture = m_animIHurt;
+			}
+			else
+			{
+
+				//m_currentFrame = 0;
+				m_numFrame = 8;
+				m_pTexture = m_animIdle;
+			}
+
+		}
+		//Init();
+	}
+	else if(_mode == "Death" && m_animNow != _mode)
 	{
 		m_animNow = _mode;
-
-	if (_mode == "Idle" && m_horizotal == 0)
-	{
-		//std::cout << "\n IDLE Animation"<<" , Location x = "<<Get2DPosition().x;
-		//m_currentFrame = 0;
-		m_numFrame = 8;
-		m_pTexture = m_animIdle;
-	}
-	else if (_mode == "Run")
-	{
-		//std::cout << "\n Run Animation";
-		//m_currentFrame = 0;
-		m_numFrame = 8;
-		m_pTexture = m_animIRun;
-	}
-	else if (_mode == "Atk")
-	{
-
-		m_currentFrame = 0;
-		m_numFrame = 3;
-		m_pTexture = m_animIATK;
-	}
-	else if (_mode == "Dodge")
-	{
-
-		m_pTexture = m_animIDodge;
-	}
-	else if (_mode == "Falling")
-	{
-		//std::cout << "\n Falling Animation" << " , Location y = " << Get2DPosition().y;
+		std::cout << "\n\ndead";
 		m_currentFrame = 0;
 		m_numFrame = 2;
-		m_pTexture = m_animIFall;
-		
-	}
-	else if (_mode == "Jump")
-	{
-		//std::cout << "\n Jump Animation" << " , Location y = " << Get2DPosition().y;
-		m_currentFrame = 0;
-		m_numFrame = 2;
-		m_pTexture = m_animIJump;
-		
-	}
-	else if (_mode == "Death")
-	{
-		m_currentFrame = 0;
-		m_numFrame = 1;
+		m_frameTime = 0.5;
 		m_pTexture = m_animIDeath;
-
 	}
-	else if (_mode == "Hurt")
-	{
-
-		m_currentFrame = 0;
-		m_numFrame = 4;
-		m_pTexture = m_animIHurt;
-	}
-	else
-	{
-
-		//m_currentFrame = 0;
-		m_numFrame = 8;
-		m_pTexture = m_animIdle;
-	}
-
-	}
-	//Init();
 }
 int Character::GetnBlock()
 {
 	return m_numBlock;
+}
+void Character::SetnBlock(int value)
+{
+	m_numBlock = value;
+}
+float Character::GetDamage()
+{
+	return m_damage;
 }
 bool Character::GetATK()
 {
@@ -146,7 +176,7 @@ void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 {
 	//(x > m_Vec2DPos.x  - m_iWidth/2) && (x < m_Vec2DPos.x + m_iWidth / 2) && 
 	//(y > m_Vec2DPos.y - m_iHeight / 2) && (y < m_Vec2DPos.y + m_iHeight / 2))
-	if (!m_Atk && !m_Hurt)
+	if (!m_Atk && !m_Hurt && m_heal >= 0)
 	{
 
 		Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
@@ -213,7 +243,7 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 						std::vector<std::shared_ptr<Sprite2D>> &m_ListDodge)
 {
 
-	if (_horizontal != 0 && !m_Atk && !m_Hurt)
+	if (_horizontal != 0 && !m_Atk && !m_Hurt && m_heal >= 0)
 	{
 
 		if (_horizontal == -1 && _horizontal != m_horizotal)// do not run if already turn
@@ -254,6 +284,7 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 				{
 					m_ListCoin.erase(m_ListCoin.begin() + _IndexInListE);
 					m_coin++;
+					Application::GetInstance()->SaveFile.setM_Coin(m_coin);
 					std::cout << "\n Take COIN = " << m_coin;
 				}
 				_IndexInListE++;
@@ -289,7 +320,7 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 			{
 				m_ListBlockBullet.erase(m_ListBlockBullet.begin() + _IndexInListE);
 				m_numBlock++;
-				std::cout << "\n Take Block = " << m_numBlock++;
+				Application::GetInstance()->SaveFile.setM_BlockBullet(m_numBlock);
 			}
 			_IndexInListE++;
 		}
@@ -324,7 +355,7 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 			{
 				m_ListDodge.erase(m_ListDodge.begin() + _IndexInListE);
 				m_numberDodge++;
-				std::cout << "\n Take Dodge = " << m_numberDodge++;
+				Application::GetInstance()->SaveFile.setM_Dodge(m_numberDodge);
 			}
 			_IndexInListE++;
 		}
@@ -351,6 +382,24 @@ void Character::Moving(float _horizontal,GLfloat deltatime,
 			//std::cout << "\n\nCHARACTER RUNING x= "<< Get2DPosition().x;
 			Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
 		}
+
+
+		// Xuyen tuong
+		//if (Get2DPosition().x < 10 )
+		//{
+		//	Set2DPosition(1200, Get2DPosition().y);
+		//}
+		//else if (Get2DPosition().x > 1270)
+		//{
+		//	Set2DPosition(25, Get2DPosition().y);
+		//}
+		//else if (Get2DPosition().x > 10 && Get2DPosition().x < 1270)
+		//{
+		//	//std::cout << "\n\nCHARACTER RUNING x= "<< Get2DPosition().x;
+		//	Set2DPosition(Get2DPosition().x + m_Speed * _horizontal * deltatime, Get2DPosition().y);
+		//}
+
+
 		if (m_onGround)
 		{
 			SetTexture("Run");
@@ -372,7 +421,7 @@ void Character::Hurt(int damage)
 		SetTexture("Hurt");
 	}
 	m_heal -= damage;
-	if (m_heal < 0)
+	if (m_heal <= 0)
 	{
 		Death();
 	}
@@ -381,7 +430,10 @@ void Character::Hurt(int damage)
 }
 void Character::Death()
 {
-
+	SetTexture("Death");
+	//Application::GetInstance()->SaveFile.setM_CompletedScene(0);
+	//Application::GetInstance()->SaveFile.m_SceneManage = 1;// 1 = GSHome
+	//GameStateMachine::GetInstance()->PopState();
 }
  
 void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vector<std::shared_ptr<Sprite2D>> &m_ListVFX)
@@ -428,7 +480,17 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vecto
 				}
 				else if(obj->GetTypeEnemy() == 4)
 				{
-					obj->Dead(Get2DPosition());
+					obj->Dead(Get2DPosition(), m_damage);
+					//+++++++++++++++++++++++++
+					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+					auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+					auto texture = ResourceManagers::GetInstance()->GetTexture("VFX//HITDone");
+					std::shared_ptr<VFX> _VFX = std::make_shared<VFX>(model, shader, texture, 8, 0.05);
+					_VFX->Set2DPosition(obj->Get2DPosition().x, obj->Get2DPosition().y);
+					_VFX->SetSize(192, 192);
+					m_ListVFX.push_back(_VFX);
+					//========================
+
 				}
 				//m_ListEnemy.erase(m_ListEnemy.begin());
 
@@ -468,70 +530,106 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vecto
 }
 void Character::Dodge()
 {
-
-		Set2DPosition(Get2DPosition().x + m_horizotal * 50, Get2DPosition().y);
+	if (m_numberDodge > 0)
+	{
+		m_numberDodge--;
+		Set2DPosition(Get2DPosition().x + m_horizotal * 100, Get2DPosition().y);
+		Application::GetInstance()->SaveFile.setM_Dodge(m_numberDodge);
 		//std::cout << "\n Position = " << Get2DPosition().x<<" , horizontal = " <<m_horizotal;
+		if (Get2DPosition().x < 0)
+		{
+			Set2DPosition(1200, Get2DPosition().y);
+		}
+		else if (Get2DPosition().x >1280)
+		{
+			Set2DPosition(25, Get2DPosition().y);
+		}
+	}
+
 
 }
 void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)
 {
 	AnimationSprite2D::Update(deltaTime);
-	Falling(deltaTime, m_ListBlock);
 
-	//ATK
-	if(m_Atk)
+
+	if (m_heal > 0)
 	{
-		//std::cout << "\n DeltaTime = " << m_time;
-		m_time += deltaTime;
-		
-		if (m_time > 0.2f)
+		Falling(deltaTime, m_ListBlock);
+
+
+
+		//ATK
+		if (m_Atk)
 		{
-			m_Atk = false;
-			m_time = 0;
+			//std::cout << "\n DeltaTime = " << m_time;
+			m_time += deltaTime;
+
+			if (m_time > 0.2f)
+			{
+				m_Atk = false;
+				m_time = 0;
+			}
+		}
+
+		if (!m_CanATK)
+		{
+			//std::cout << "\n DeltaTime = " << m_time;
+			m_timeCanATK += deltaTime;
+
+			if (m_timeCanATK > 0.5f)
+			{
+				m_CanATK = true;
+				m_timeCanATK = 0;
+			}
+		}
+
+
+
+
+		if (m_Hurt)
+		{
+			//std::cout << "\n DeltaTime = " << m_time;
+			m_timeHurt += deltaTime;
+			if (m_timeHurt > 0.15f)
+			{
+				m_Hurt = false;
+				m_timeHurt = 0;
+			}
+		}
+
+
+
+
+		//Jump
+		if (!m_isJump /*&& m_onGround*/)
+		{
+			m_onGround = false;
+			//std::cout << "\n on Ground in Updates = " << m_onGround;
+			Set2DPosition(Get2DPosition().x, Get2DPosition().y - 500 * deltaTime);
+
+			if (abs(Get2DPosition().y - _yPos) >= m_jumpHeight)
+			{
+				m_isJump = true;
+
+			}
+		}
+
+
+
+
+	}
+	else
+	{
+		m_timeDeath += deltaTime;
+		if (m_timeDeath > 1.5)
+		{
+			m_timeDeath = 0;
+			Application::GetInstance()->SaveFile.setM_CompletedScene(0);
+			Application::GetInstance()->SaveFile.m_SceneManage = 1;// 1 = GSHome
+			GameStateMachine::GetInstance()->PopState();
 		}
 	}
-
-	if (!m_CanATK)
-	{
-		//std::cout << "\n DeltaTime = " << m_time;
-		m_timeCanATK += deltaTime;
-
-		if (m_timeCanATK > 0.5f)
-		{
-			m_CanATK = true;
-			m_timeCanATK = 0;
-		}
-	}
-
-
-
-
-	if (m_Hurt)
-	{
-		//std::cout << "\n DeltaTime = " << m_time;
-		m_timeHurt += deltaTime;
-		if (m_timeHurt > 0.15f)
-		{
-			m_Hurt = false;
-			m_timeHurt = 0;
-		}
-	}
-
-
-	//Jump
-	if (!m_isJump /*&& m_onGround*/)
-	{
-		m_onGround = false;
-		//std::cout << "\n on Ground in Updates = " << m_onGround;
-		Set2DPosition(Get2DPosition().x, Get2DPosition().y - 500 * deltaTime);
-		
-		if (abs(Get2DPosition().y - _yPos) >= m_jumpHeight )
-		{
-			m_isJump = true;
-			
-		}
-	}
-
 }
 void Character::Draw()
 {
