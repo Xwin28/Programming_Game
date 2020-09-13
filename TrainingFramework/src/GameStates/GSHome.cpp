@@ -43,7 +43,7 @@ void GSHome::Init()
 
 	m_horizontal = 0;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_1");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_home");
 
 	//BackGround
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -57,7 +57,7 @@ void GSHome::Init()
 	//----------------------------Block Ground----------------------------//
 #pragma region Gground
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_1");
+	texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_home");
 	std::shared_ptr<Sprite2D> Blocker = std::make_shared<Sprite2D>(model, shader, texture);
 	Blocker->Set2DPosition(screenWidth / 2, 744);
 	Blocker->SetSize(1280, 62);
@@ -73,16 +73,16 @@ void GSHome::Init()
 #pragma region Interaction
 	//Interaction
 	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-	texture = ResourceManagers::GetInstance()->GetTexture("UICredits//InteractPoint");
+	texture = ResourceManagers::GetInstance()->GetTexture("UICredits//Heal_Inter");
 	m_PlusHeal = std::make_shared<InteractOBJ>(model, shader, texture, 6, 0.1, 1);
-	m_PlusHeal->Set2DPosition(540, 681);
-	m_PlusHeal->SetSize(64, 64);
+	m_PlusHeal->Set2DPosition(540, 650);
+	m_PlusHeal->SetSize(64, 124);
 	//Interaction
 
-	texture = ResourceManagers::GetInstance()->GetTexture("UICredits//InteractPoint");
+	texture = ResourceManagers::GetInstance()->GetTexture("UICredits//DamageInter");
 	m_PlusDamage= std::make_shared<InteractOBJ>(model, shader, texture, 6, 0.1, 2);
-	m_PlusDamage->Set2DPosition(840, 681);
-	m_PlusDamage->SetSize(64, 64);
+	m_PlusDamage->Set2DPosition(840, 650);
+	m_PlusDamage->SetSize(64, 124);
 	//Interaction
 
 	texture = ResourceManagers::GetInstance()->GetTexture("UICredits//InteractPoint");
@@ -100,9 +100,30 @@ void GSHome::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	m_Character = std::make_shared<Character>(300.0f, 80.0f, model, shader, texture, 8, 0.1f);
-	m_Character->Set2DPosition(1280 / 2 - 200, 100);
+	m_Character->Set2DPosition(300, 700);
 	m_Character->SetSize(200, 70);
 	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
+
+
+	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
+	if (Application::GetInstance()->SaveFile.isM_EndGame())
+	{
+		shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+		texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Nurse");
+		m_Nurse = std::make_shared<AnimationSprite2D>(model, shader, texture, 4, 0.5f);
+		m_Nurse->Set2DPosition(300, 690);
+		m_Nurse->SetSize(60, 60);
+
+
+
+		//text game END
+		shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+		font = ResourceManagers::GetInstance()->GetFont("arialbd");
+		m_End = std::make_shared< Text>(shader, font, "Congratulations!! you had save your Waifu!", TEXT_COLOR::RED, 1.3);
+		m_End->Set2DPosition(Vector2(screenWidth/2-350, screenHeight/2));
+	}
+
+
 #pragma endregion
 
 
@@ -113,19 +134,26 @@ void GSHome::Init()
 #pragma region Text
 	//text game Coin
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
 	m_Coin = std::make_shared< Text>(shader, font, "10", TEXT_COLOR::BLACK, 1.0);
 	m_Coin->Set2DPosition(Vector2(15, 30));
 	//text game BlockBullet
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	font = ResourceManagers::GetInstance()->GetFont("arialbd");
 	m_BlockBullet = std::make_shared< Text>(shader, font, "10", TEXT_COLOR::BLACK, 1.0);
 	m_BlockBullet->Set2DPosition(Vector2(50, 30));
 	//text game Dodge
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	font = ResourceManagers::GetInstance()->GetFont("arialbd");
 	m_Dodge = std::make_shared< Text>(shader, font, "10", TEXT_COLOR::BLACK, 1.0);
 	m_Dodge->Set2DPosition(Vector2(85, 30));
+
+	//text game Dodge
+	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+	m_txtDame = std::make_shared< Text>(shader, font, "Damage: 10", TEXT_COLOR::BLUE, 1.0);
+	m_txtDame->Set2DPosition(Vector2(100, 520));
+	//text game Dodge
+	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+	m_txtHeal = std::make_shared< Text>(shader, font, "Heal = 10", TEXT_COLOR::RED, 1.0);
+	m_txtHeal->Set2DPosition(Vector2(100, 560));
+
 #pragma endregion
 
 
@@ -168,13 +196,13 @@ void GSHome::HandleKeyEvents(int key, bool bIsPressed)
 		case 'D':
 			m_horizontal = 1;
 			break;
-		case 'J':
+		case 'K':
 			m_Character->Jump();
 			break;
 		case 'L':
 			m_Character->Dodge();
 			break;
-		case 'K':
+		case 'J':
 			break;
 		case 'E':
 			Vector2 _PosCharacterr = m_Character->Get2DPosition();
@@ -336,9 +364,20 @@ void GSHome::Update(float deltaTime)
 		int _coin = Application::GetInstance()->SaveFile.getM_Coin();
 		int _BlockBullet = Application::GetInstance()->SaveFile.getM_BlockBullet();
 		int _Dodge = Application::GetInstance()->SaveFile.getM_Dodge();
+
+		int _dame = Application::GetInstance()->SaveFile.m_damage;
+		int _heal = Application::GetInstance()->SaveFile.m_heal;
+
 		m_Coin->m_text = std::to_string(_coin);
 		m_BlockBullet->m_text = std::to_string(_BlockBullet);
 		m_Dodge->m_text = std::to_string(_Dodge);
+		m_txtDame->m_text = "Damage: " + std::to_string(_dame);
+		m_txtHeal->m_text = "Heal: " + std::to_string(_heal);
+
+		if (Application::GetInstance()->SaveFile.isM_EndGame())
+		{
+			m_Nurse->Update(deltaTime);
+		}
 	}
 }
 
@@ -355,13 +394,26 @@ void GSHome::Draw()
 	m_Gate->Draw();
 	for (auto obj : m_ListBlock)
 	{
-		obj->Draw();
+		//obj->Draw();
 	}
 	
+
+	if (Application::GetInstance()->SaveFile.isM_EndGame())
+	{	
+		m_End->Draw();
+		m_Nurse->Draw();
+	}
+
+
 	m_Character->Draw();
 	m_Coin->Draw();
 	m_BlockBullet->Draw();
 	m_Dodge->Draw();
+
+
+
+	m_txtDame->Draw();
+	m_txtHeal->Draw();
 }
 
 void GSHome::SetNewPostionForBullet()

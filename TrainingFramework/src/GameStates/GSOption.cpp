@@ -34,51 +34,9 @@ void GSOption::Init()
 	m_Image->SetSize(screenWidth, screenHeight);
 
 
-	//Music Volume Right button
-	texture = ResourceManagers::GetInstance()->GetTexture("UIOption//Volume_right");
-	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(901, 285);
-	button->SetSize(35, 67);
-	button->SetOnClick([]() {
-		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
-		});
-	m_listButton.push_back(button);
-
-	//Music Volume Left button
-	texture = ResourceManagers::GetInstance()->GetTexture("UIOption//Volume_left");
-	button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(807, 285);
-	button->SetSize(45, 67);
-	button->SetOnClick([]() {
-		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
-		});
-	m_listButton.push_back(button);
-
-	//SFX Volume Right button
-	texture = ResourceManagers::GetInstance()->GetTexture("UIOption//Volume_right");
-	button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(901, 385);
-	button->SetSize(35, 67);
-	button->SetOnClick([]() {
-		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
-		});
-	m_listButton.push_back(button);
-
-	//SFX Volume Left button
-	texture = ResourceManagers::GetInstance()->GetTexture("UIOption//Volume_left");
-	button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(807, 385);
-	button->SetSize(45, 67);
-	button->SetOnClick([]() {
-		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
-		});
-	m_listButton.push_back(button);
-
-
-
 	//Button OK
 	texture = ResourceManagers::GetInstance()->GetTexture("UIOption//btn_OK");
-	button = std::make_shared<GameButton>(model, shader, texture);
+	auto button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(613, 655);
 	button->SetSize(136, 86);
 	button->SetOnClick([]() {

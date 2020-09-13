@@ -19,7 +19,7 @@ GSMenu::~GSMenu()
 void GSMenu::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("UIMenu//Night");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("UIMenu//BackGroudMenu");
 
 	//BackGround
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -46,10 +46,10 @@ void GSMenu::Init()
 	
 
 	//OptionButton
-	texture = ResourceManagers::GetInstance()->GetTexture("UIMenu//UIbtn_Option");
+	texture = ResourceManagers::GetInstance()->GetTexture("UIMenu//Btn_Control");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(313, 536);
-	button->SetSize(337, 86);
+	button->SetSize(450, 115);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Option);
 		});
@@ -228,9 +228,9 @@ void GSMenu::Draw()
 {
 	m_BackGround->Draw();
 	m_Image->Draw();
-	for (auto it : m_listButton)
+	/*for (auto it : m_listButton)
 	{
 		it->Draw();
-	}
+	}*/
 	//m_Text_gameName->Draw();
 }

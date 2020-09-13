@@ -101,40 +101,221 @@ void GSPlay::Init()
 	srand(static_cast<unsigned int>(clock()));
 
 
+
 	m_horizontal = 0;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_1");
-
-	//BackGround
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	m_BackGround = std::make_shared<Sprite2D>(model, shader, texture);
-	m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
-	m_BackGround->SetSize(screenWidth, screenHeight);
+	//BackGround
+	int _ran = Randomint(0, 6);
+	switch (_ran)
+	{
+	case 0:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_1");
+		break;
+	case 1:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_2");
+		break;
+	case 2:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_3");
+		break;
+	case 3:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_4");
+		break;
+	case 4:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_5");
+		break;
+	case 5:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_6");
+		break;
+	case 6:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_7");
+		break;
+	default:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_1");
+		break;
+	}
 
+	
+
+
+	if (Application::GetInstance()->SaveFile.isM_EndGame())
+	{// Endless
+		m_BackGround = std::make_shared<Sprite2D>(model, shader, texture);
+		m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
+		m_BackGround->SetSize(screenWidth, screenHeight);
+	}
+	else
+	{
+		if (Application::GetInstance()->SaveFile.getM_CompletedScene() < 2)
+		{
+			m_BackGround = std::make_shared<Sprite2D>(model, shader, texture);
+			m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
+			m_BackGround->SetSize(screenWidth, screenHeight);
+		}
+		else
+		{
+			// Boss take a new backGround
+			texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//BackGround_1");
+			m_BackGround = std::make_shared<Sprite2D>(model, shader, texture);
+			m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
+			m_BackGround->SetSize(screenWidth, screenHeight);
+		}
+	}
 
 
 
 	//----------------------------Block Ground----------------------------//
 
+	_ran = Randomint(0, 5);
+	switch (_ran)
+	{
+	case 0:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_1");
+		break;
+	case 1:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_2");
+		break;
+	case 2:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_3");
+		break;
+	case 3:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_4");
+		break;
+	case 4:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_5");
+		break;
+	case 5:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_6");
+		break;
+	default:
+		texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_1");
+		break;
+	}
+
+
+
+
 #pragma region Gground
-	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_1");
-	std::shared_ptr<Sprite2D> Blocker = std::make_shared<Sprite2D>(model, shader, texture);
-	Blocker->Set2DPosition(screenWidth / 2, 744);
-	Blocker->SetSize(1280, 62);
-	m_ListBlock.push_back(Blocker);
-
-	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
-	Blocker->Set2DPosition(100.0f, screenHeight / 2 - 200);
-	Blocker->SetSize(1280, 62);
-	m_ListBlock.push_back(Blocker);
 
 
-	Blocker = std::make_shared<Sprite2D>(model, shader, texture);
-	Blocker->Set2DPosition(0, screenHeight / 2 + 100);
-	Blocker->SetSize(1280, 62);
-	m_ListBlock.push_back(Blocker);
+	if (Application::GetInstance()->SaveFile.isM_EndGame())
+	{// Endless
+#pragma region EndlessSpawn
 
+		shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+		
+		std::shared_ptr<Sprite2D> Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+		Blocker->Set2DPosition(screenWidth / 2, 744);
+		Blocker->SetSize(1280, 62);
+		m_ListBlock.push_back(Blocker);
+
+		int _PossX = RandomFloat(0, 500);
+		if (RandomFloat(0, 1) == 0)
+		{
+			_PossX = RandomFloat(-500, 500);
+		}
+		else
+		{
+			_PossX = RandomFloat(740, 1580);
+		}
+		Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+		Blocker->Set2DPosition(_PossX, 570);
+		Blocker->SetSize(1280, 62);
+		m_ListBlock.push_back(Blocker);
+
+		if (RandomFloat(0, 1) == 0)
+		{
+			_PossX = RandomFloat(-500, 500);
+		}
+		else
+		{
+			_PossX = RandomFloat(740, 1580);
+		}
+		Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+		Blocker->Set2DPosition(_PossX, 360);
+		Blocker->SetSize(1280, 62);
+		m_ListBlock.push_back(Blocker);
+
+		if (RandomFloat(0, 1) == 0)
+		{
+			_PossX = RandomFloat(-500, 500);
+		}
+		else
+		{
+			_PossX = RandomFloat(740, 1580);
+		}
+		Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+		Blocker->Set2DPosition(_PossX, 150);
+		Blocker->SetSize(1280, 62);
+		m_ListBlock.push_back(Blocker);
+#pragma endregion
+	}
+	else
+	{
+		if (Application::GetInstance()->SaveFile.getM_CompletedScene() < 2)
+		{
+#pragma region EndlessSpawn
+			shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+			
+			std::shared_ptr<Sprite2D> Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+			Blocker->Set2DPosition(screenWidth / 2, 744);
+			Blocker->SetSize(1280, 62);
+			m_ListBlock.push_back(Blocker);
+
+			int _PossX = RandomFloat(0, 500);
+			if (RandomFloat(0, 1) == 0)
+			{
+				_PossX = RandomFloat(-500, 500);
+			}
+			else
+			{
+				_PossX = RandomFloat(740, 1580);
+			}
+			Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+			Blocker->Set2DPosition(_PossX, 570);
+			Blocker->SetSize(1280, 62);
+			m_ListBlock.push_back(Blocker);
+
+			if (RandomFloat(0, 1) == 0)
+			{
+				_PossX = RandomFloat(-500, 500);
+			}
+			else
+			{
+				_PossX = RandomFloat(740, 1580);
+			}
+			Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+			Blocker->Set2DPosition(_PossX, 360);
+			Blocker->SetSize(1280, 62);
+			m_ListBlock.push_back(Blocker);
+
+			if (RandomFloat(0, 1) == 0)
+			{
+				_PossX = RandomFloat(-500, 500);
+			}
+			else
+			{
+				_PossX = RandomFloat(740, 1580);
+			}
+			Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+			Blocker->Set2DPosition(_PossX, 150);
+			Blocker->SetSize(1280, 62);
+			m_ListBlock.push_back(Blocker);
+#pragma endregion
+		}
+		else
+		{
+			//Boss only one Ground
+			shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+			texture = ResourceManagers::GetInstance()->GetTexture("Scene//Scene_1//Ground_1");
+			std::shared_ptr<Sprite2D> Blocker = std::make_shared<Sprite2D>(model, shader, texture);
+			Blocker->Set2DPosition(screenWidth / 2, 744);
+			Blocker->SetSize(1280, 62);
+			m_ListBlock.push_back(Blocker);
+
+		}
+	}
 	
 #pragma endregion
 
@@ -289,7 +470,7 @@ void GSPlay::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	m_Character = std::make_shared<Character>(300.0f, 80.0f, model, shader, texture, 8, 0.1f);
-	m_Character->Set2DPosition(1280 / 2 - 200, 100);
+	m_Character->Set2DPosition(1280 / 2, 50);
 	m_Character->SetSize(200, 70);
 	//m_playerCharacter = std::make_shared<Character>(10.0f, 10.0f, 5, 5);
 #pragma endregion
@@ -868,13 +1049,13 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		case 'D':
 			m_horizontal = 1;
 			break;
-		case 'J':
+		case 'K':
 			m_Character->Jump();
 			break;
 		case 'L':
 			m_Character->Dodge();
 			break;
-		case 'K':
+		case 'J':
 			m_Character->ATK(m_ListEnemy, m_ListVFX);
 			break;
 		case 'E':

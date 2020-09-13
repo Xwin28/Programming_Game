@@ -23,6 +23,8 @@ void InteractOBJ::PlusHeal()
 	if (_coin >= 15)
 	{
 		Application::GetInstance()->SaveFile.m_heal = _heal + 1;
+		int _coin = Application::GetInstance()->SaveFile.getM_Coin();
+		Application::GetInstance()->SaveFile.setM_Coin(_coin - 15);
 		Application::GetInstance()->SaveFile.Save();
 	}
 	else
@@ -36,7 +38,9 @@ void InteractOBJ::PlusDamage()
 	int _coin = Application::GetInstance()->SaveFile.getM_Coin();
 	if (_coin >= 15)
 	{
-		Application::GetInstance()->SaveFile.m_heal = _damage + 1;
+		Application::GetInstance()->SaveFile.m_damage = _damage + 1;
+		int _coin = Application::GetInstance()->SaveFile.getM_Coin();
+		Application::GetInstance()->SaveFile.setM_Coin(_coin - 15);
 		Application::GetInstance()->SaveFile.Save();
 	}
 	else

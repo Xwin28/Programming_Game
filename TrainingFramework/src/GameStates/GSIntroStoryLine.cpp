@@ -21,18 +21,18 @@ void GSIntroStoryLine::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("Logo//CustomLogo");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("UICredits//IntroStory");
 
 	m_logo = std::make_shared<Sprite2D>(model, shader, texture);
 	m_logo->Set2DPosition(screenWidth / 2, screenHeight / 2);
-	m_logo->SetSize(250, 250);
+	m_logo->SetSize(721, 509);
 
 
 
 	//play button
 	texture = ResourceManagers::GetInstance()->GetTexture("UIMenu//UIbtn_Play");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(316, 417);
+	button->Set2DPosition(screenWidth / 2, screenHeight / 2+150);
 	button->SetSize(264, 89);
 	button->SetOnClick([]() {
 		std::cout << "\n run";
@@ -93,8 +93,8 @@ void GSIntroStoryLine::Draw()
 {
 	m_logo->Draw();
 
-	for (auto obj : m_listButton)
-	{
-		obj->Draw();
-	}
+	//for (auto obj : m_listButton)
+	//{
+	//	//obj->Draw();
+	//}
 }

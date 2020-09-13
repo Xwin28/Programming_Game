@@ -44,6 +44,10 @@ private:
 	std::shared_ptr<Text>  m_Coin;
 	std::shared_ptr<Text>  m_BlockBullet;
 	std::shared_ptr<Text>  m_Dodge;
+
+	std::shared_ptr<Text>  m_txtDame;
+	std::shared_ptr<Text>  m_txtHeal;
+
 	std::vector<std::shared_ptr<Sprite2D>> m_ListCoin;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListBlockedBullet;
 	std::vector<std::shared_ptr<Sprite2D>> m_ListDodge;
@@ -56,6 +60,8 @@ private:
 	std::shared_ptr<InteractOBJ>  m_Gate;
 	float m_horizontal;
 	int m_interactMode;
+	std::shared_ptr<Sprite2D> m_Nurse;
+	std::shared_ptr<Text>  m_End;
 
 	//std::shared_ptr<Character> m_playerCharacter;
 };
