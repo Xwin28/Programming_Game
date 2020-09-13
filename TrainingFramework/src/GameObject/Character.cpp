@@ -18,7 +18,7 @@
 #include "GameStates/GameStateMachine.h"
 
 
-
+//d
 Character::Character(){}
 Character::Character(float _speed,float _jumpHeight,
 					std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int _numFrame, float _frameTime)
