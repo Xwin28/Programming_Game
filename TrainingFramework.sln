@@ -111,8 +111,8 @@ Global
 		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-ATI|Win32.Build.0 = Release Multithreaded|Win32
 		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-ATI|x64.ActiveCfg = Release Multithreaded|x64
 		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-ATI|x64.Build.0 = Release Multithreaded|x64
-		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-Nvidia|Win32.ActiveCfg = Release Multithreaded|Win32
-		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-Nvidia|Win32.Build.0 = Release Multithreaded|Win32
+		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-Nvidia|Win32.ActiveCfg = Release|Win32
+		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-Nvidia|Win32.Build.0 = Release|Win32
 		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-Nvidia|x64.ActiveCfg = Release Multithreaded|x64
 		{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}.Release-Nvidia|x64.Build.0 = Release Multithreaded|x64
 		{83540317-6FB7-92BB-183D-CB71047F5E3E}.Debug|Win32.ActiveCfg = Debug|Win32

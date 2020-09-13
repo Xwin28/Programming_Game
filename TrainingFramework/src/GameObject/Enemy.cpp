@@ -187,7 +187,7 @@ void Enemy::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 
 		}
 
-
+		
 		if (m_TypeEnemy != 4)
 		{
 			if ((Get2DPosition().x > _BlockPos.x - _BlockSize.x / 2) && (Get2DPosition().x < _BlockPos.x + _BlockSize.x / 2)

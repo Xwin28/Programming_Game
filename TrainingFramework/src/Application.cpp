@@ -6,11 +6,12 @@
 #include "soloud_wav.h"
 #include "soloud_thread.h"
 #include "SavingSystem/SavingSys.h"
-#include <experimental/filesystem>
-
+//#include <experimental/filesystem>
+#include <filesystem>
 extern GLint screenWidth;
 extern GLint screenHeight;
 
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 
 Application::Application()
 {
@@ -39,8 +40,9 @@ void Application::Init()
 	int x = Application::GetInstance()->gSoloud.play(Application::GetInstance()->gWaveMusic);
 	gSoloudMusic.setVolume(x, 0.2);
 #pragma region Saving
-
-	if (std::experimental::filesystem::exists("..\\Data\\SAVE_FILE\\Save.txt"))
+	//std::experimental::filesystem::exists("..\\Data\\SAVE_FILE\\Save.txt")
+	//std::filesystem::exists("..\\Data\\SAVE_FILE\\Save.txt")
+	if (std::filesystem::exists("..\\Data\\SAVE_FILE\\Save.txt"))
 	{
 		std::cout << "\n HAS FILE\n";
 		SaveFile.Load();
