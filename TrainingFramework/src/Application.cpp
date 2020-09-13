@@ -26,10 +26,10 @@ void Application::Init()
 	GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Intro);
 	//SoLoud::Soloud gSoloud; // SoLoud engine
 	gSoloud.init();
-	gWave.load("..\\Data\\SFX\\jojo.wav");
-	gSoloud.play(gWave);
-	int x = gSoloud.play(gWave); // Grab the handle
-	gSoloud.setPan(x, -0.2f);    // Use handle to adjust panning
+	//gWave.load("..\\Data\\SFX\\jojo.wav");
+	//gSoloud.play(gWave);
+	//int x = gSoloud.play(gWave); // Grab the handle
+	//gSoloud.setPan(x, -0.2f);    // Use handle to adjust panning
 }
 
 void Application::Update(GLfloat deltaTime)
@@ -67,5 +67,6 @@ void Application::HandleTouchEvent(GLint x, GLint y, bool bIsPresseded)
 
 void Application::Exit()
 {
+	gSoloud.deinit();
 	exit(0);
 }

@@ -48,7 +48,7 @@ public:
 	float GetHorizontal();
 	void SetTexture(std::string _mode);
 
-	void Dead();
+	void Dead(Vector2 _PosCharacter);
 
 	void Init();
 	void Update(GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);

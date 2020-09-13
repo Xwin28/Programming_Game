@@ -18,7 +18,7 @@ void VFX::Update(GLfloat deltatime)
 	{
 		AnimationSprite2D::Update(deltatime);
 		m_time += deltatime;
-		if (m_time > 1.3)
+		if (m_time >=0.3f)
 		{
 			m_pTexture = ResourceManagers::GetInstance()->GetTexture("VFX//Blood_01");
 			m_pShader = ResourceManagers::GetInstance()->GetShader("TextureShader");

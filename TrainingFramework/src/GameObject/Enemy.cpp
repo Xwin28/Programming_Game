@@ -13,6 +13,7 @@
 #include <string>
 #include "GameManager/ResourceManagers.h"
 #include "Enemy.h"
+#include <time.h>
 
 
 
@@ -46,6 +47,8 @@ Enemy::Enemy(float _speed, float _heal, int _numDodge, int _numBlock, float _jum
 	doOne = false;
 	m_Atk = false;
 	m_CanATK = true;
+
+	//srand(static_cast<unsigned int>(clock()));
 }
 Enemy::~Enemy() {}
 
@@ -124,9 +127,18 @@ void Enemy::SetTexture(std::string _mode)// CALL THIS IN FUNCTION RUN, FALL...
 }
 
 
-void Enemy::Dead()
+void Enemy::Dead(Vector2 _PosCharacter)
 {
-	 
+	if (_PosCharacter.x > 640)
+	{
+		Set2DPosition(RandomFloat(0, 640), Get2DPosition().y -50);
+		m_time = 0;
+	}
+	else if (_PosCharacter.x < 640)
+	{
+		Set2DPosition(RandomFloat(640, 1200), Get2DPosition().y - 50);
+		m_time = 0;
+	}
 }
 void Enemy::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)
 {
@@ -290,7 +302,7 @@ void Enemy::Dodge()
 }
 void Enemy::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)
 {
-	
+
 	AnimationSprite2D::Update(deltaTime);
 	Falling(deltaTime, m_ListBlock);
 
@@ -310,12 +322,25 @@ void Enemy::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 	if (!m_CanATK)
 	{
 		//std::cout << "\n DeltaTime = " << m_time;
-		m_timeWaitATK += deltaTime;
-		if (m_timeWaitATK > 5.0f)
+		if (m_TypeEnemy != 4)
 		{
-			m_CanATK = true;
-			m_timeWaitATK = 0;
+			m_timeWaitATK += deltaTime;
+			if (m_timeWaitATK > 5.0f)
+			{
+				m_CanATK = true;
+				m_timeWaitATK = 0;
+			}
 		}
+		else
+		{
+			m_timeWaitATK += deltaTime;
+			if (m_timeWaitATK > 3.0f)
+			{
+				m_CanATK = true;
+				m_timeWaitATK = 0;
+			}
+		}
+
 	}
 
 
@@ -974,10 +999,13 @@ void Enemy::AiNormal_Range(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite
 }
 void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock, Vector2 _PosCharacter, Vector2 _SizeCharacter, bool& _HitPlayer, bool &_SpawnEnemy)
 {
+	if (abs(Get2DPosition().x - _PosCharacter.x) < 1280 &&
+		abs(Get2DPosition().y - _PosCharacter.y) < 50)
+	{
+		m_time += deltaTime;
+	}
 
-	m_time += deltaTime;
-
-	if (m_time > 1)
+	if (m_time > 0.5)
 	{
 #pragma region Movement
 		if (abs(Get2DPosition().x - _PosCharacter.x) < 1280 &&
@@ -986,9 +1014,10 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 #pragma region MoveAnd ATK Player
 			if (m_CanATK)
 			{
+				
 				//_________________________CanATK=>ATK_____________________________________
 				//DoOne
-				if (m_time > 1.1 && m_time < 1.2)
+				if (m_time > 0.5 && m_time < 0.6)
 				{
 					//----------GET Ground Stading
 					Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
@@ -1034,13 +1063,13 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 								_newPos = 640;
 							}
 						}
-						Set2DPosition(_newPos, Get2DPosition().y-50 );
+						Set2DPosition(_newPos, Get2DPosition().y);
 
 					}
-
-					if (Get2DPosition().x < _PosCharacter.x)
+					else if (Get2DPosition().x < _PosCharacter.x)
 					{
 						_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _PosCharacter.x);
+						
 					}
 					else if (Get2DPosition().x > _PosCharacter.x)
 					{
@@ -1070,10 +1099,13 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 						m_horizotal = +1;
 					}
 
-
+					
 				}
+
+
+				
 				//Moving
-				if (m_time > 1.3)
+				if (m_time > 0.7)
 				{
 					Moving(m_horizotal, deltaTime);
 				}
@@ -1095,7 +1127,7 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 					}
 					Shoot();
 					//SPAWN ENEMY
-					if (Randomint(0, 3) == 1)
+					if (Randomint(0, 2) == 1)
 					{
 						_SpawnEnemy = true;
 					}
@@ -1111,7 +1143,7 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 			{
 				//-------------------------CanNotATK=> Move far the Player------------------------------
 
-				if (m_time > 1.1 && m_time < 1.2)
+				if (m_time > 0.5 && m_time < 0.6)
 				{
 					//----------GET Ground Stading
 					Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
@@ -1146,7 +1178,7 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 					{
 						_newPos = RandomFloat(_PosCharacter.x, _BlockPos.x - _BlockSize.x / 2);
 					}
-					m_Speed = 200;
+					m_Speed = 300;
 					// take a new Pos in the Ground
 					if (_newPos < 0)
 					{
@@ -1172,17 +1204,16 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 
 				}
 
-				else
-				{
-					if (m_time > 1.3)
+
+					if (m_time > 0.7)
 					{
 						Moving(m_horizotal, deltaTime);
 					}
-				}
+				
 				//Update
 
 				//Moving
-				if (abs(Get2DPosition().x - _newPos) <= 10)
+				if (abs(Get2DPosition().x - _newPos) <= 100)
 				{
 
 					m_time = 0;
@@ -1192,89 +1223,89 @@ void Enemy::AiBoss(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_L
 #pragma endregion
 
 		}
-		else
-		{
-#pragma region MoveFree
-			//std::cout << "\n mTime = " << m_time;
-			//DoOne
-
-			if (m_time > 1.3 && m_time < 1.4)
-			{
-				Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
-				Vector2 _BlockSize = m_ListBlock.front()->GetSize();
-				std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
-				_Temp_ListBlock.clear();
-				for (auto obj : m_ListBlock)
-				{
-					if (Get2DPosition().y < obj->Get2DPosition().y)
-					{
-						_Temp_ListBlock.push_back(obj);
-					}
-				}
-				for (auto obj : _Temp_ListBlock)
-				{
-
-					if (obj->Get2DPosition().y < _BlockPos.y)
-					{
-
-						_BlockPos = obj->Get2DPosition();
-						_BlockSize = obj->GetSize();
-
-					}
-
-				}
-
-				_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _BlockPos.x + _BlockSize.x / 2);
-				// if In the Block
-
-
-					// take a new Pos in the Ground
-				if (_newPos < 0)
-				{
-					_newPos = 20;
-				}
-				else if (_newPos > 1280)
-				{
-					_newPos = 1200;
-				}
-
-				//Take Face direction
-				if (_newPos < Get2DPosition().x)
-				{
-					//FlipY(-1);
-					m_horizotal = -1;
-				}
-				else if (_newPos > Get2DPosition().x)
-				{
-					//FlipY(1);
-					m_horizotal = +1;
-				}
-				m_Speed = 100;
-
-			}
-
-			//Update
-			if (m_time > 2)
-			{
-				Moving(m_horizotal, deltaTime);
-			}
-
-
-			//Moving
-			if (abs(Get2DPosition().x - _newPos) <= 20)
-			{
-
-				m_time = 0;
-			}
-
-			//ro detect player
-			if (abs(Get2DPosition().x - _PosCharacter.x) < 400 &&
-				abs(Get2DPosition().y - _PosCharacter.y) < 50)
-			{
-				m_time = 0;
-			}
-#pragma endregion
-		}
+//		else
+//		{
+//#pragma region MoveFree
+//			//std::cout << "\n mTime = " << m_time;
+//			//DoOne
+//
+//			if (m_time > 1.3 && m_time < 1.4)
+//			{
+//				Vector2 _BlockPos = m_ListBlock.front()->Get2DPosition();
+//				Vector2 _BlockSize = m_ListBlock.front()->GetSize();
+//				std::vector<std::shared_ptr<Sprite2D>> _Temp_ListBlock;
+//				_Temp_ListBlock.clear();
+//				for (auto obj : m_ListBlock)
+//				{
+//					if (Get2DPosition().y < obj->Get2DPosition().y)
+//					{
+//						_Temp_ListBlock.push_back(obj);
+//					}
+//				}
+//				for (auto obj : _Temp_ListBlock)
+//				{
+//
+//					if (obj->Get2DPosition().y < _BlockPos.y)
+//					{
+//
+//						_BlockPos = obj->Get2DPosition();
+//						_BlockSize = obj->GetSize();
+//
+//					}
+//
+//				}
+//
+//				_newPos = RandomFloat(_BlockPos.x - _BlockSize.x / 2, _BlockPos.x + _BlockSize.x / 2);
+//				// if In the Block
+//
+//
+//					// take a new Pos in the Ground
+//				if (_newPos < 0)
+//				{
+//					_newPos = 20;
+//				}
+//				else if (_newPos > 1280)
+//				{
+//					_newPos = 1200;
+//				}
+//
+//				//Take Face direction
+//				if (_newPos < Get2DPosition().x)
+//				{
+//					//FlipY(-1);
+//					m_horizotal = -1;
+//				}
+//				else if (_newPos > Get2DPosition().x)
+//				{
+//					//FlipY(1);
+//					m_horizotal = +1;
+//				}
+//				m_Speed = 100;
+//
+//			}
+//
+//			//Update
+//			if (m_time > 2)
+//			{
+//				Moving(m_horizotal, deltaTime);
+//			}
+//
+//
+//			//Moving
+//			if (abs(Get2DPosition().x - _newPos) <= 20)
+//			{
+//
+//				m_time = 0;
+//			}
+//
+//			//ro detect player
+//			if (abs(Get2DPosition().x - _PosCharacter.x) < 400 &&
+//				abs(Get2DPosition().y - _PosCharacter.y) < 50)
+//			{
+//				m_time = 0;
+//			}
+//#pragma endregion
+//		}
 #pragma endregion
 
 

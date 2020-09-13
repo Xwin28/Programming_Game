@@ -25,6 +25,7 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 	m_Atk = false;
 	m_Hurt = false;
 	m_Death = false;
+	m_CanATK = true;
 	m_coin=0;
 	m_numberDodge=0;
 	m_numBlock=0;
@@ -33,6 +34,7 @@ Character::Character(float _speed, float _heal, int _numDodge, int _numBlock,flo
 	m_animNow = "Idle";
 	m_time = 0;
 	m_timeHurt = 0;
+	m_timeCanATK = 0;
 	// use menory instead processing
 	m_animIdle = ResourceManagers::GetInstance()->GetTexture("Character//Player//Idle");
 	m_animIRun = ResourceManagers::GetInstance()->GetTexture("Character//Player//Run");
@@ -136,7 +138,10 @@ bool Character::GetATK()
 {
 	return m_Atk;
 }
-
+float  Character::GetHorizontal()
+{
+	return m_horizotal;
+}
 void Character::Falling(float _deltaTime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock)
 {
 	//(x > m_Vec2DPos.x  - m_iWidth/2) && (x < m_Vec2DPos.x + m_iWidth / 2) && 
@@ -383,11 +388,13 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vecto
 {
 
 	
-	std::vector<int> _ListIndex;
-	_ListIndex.clear();
-	int _IndexInListE = 0;
-	if (!m_Atk)
+	
+	if (!m_Atk && m_CanATK)
 	{	
+		std::vector<int> _ListIndex;
+		_ListIndex.clear();
+		int _IndexInListE = 0;
+		m_CanATK = false;
 		m_Atk = true;
 		SetTexture("Atk");
 
@@ -412,12 +419,16 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vecto
 			//(_CollPosX > _EPos.x - _ESize.x / 2) && (_CollPosX < _EPos.x + _ESize.x / 2)
 
 			//easy ModE
-			if (abs(_CollPosX - _EPos.x)< 90
+			if (abs(_CollPosX+(m_horizotal*45) - _EPos.x)< 45
 				&& (Get2DPosition().y >= _EPos.y - _ESize.y / 2) && (Get2DPosition().y <= _EPos.y + _ESize.y / 2))
 			{
 				if (obj->GetTypeEnemy() != 4)
 				{
 					_ListIndex.push_back(_IndexInListE);
+				}
+				else if(obj->GetTypeEnemy() == 4)
+				{
+					obj->Dead(Get2DPosition());
 				}
 				//m_ListEnemy.erase(m_ListEnemy.begin());
 
@@ -433,18 +444,19 @@ void Character::ATK(std::vector<std::shared_ptr<Enemy>> &m_ListEnemy, std::vecto
 			{
 				if (_IndexInListE == obj_index)
 				{
-					m_ListEnemy.erase(m_ListEnemy.begin() + _IndexInListE);
-					
+						m_ListEnemy.erase(m_ListEnemy.begin() + _IndexInListE);
 
-					//+++++++++++++++++++++++++
-					auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-					auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-					auto texture = ResourceManagers::GetInstance()->GetTexture("VFX//HITDone");
-					std::shared_ptr<VFX> _VFX = std::make_shared<VFX>(model, shader, texture, 8, 0.1);
-					_VFX->Set2DPosition(obj_E->Get2DPosition().x, obj_E->Get2DPosition().y);
-					_VFX->SetSize(156, 156);
-					m_ListVFX.push_back(_VFX);
-					//========================
+						//+++++++++++++++++++++++++
+						auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+						auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+						auto texture = ResourceManagers::GetInstance()->GetTexture("VFX//HITDone");
+						std::shared_ptr<VFX> _VFX = std::make_shared<VFX>(model, shader, texture, 8, 0.05);
+						_VFX->Set2DPosition(obj_E->Get2DPosition().x, obj_E->Get2DPosition().y);
+						_VFX->SetSize(192, 192);
+						m_ListVFX.push_back(_VFX);
+						//========================
+					
+					
 					
 					
 				}
@@ -478,6 +490,20 @@ void Character::Update(GLfloat deltaTime, std::vector<std::shared_ptr<Sprite2D>>
 			m_time = 0;
 		}
 	}
+
+	if (!m_CanATK)
+	{
+		//std::cout << "\n DeltaTime = " << m_time;
+		m_timeCanATK += deltaTime;
+
+		if (m_timeCanATK > 0.5f)
+		{
+			m_CanATK = true;
+			m_timeCanATK = 0;
+		}
+	}
+
+
 
 
 	if (m_Hurt)

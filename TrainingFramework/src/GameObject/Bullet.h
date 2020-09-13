@@ -3,7 +3,7 @@
 #include "Sprite2D.h"
 #include "Character.h"
 #include "Enemy.h"
-
+#include "VFX.h"
 class Bullet : public Sprite2D
 {
 private:
@@ -20,10 +20,10 @@ public:
 	}
 	bool GetOner();
 	bool getDES();
-	void Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, std::vector<std::shared_ptr<Enemy>>& m_ListEnemy);
+	void Moving(GLfloat deltatime, std::shared_ptr<Character>& _Character, std::vector<std::shared_ptr<Enemy>>& m_ListEnemy, std::vector<std::shared_ptr<Sprite2D>>& _ListVFX);
 	
 	void Init() ;
 	void Draw() ;
-	void Update(GLfloat deltatime, std::shared_ptr<Character> &_Character, std::vector<std::shared_ptr<Enemy>>& m_ListEnemy);
+	void Update(GLfloat deltatime, std::shared_ptr<Character> &_Character, std::vector<std::shared_ptr<Enemy>>& m_ListEnemy, std::vector<std::shared_ptr<Sprite2D>>& _ListVFX);
 	void DestroyOBJ();
 };

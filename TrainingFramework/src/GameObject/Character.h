@@ -16,6 +16,7 @@ protected:
 	bool m_isJump;//Check Jump
 	bool m_onGround;//Check Falling
 	bool m_Atk;//Check ATk
+	bool m_CanATK;
 	bool m_Hurt;//Check ATk
 	bool m_Death;//Check ATk
 	float _yPos;
@@ -24,7 +25,7 @@ protected:
 	std::string m_animNow;
 	float m_time;//CouDown Time
 	float m_timeHurt;//CouDown Time
-
+	float m_timeCanATK;
 	//Animation
 	std::shared_ptr<Texture>	m_animIdle, m_animIRun, m_animIFall, m_animIJump, m_animIATK, m_animIDeath, m_animIDodge, m_animIHurt;
 
@@ -38,6 +39,7 @@ public:
 	void SetTexture(std::string _mode);
 	int GetnBlock();
 	bool GetATK();
+	float GetHorizontal();
 
 	void Init() override;
 	virtual void Update(GLfloat deltatime, std::vector<std::shared_ptr<Sprite2D>> m_ListBlock);

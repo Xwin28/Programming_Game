@@ -52,7 +52,7 @@ void GSPlay::SpawnEnemy()
 	std::shared_ptr<Texture>_Atk1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_Atk");//not Use in Normal enemy
 	std::shared_ptr<Texture>_Shield1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy/EnemyKnight//Knight_Shield");//not Use in Normal enemy
 	std::shared_ptr<Texture>_StayDeath1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_StayDeath");//not Use in Normal enemy
-	std::shared_ptr<Enemy> _Enemy = std::make_shared<Enemy>(50.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
+	std::shared_ptr<Enemy> _Enemy1 = std::make_shared<Enemy>(50.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
 		_Idle1, _Run1, _Fall1, _Death1, _Atk1, _Shield1, _StayDeath1, 8, 8, 1, 8, 3, 3, 5, 2/*2 = Melle Enemy*/);
 	///////////////////////////////KHAI BAO
 
@@ -66,11 +66,11 @@ void GSPlay::SpawnEnemy()
 				_Shield1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy/EnemyKnight//Knight_Shield");//not Use in Normal enemy
 				_StayDeath1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyKnight//Knight_StayDeath");//not Use in Normal enemy
 
-				_Enemy = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
+				_Enemy1 = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
 					_Idle1, _Run1, _Fall1, _Death1, _Atk1, _Shield1, _StayDeath1, 8, 8, 1, 8, 3, 3, 5, 2/*2 = Mellse Enemy*/);
-				_Enemy->Set2DPosition(RandomFloat(20,1200), 300);
-				_Enemy->SetSize(50, 50);
-				m_ListEnemy.push_back(_Enemy);
+				_Enemy1->Set2DPosition(RandomFloat(20,1200), 300);
+				_Enemy1->SetSize(50, 50);
+				m_ListEnemy.push_back(_Enemy1);
 
 			
 
@@ -88,11 +88,11 @@ void GSPlay::SpawnEnemy()
 				_Atk1 = ResourceManagers::GetInstance()->GetTexture("Character//Enemy//EnemyArcher//Archer_Atk");//not Use in Normal enemy
 				
 
-				_Enemy = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
+				_Enemy1 = std::make_shared<Enemy>(100.0f, 10.0f, 5, 5, 80.0f, model1, shader1, _Idle1, 8, 0.1f,
 					_Idle1, _Run1, _Fall1, _Death1, _Atk1, _Shield1, _StayDeath1, 8, 8, 1, 8, 5, 3, 5, 3/*3 = Range Enemy*/);
-				_Enemy->Set2DPosition(RandomFloat(20, 1200), 300);
-				_Enemy->SetSize(50, 50);
-				m_ListEnemy.push_back(_Enemy);
+				_Enemy1->Set2DPosition(RandomFloat(20, 1200), 300);
+				_Enemy1->SetSize(50, 50);
+				m_ListEnemy.push_back(_Enemy1);
 #pragma endregion
 
 
@@ -801,7 +801,7 @@ void GSPlay::Update(float deltaTime)
 			for (auto obj : m_ListBullet)
 			{
 				//upfate
-				obj->Update(deltaTime, m_Character, m_ListEnemy);
+				obj->Update(deltaTime, m_Character, m_ListEnemy,m_ListVFX);
 				if (obj->getDES() == true)
 				{
 					
